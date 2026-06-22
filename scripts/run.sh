@@ -9,7 +9,7 @@ export COMET_EXPERIMENT_NAME=""
 export USE_COMET=0
 
 export MODEL="unet"                           # "baseline", "unet", "dit", "sd"
-export FUNCTION="explain"                        # "train", "inference", "explain"
+export FUNCTION="explain"                        # "train", "inference", "explain", "finetune" (only supported for funuds-unet)
 export DATA="chexpert"                            # "chexpert", "isic"
 
 # For the baseline
@@ -33,9 +33,13 @@ if [[ "$MODEL" == "baseline" ]]; then
     fi
 fi
 
-# UNet model (supports training, inference, explain)
+# UNet model (supports training, finetuning, inference, explain)
 if [[ "$MODEL" == "unet" ]]; then
-    if [[ "$FUNCTION" == "train" || "$FUNCTION" == "inference" || "$FUNCTION" == "explain" ]]; then
+    if [[ "$FUNCTION" == "train" || "$FUNCTION" == "finetune" || "$FUNCTION" == "inference" || "$FUNCTION" == "explain" ]]; then
+        if [[ "$FUNCTION" == "finetune" && "$DATA" != "fundus" ]]; then
+            echo "Error: Finetuning is only supported for the fundus dataset with the UNet model"
+            exit 1
+        fi
         SCRIPT_PATH="$SCRIPTS_DIR/unet/${DATA}-unet.sh"
         if [[ -f "$SCRIPT_PATH" ]]; then
             source "$SCRIPT_PATH"
