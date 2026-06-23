@@ -17,7 +17,7 @@ module load lang/Python/3.12.3-GCCcore-13.3.0
 
 # --- Data preperation ---
 mkdir -p /localscratch/${SLURM_JOB_ID}/dataset/chexpert
-cp /lustre/project/ki-css/bachelor-thesis-mpaul01/chexpert.zip /localscratch/${SLURM_JOB_ID}/
+cp /lustre/project/ki-css/data-opthalmic-classification-thesis/chexpert.zip /localscratch/${SLURM_JOB_ID}/
 unzip /localscratch/${SLURM_JOB_ID}/chexpert.zip -d /localscratch/${SLURM_JOB_ID}/dataset/chexpert
 
 echo "--- Control of the directory structure ---"

@@ -9,8 +9,8 @@ export COMET_EXPERIMENT_NAME=""
 export USE_COMET=0
 
 export MODEL="unet"                           # "baseline", "unet", "dit", "sd"
-export FUNCTION="explain"                        # "train", "inference", "explain", "finetune" (only supported for funuds-unet)
-export DATA="chexpert"                            # "chexpert", "isic"
+export FUNCTION="finetune"                        # "train", "inference", "explain", "finetune" (only supported for funuds-unet)
+export DATA="fundus"                            # "chexpert", "isic", "fundus"
 
 # For the baseline
 export BACKBONE="efficientnet"                   # (str) Backbone for the classifier ('resnet' or 'efficientnet', 'vit', 'swin')

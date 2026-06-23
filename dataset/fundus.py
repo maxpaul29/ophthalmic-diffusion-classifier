@@ -56,7 +56,7 @@ class FundusDataset(Dataset):
     def __getitem__(self, idx):
         # Get row data
         row = self.data[idx]
-        rel_path = f'images/{row["image_name"].item()}.jpg'
+        rel_path = f'{row["image_name"].item()}'
         img_path = os.path.join(self.data_path, rel_path)
         label = int(row["target"].item())
 

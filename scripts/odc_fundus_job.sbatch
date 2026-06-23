@@ -17,11 +17,11 @@ module load lang/Python/3.12.3-GCCcore-13.3.0
 
 # --- Data preperation ---
 mkdir -p /localscratch/${SLURM_JOB_ID}/dataset/fundus
-cp /lustre/project/ki-css/bachelor-thesis-mpaul01/fundus.zip /localscratch/${SLURM_JOB_ID}/
-unzip /localscratch/${SLURM_JOB_ID}/fundus.zip -d /localscratch/${SLURM_JOB_ID}/dataset/fundus
+cp /lustre/project/ki-css/data-opthalmic-classification-thesis/multichannel-glaucoma-benchmark-dataset.zip /localscratch/${SLURM_JOB_ID}/
+unzip /localscratch/${SLURM_JOB_ID}/multichannel-glaucoma-benchmark-dataset.zip -d /localscratch/${SLURM_JOB_ID}/dataset/fundus
 
 echo "--- Control of the directory structure ---"
-ls -F /localscratch/${SLURM_JOB_ID}/dataset
+find /localscratch/${SLURM_JOB_ID}/dataset -type d
 echo "-------------------------------------"
 # --- Activate Venv ---
 VENV_DIR="$HOME/bachelor-thesis/ophthalmic-diffusion-classifier/venv-odc"
