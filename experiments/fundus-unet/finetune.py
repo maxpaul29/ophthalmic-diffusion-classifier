@@ -157,10 +157,15 @@ def main():
     global config
     config = TrainingConfig()
 
-    # Finetuning requires a pretrained checkpoint to start from
-    if not config.pretrained_checkpoint:
+    if config.resume and config.pretrained_checkpoint:
         raise ValueError(
-            "finetune.py requires 'pretrained_checkpoint' to be set in the CONFIG. "
+            "RESUME=1 and pretrained_checkpoint cannot both be set. "
+            "To continue finetuning from an existing fundus checkpoint, set RESUME=1 and PRETRAINED_CHECKPOINT=\"\"."
+        )
+    if not config.resume and not config.pretrained_checkpoint:
+        raise ValueError(
+            "finetune.py requires either RESUME=1 (continue existing run) or "
+            "pretrained_checkpoint (start finetuning from a new base). "
             "Use train.py for training from scratch."
         )
 
@@ -211,11 +216,12 @@ def main():
         config=config,
     )
 
-    # Load the pretrained ISIC weights into UNet + EMA + class encoder.
+    # Load the pretrained ISIC weights into UNet + EMA + class encoder (skipped when resuming).
     # This happens BEFORE accelerator.prepare() (called inside train_loop), so
     # the wrapped modules carry the pretrained weights. Optimizer/scheduler are
     # built fresh below -> a clean finetuning run, not a resume.
-    load_pretrained_weights(diffusion_classifier, unet, config.pretrained_checkpoint)
+    if config.pretrained_checkpoint:
+        load_pretrained_weights(diffusion_classifier, unet, config.pretrained_checkpoint)
 
     # Define optimizer and scheduler (fresh, with the finetuning learning rate)
     params = list(unet.parameters())
