@@ -13,7 +13,7 @@ os.chdir(projectroot)
 from nets.unet import UNetCondition2D
 from dataset.fundus import FundusDataLoader
 from diffusion.diffusion_classifier import DiffusionClassifier
-from utils.metrics import Accuracy, F1, Precision, Recall
+from utils.metrics import Accuracy, F1, Precision, Recall, AUC
 from utils.wavelet import wavelet_enc_2
 
 # Third party imports
@@ -171,7 +171,7 @@ def main():
         num_training_steps=len(train_loader) * config.num_epochs,
     )    
 
-    metrics = [Accuracy("accuracy"), F1("f1"), Precision("precision"), Recall("recall")]
+    metrics = [Accuracy("accuracy"), F1("f1"), Precision("precision"), Recall("recall"), AUC("auc")]
 
     # Train the model
     diffusion_classifier.train_loop(

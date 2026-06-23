@@ -565,12 +565,20 @@ class DiffusionClassifier(nn.Module):
             x = batch["images"]
             p = batch["prompt"] if "prompt" in batch.keys() else None
             
-            sample = self.classify(x, p, majority=self.config.majority_voting) if classification else self.sample(x, p, from_t)
-                        
-            # Update the metrics
+            if classification:
+                sample, scores = self.classify(x, p, majority=self.config.majority_voting, return_scores=True)
+            else:
+                sample = self.sample(x, p, from_t)
+                scores = None
+
+            # Update the metrics. Ranking metrics (e.g. AUC) need the continuous
+            # positive-class scores; all others use the hard predicted class.
             if metrics is not None:
                 for metric in metrics:
-                    metric.update((sample, batch))
+                    if getattr(metric, "requires_scores", False):
+                        metric.update((scores, batch))
+                    else:
+                        metric.update((sample, batch))
 
             val_samples.append(sample)
             batches.append(batch)
@@ -667,7 +675,7 @@ class DiffusionClassifier(nn.Module):
         return (metric_output, val_samples, batches) if metrics is not None else (val_samples, batches)
     
     @torch.no_grad()
-    def classify(self, x, text=None, majority=True):
+    def classify(self, x, text=None, majority=True, return_scores=False):
         """
         A function to perform classification.
 
@@ -675,9 +683,14 @@ class DiffusionClassifier(nn.Module):
         x (torch.Tensor): The input tensor.
         text (torch.Tensor): The text prompt tensor.
         majority (bool): Whether to use majority voting.
+        return_scores (bool): If True, additionally return a continuous
+            positive-class probability per sample (shape (BS,)), derived from
+            the softmax over the negative mean reconstruction errors
+            (p(c_i|x), Eq. 3 of the paper). Used for ranking metrics (e.g. AUC).
 
         Returns:
         classes (torch.Tensor): The predicted classes.
+        scores (torch.Tensor): (only if return_scores) p(c=1|x), shape (BS,).
         """
         assert self.encoder_type is not None, "Encoder must be provided for classification."
         assert len(self.config.evaluation_per_stage) == self.config.n_stages, "Number of evaluations per stage must match the number of stages."
@@ -748,9 +761,18 @@ class DiffusionClassifier(nn.Module):
                     end_of_stage_votes,  # Indices of classes (Shape: (BS, stage_end))
                     torch.ones_like(end_of_stage_votes, dtype=votes.dtype, device=x.device)  # Add 1 to the corresponding class
                 )
-                _, keep_indices = torch.topk(votes, num_keep, dim=1, largest=True) 
+                _, keep_indices = torch.topk(votes, num_keep, dim=1, largest=True)
                 classes = keep_indices # of shape (BS, num_keep): The indices of the classes to keep
-        
+
+        if return_scores:
+            # p(c_i|x) per Eq. 3: softmax over the negative mean reconstruction
+            # error per class (averaged over all evaluations). Pruned classes
+            # keep an inf error -> probability 0, which is the desired behaviour.
+            mean_errors = errors[:, :, :stage_end].mean(dim=2)  # (BS, classes)
+            probs = torch.softmax(-mean_errors, dim=1)          # (BS, classes)
+            scores = probs[:, 1]                                # positive-class prob
+            return classes[:, 0], scores
+
         return classes[:, 0]
     
     def save_checkpoint(self, accelerator: Accelerator, epoch, experiment, checkpoint_tracker=None):
