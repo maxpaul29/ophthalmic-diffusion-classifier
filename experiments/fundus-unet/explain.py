@@ -11,7 +11,7 @@ os.chdir(projectroot)
 
 # Project imports
 from nets.unet import UNetCondition2D
-from dataset.isic import FundusDataLoader
+from dataset.fundus import FundusDataLoader
 from diffusion.diffusion_classifier import DiffusionClassifier
 from utils.metrics import Accuracy, F1, Precision, Recall
 from utils.wavelet import wavelet_enc_2
