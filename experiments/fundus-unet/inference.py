@@ -154,19 +154,25 @@ def main():
         from xformers.ops import MemoryEfficientAttentionFlashAttentionOp
         unet.enable_xformers_memory_efficient_attention(attention_op=MemoryEfficientAttentionFlashAttentionOp)
 
-    # Define optimizer and scheduler
-    optimizer = torch.optim.Adam(unet.parameters(), lr=config.learning_rate)
-    lr_scheduler = get_cosine_schedule_with_warmup(
-        optimizer,
-        num_warmup_steps=config.lr_warmup_steps,
-        num_training_steps=len(train_loader) * config.num_epochs,
-    )    
-
-    # Create the diffusion classifier object
+    # Create the diffusion classifier object before the optimizer so the encoder
+    # is instantiated and can be included in the parameter groups — matching the
+    # parameter group layout of the training checkpoint exactly.
     diffusion_classifier = DiffusionClassifier(
         backbone=unet,
         config=config,
     )
+
+    # Define optimizer and scheduler
+    params = list(unet.parameters())
+    if diffusion_classifier.encoder is not None:
+        params += list(diffusion_classifier.encoder.parameters())
+    optimizer = torch.optim.Adam(params, lr=config.learning_rate)
+    lr_scheduler = get_cosine_schedule_with_warmup(
+        optimizer,
+        num_warmup_steps=config.lr_warmup_steps,
+        num_training_steps=len(train_loader) * config.num_epochs,
+    )
+
 
     metrics = [Accuracy("accuracy"), F1("f1"), Precision("precision"), Recall("recall"), AUC("auc")]
 
