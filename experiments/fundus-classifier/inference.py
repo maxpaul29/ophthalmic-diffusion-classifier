@@ -16,7 +16,7 @@ from nets.swin import Swin2D
 
 from dataset.fundus import FundusDataLoader
 from classifier.classifier import Classifier
-from utils.metrics import Accuracy, F1, Precision, Recall
+from utils.metrics import Accuracy, F1, Precision, Recall, AUC
 
 # Third party imports
 import torch
@@ -108,7 +108,8 @@ def main():
         Accuracy("accuracy"),
         F1("f1"),
         Precision("precision"),
-        Recall("recall")
+        Recall("recall"),
+        AUC("auc")
     ]
 
 
