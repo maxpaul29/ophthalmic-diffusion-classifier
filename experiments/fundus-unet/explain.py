@@ -167,18 +167,23 @@ def main(active_label: bool):
         cross_attention_dim=512,
     )
 
+    # Create the diffusion classifier object before the optimizer so the encoder
+    # is instantiated and can be included in the parameter groups — matching the
+    # parameter group layout of the training checkpoint exactly.
+    diffusion_classifier = DiffusionClassifier(
+        backbone=unet,
+        config=config,
+    )
+
     # Define optimizer and scheduler
-    optimizer = torch.optim.Adam(unet.parameters(), lr=config.learning_rate)
+    params = list(unet.parameters())
+    if diffusion_classifier.encoder is not None:
+        params += list(diffusion_classifier.encoder.parameters())
+    optimizer = torch.optim.Adam(params, lr=config.learning_rate)
     lr_scheduler = get_cosine_schedule_with_warmup(
         optimizer,
         num_warmup_steps=config.lr_warmup_steps,
         num_training_steps=len(train_loader) * config.num_epochs,
-    )
-
-    # Create the diffusion classifier object
-    diffusion_classifier = DiffusionClassifier(
-        backbone=unet,
-        config=config,
     )
 
     # Train the model
