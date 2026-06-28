@@ -1,0 +1,16 @@
+services:
+  odc:
+    image: ophthalmic-diffusion-classifier
+    build: .
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - PROJECT_ROOT=/workspace
+      - DATA_PATH=${DATA_PATH:-/data}
+    volumes:
+      - .:/workspace
+      - ${DATA_PATH:-./dataset/data}:/data
+    working_dir: /workspace
+    command: bash scripts/run.sh
+    stdin_open: true
+    tty: true
