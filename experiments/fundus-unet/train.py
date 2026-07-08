@@ -181,7 +181,7 @@ def main():
         optimizer=optimizer,
         lr_scheduler=lr_scheduler,
         metrics=metrics,
-        checkpoint_metric="f1",
+        checkpoint_metric=None,
         plot_function=fundus_plotter
     )
 

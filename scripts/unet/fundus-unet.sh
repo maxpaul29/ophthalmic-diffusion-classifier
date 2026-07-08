@@ -49,7 +49,7 @@ export MAJORITY_VOTING=true            # (bool) Whether to perform majority voti
 
 ###### Training parameters ######
 export RESUME=0
-export PRETRAINED_CHECKPOINT="$INFERENCE_CHECKPOINT_FOLDER/isic-256-checkpoints/isic-unet-dwt"  # (str) ISIC checkpoint to finetune from (set to "" for scratch)
+export PRETRAINED_CHECKPOINT=""  # (str) ISIC checkpoint to finetune from (set to "" for scratch)
 
 ###### Inference/Explain parameters ######
 export CHECKPOINT_FOLDER="$INFERENCE_CHECKPOINT_FOLDER/fundus-256-checkpoints/fundus-unet-dwt"      # (str) Checkpoint folder for inference
