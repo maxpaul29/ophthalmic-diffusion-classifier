@@ -7,9 +7,11 @@ services:
       - NVIDIA_VISIBLE_DEVICES=all
       - PROJECT_ROOT=/workspace
       - DATA_PATH=${DATA_PATH:-/data}
+      - CHECKPOINT_PATH=${CHECKPOINT_PATH:-/checkpoints}
     volumes:
       - .:/workspace
       - ${DATA_PATH:-./dataset/data}:/data
+      - ${CHECKPOINT_PATH:-./checkpoints}:/checkpoints
     working_dir: /workspace
     command: bash scripts/run.sh
     stdin_open: true

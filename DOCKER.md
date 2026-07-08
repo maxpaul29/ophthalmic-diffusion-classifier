@@ -27,21 +27,35 @@ Die eigene GPU sollte in der Ausgabe erscheinen.
 docker compose build
 ```
 
-### 2. Datenpfad setzen
+### 2. Daten- und Checkpoint-Pfad setzen
+
+Daten und Checkpoints liegen typischerweise auf einer externen Festplatte, nicht im Projektordner. Beide werden per Volume in den Container eingehängt — `DATA_PATH` auf `/data`, `CHECKPOINT_PATH` auf `/checkpoints`.
 
 **Linux / macOS** — in der Shell oder in einer `.env`-Datei im Projektroot:
 ```bash
 export DATA_PATH=/pfad/zu/den/fundus-bildern
+export CHECKPOINT_PATH=/pfad/zur/externen/platte/checkpoints
 ```
 
 **Windows (PowerShell):**
 ```powershell
 $env:DATA_PATH = "D:\fundus-data"
+$env:CHECKPOINT_PATH = "E:\checkpoints"
 ```
 
 Alternativ eine `.env`-Datei im Projektroot anlegen (wird von Docker Compose automatisch geladen):
 ```
 DATA_PATH=/pfad/zu/den/fundus-bildern
+CHECKPOINT_PATH=/pfad/zur/externen/platte/checkpoints
+```
+
+Wird `CHECKPOINT_PATH` nicht gesetzt, fällt Docker Compose auf `./checkpoints` im Projektordner zurück.
+
+In `scripts/run.sh` müssen die Pfade dann auf die Mountpunkte **im Container** zeigen, nicht auf die Host-Pfade:
+```bash
+export PROJECT_ROOT="/workspace"
+export DATA_ROOT="/data"
+export INFERENCE_CHECKPOINT_FOLDER="/checkpoints/final-models"
 ```
 
 ### 3. Training starten
@@ -59,8 +73,8 @@ docker compose run odc bash
 
 ## Hinweise
 
-- **Kein Datenverlust.** Checkpoints und Plots werden direkt in das eingehängte Projektverzeichnis geschrieben und bleiben nach dem Containerstopp erhalten.
-- **Patientendaten bleiben lokal.** Der Datenpfad wird nur als Volume eingehängt — keine Dateien werden ins Image kopiert oder übertragen.
+- **Kein Datenverlust.** Checkpoints werden direkt auf die eingehängte externe Festplatte geschrieben (`CHECKPOINT_PATH` → `/checkpoints`) und bleiben nach dem Containerstopp erhalten. Plots landen im Projektverzeichnis (`/workspace`).
+- **Patientendaten bleiben lokal.** Datenpfad und Checkpoint-Pfad werden nur als Volumes eingehängt — keine Dateien werden ins Image kopiert oder übertragen.
 - **Image neu bauen** ist nur nötig wenn sich `requirements.txt` oder `Dockerfile` ändern. Codeänderungen sind sofort wirksam da das Projektverzeichnis live eingehängt ist.
 - Das Image ist ~8 GB groß.
 
@@ -75,7 +89,9 @@ Falls Docker Compose nicht verfügbar ist:
 docker run --gpus all --rm \
   -v "$(pwd):/workspace" \
   -v "/pfad/zu/daten:/data" \
+  -v "/pfad/zu/checkpoints:/checkpoints" \
   -e DATA_PATH=/data \
+  -e CHECKPOINT_PATH=/checkpoints \
   -e PROJECT_ROOT=/workspace \
   ophthalmic-diffusion-classifier \
   bash scripts/run.sh train
@@ -86,7 +102,9 @@ docker run --gpus all --rm \
 docker run --gpus all --rm `
   -v "${PWD}:/workspace" `
   -v "D:\fundus-data:/data" `
+  -v "E:\checkpoints:/checkpoints" `
   -e DATA_PATH=/data `
+  -e CHECKPOINT_PATH=/checkpoints `
   -e PROJECT_ROOT=/workspace `
   ophthalmic-diffusion-classifier `
   bash scripts/run.sh train
