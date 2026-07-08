@@ -36,7 +36,6 @@ import random
 from pathlib import Path
 
 import pandas as pd
-from sklearn.model_selection import train_test_split
 
 IMG_EXTENSIONS = {".png", ".jpg", ".jpeg", ".tif", ".tiff", ".bmp"}
 
@@ -50,6 +49,26 @@ def list_images(directory):
 
 def rel(path, data_path):
     return os.path.relpath(str(path), data_path)
+
+
+def split_train_valid_test(items, valid_frac, test_frac, seed):
+    """
+    Shuffle `items` deterministically and cut it into train/valid/test.
+
+    Replaces sklearn.model_selection.train_test_split (not installed) with a
+    stdlib-only shuffle + slice, seeded for reproducibility.
+    """
+    items = list(items)
+    rng = random.Random(seed)
+    rng.shuffle(items)
+
+    n_valid = round(len(items) * valid_frac)
+    n_test = round(len(items) * test_frac)
+
+    test = items[:n_test]
+    valid = items[n_test:n_test + n_valid]
+    train = items[n_test + n_valid:]
+    return train, valid, test
 
 
 def main():
@@ -91,11 +110,7 @@ def main():
         kept = rng.sample(kept, args.n_healthy)
 
     # ── Split into train/valid/test (all label=0) ───────────────────────────────
-    rel_test = args.test_frac / (args.valid_frac + args.test_frac)
-    train, temp = train_test_split(
-        kept, test_size=args.valid_frac + args.test_frac, random_state=args.seed
-    )
-    valid, test = train_test_split(temp, test_size=rel_test, random_state=args.seed)
+    train, valid, test = split_train_valid_test(kept, args.valid_frac, args.test_frac, args.seed)
 
     def to_df(files):
         rows = [(rel(f, args.data_path), 0) for f in files]

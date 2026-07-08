@@ -33,11 +33,11 @@ Usage:
 
 import argparse
 import os
+import random
 import re
 from pathlib import Path
 
 import pandas as pd
-from sklearn.model_selection import train_test_split
 
 IMG_EXTENSIONS = {".png", ".jpg", ".jpeg", ".tif", ".tiff", ".bmp"}
 AUG_SUFFIX = re.compile(r"_aug\d+$")
@@ -66,6 +66,26 @@ def rel(path, data_path):
     return os.path.relpath(str(path), data_path)
 
 
+def split_train_valid_test(items, valid_frac, test_frac, seed):
+    """
+    Shuffle `items` deterministically and cut it into train/valid/test.
+
+    Replaces sklearn.model_selection.train_test_split (not installed) with a
+    stdlib-only shuffle + slice, seeded for reproducibility.
+    """
+    items = list(items)
+    rng = random.Random(seed)
+    rng.shuffle(items)
+
+    n_valid = round(len(items) * valid_frac)
+    n_test = round(len(items) * test_frac)
+
+    test = items[:n_test]
+    valid = items[n_test:n_test + n_valid]
+    train = items[n_test + n_valid:]
+    return train, valid, test
+
+
 def main():
     parser = argparse.ArgumentParser(description="Create balanced Drusen train/valid/test splits.")
     parser.add_argument("--data-path", required=True, help="Base path; CSV image_name is relative to this.")
@@ -83,7 +103,6 @@ def main():
                         help="Draw only this many healthy images into the pool before splitting. Default: all.")
     args = parser.parse_args()
 
-    import random
     rng = random.Random(args.seed)
 
     drusen_files = list_images(args.drusen_dir)
@@ -107,12 +126,8 @@ def main():
     if args.n_healthy is not None and args.n_healthy < len(healthy_files):
         healthy_files = rng.sample(healthy_files, args.n_healthy)
 
-    train_ids, temp_ids = train_test_split(
-        group_ids, test_size=args.valid_frac + args.test_frac, random_state=args.seed
-    )
-    rel_test = args.test_frac / (args.valid_frac + args.test_frac)
-    valid_ids, test_ids = train_test_split(
-        temp_ids, test_size=rel_test, random_state=args.seed
+    train_ids, valid_ids, test_ids = split_train_valid_test(
+        group_ids, args.valid_frac, args.test_frac, args.seed
     )
 
     def drusen_split(ids, originals_only):
@@ -129,11 +144,8 @@ def main():
     drusen_test = drusen_split(test_ids, originals_only=True)     # originals only
 
     # ── Split healthy images (each is independent, no grouping needed) ──────────
-    h_train, h_temp = train_test_split(
-        healthy_files, test_size=args.valid_frac + args.test_frac, random_state=args.seed
-    )
-    h_valid, h_test = train_test_split(
-        h_temp, test_size=rel_test, random_state=args.seed
+    h_train, h_valid, h_test = split_train_valid_test(
+        healthy_files, args.valid_frac, args.test_frac, args.seed
     )
 
     # ── Balance each split 50:50 by sub-sampling healthy to the Drusen count ────
