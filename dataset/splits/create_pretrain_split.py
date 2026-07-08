@@ -92,7 +92,7 @@ def main():
     if not healthy_files:
         raise FileNotFoundError(f"No healthy images under {args.healthy_dir}")
 
-    # ── Collect the image paths already used by the Phase-2 Drusen splits ───────
+    # Collect the image paths already used by the Phase-2 Drusen splits
     excluded = set()
     for csv_path in args.exclude_splits:
         if not os.path.exists(csv_path):
@@ -100,7 +100,7 @@ def main():
         df = pd.read_csv(csv_path)
         excluded.update(df["image_name"].astype(str).tolist())
 
-    # ── Keep only healthy images NOT used anywhere in Phase 2 ───────────────────
+    # Keep only healthy images NOT used anywhere in Phase 2
     kept = [f for f in healthy_files if rel(f, args.data_path) not in excluded]
     n_removed = len(healthy_files) - len(kept)
     if not kept:
@@ -109,7 +109,7 @@ def main():
     if args.n_healthy is not None and args.n_healthy < len(kept):
         kept = rng.sample(kept, args.n_healthy)
 
-    # ── Split into train/valid/test (all label=0) ───────────────────────────────
+    # Split into train/valid/test (all label=0)
     train, valid, test = split_train_valid_test(kept, args.valid_frac, args.test_frac, args.seed)
 
     def to_df(files):

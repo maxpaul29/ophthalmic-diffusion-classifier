@@ -25,6 +25,32 @@ Usage:
         --drusen-dir  /data/clinic/drusen \
         --healthy-dir /data/clinic/healthy \
         --output-dir  dataset/splits
+
+    # Drusen Split for Finetuning (Windows):
+    python .\\create_drusen_split.py \
+        --data-path "G:\\OpticDiscDrusen\\AlleBilderQuality" \
+        --drusen-dir "G:\\OpticDiscDrusen\\AlleBilderQuality\\Drusen\\usable" \
+        --healthy-dir "G:\\OpticDiscDrusen\\AlleBilderQuality\\keineDrusen\\usable" \
+        --output-dir "dataset/splits"
+
+    # With custom parameters:
+    python dataset/splits/create_drusen_split.py \
+        --data-path /data \
+        --drusen-dir /data/clinic/drusen \
+        --healthy-dir /data/clinic/healthy \
+        --output-dir dataset/splits \
+        --valid-frac 0.15 \
+        --test-frac 0.15 \
+        --seed 42 \
+        --n-drusen 500 \
+        --n-healthy 1000
+
+    # Without class balancing (keep natural ratio):
+    python dataset/splits/create_drusen_split.py \
+        --data-path /data \
+        --drusen-dir /data/clinic/drusen \
+        --healthy-dir /data/clinic/healthy \
+        --no-balance
 """
 
 import argparse

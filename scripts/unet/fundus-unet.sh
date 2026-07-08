@@ -1,13 +1,13 @@
 ###### Shared parameters for training/inference/explain ######
 export EXPERIMENT_DIR="/experiments/fundus-unet"
-export DATA_PATH="$DATA_ROOT/fundus//full-fundus"   # Path to the fundus data directory
+export DATA_PATH="$DATA_ROOT"   # Path to the fundus data directory
 export SEED=42
 
 # Data parameters
 export IMAGE_SIZE=256                   # (int) Size of the input images
 export IMAGE_CHANNELS=3                 # (int) Number of channels in the input images
 export WAVELET_TRANSFORM=true           # (bool) Whether to use the wavelet transform or not
-export SPLIT_PREFIX="fundus"            # (str) Which split CSV set to load: "fundus" (Kaggle),
+export SPLIT_PREFIX="pretrain"            # (str) Which split CSV set to load: "fundus" (Kaggle),
                                         #       "pretrain" (Phase-1 healthy-only), "drusen" (Phase-2)
 
 # Optimizer/EMA parameters
@@ -15,7 +15,7 @@ export BATCH_SIZE=128                    # (int) Batch size for training
 if [[ "$FUNCTION" == "finetune" ]]; then
     export NUM_EPOCHS=200                  # (int) Number of epochs to train for (700 for the full training, 200 for finetuning)
 else
-    export NUM_EPOCHS=700                  # (int) Number of epochs to train for (700 for the full training, 200 for finetuning)
+    export NUM_EPOCHS=500                  # (int) Number of epochs to train for (700 for the full training, 200 for finetuning)
 fi
 export GRADIENT_ACCUMULATION_STEPS=1    # (int) Number of gradient accumulation steps
 if [[ "$FUNCTION" == "finetune" ]]; then
@@ -27,7 +27,7 @@ export LR_WARMUP_STEPS=100              # (int) Number of warmup steps for the l
 export EVALUATION_BATCHES=80             # (int) Number of batches to evaluate on
 export MIXED_PRECISION="fp16"           # (str) Mixed precision training ('fp16' or 'fp32' or 'none')
 export NUM_WORKERS=6                    # (int) Number of workers for the data loader
-export SAVE_IMAGE_EPOCHS=50             # (int) Number of epochs between saving images/evaluation
+export SAVE_IMAGE_EPOCHS=25             # (int) Number of epochs between saving images/evaluation (default 50)
 
 export EMA_BETA=0.999                   # (float) Exponential moving average beta
 export EMA_WARMUP=50                    # (int) Number of warmup steps for the exponential moving average
