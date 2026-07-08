@@ -425,10 +425,18 @@ class DiffusionClassifier(nn.Module):
         if accelerator.is_main_process:
             print(self.config.__dict__)
 
+        # Tracks the lowest validation loss seen so far. Used to select the best
+        # checkpoint when no classification metrics are provided (e.g. single-class
+        # pretraining), where F1/AUC are undefined and the reconstruction loss is
+        # the only meaningful signal. Not restored on resume (fine for pretraining).
+        best_val_loss = float('inf')
+
         for epoch in range(start_epoch, self.config.num_epochs):
             epoch_start_time = time.time()
 
             model.train()
+            epoch_loss_sum = 0.0
+            n_steps = 0
 
             for _, batch in enumerate(train_dataloader):
 
@@ -457,13 +465,19 @@ class DiffusionClassifier(nn.Module):
 
                     self.ema.update()
 
+                    epoch_loss_sum += loss.item()
+                    n_steps += 1
+
+            # Average training loss over the epoch (not just the last batch).
+            avg_train_loss = epoch_loss_sum / max(n_steps, 1)
+
             epoch_elapsed = time.time() - epoch_start_time
             if accelerator.is_main_process:
-                print(f"Epoch {epoch}/{self.config.num_epochs}: {epoch_elapsed:.2f} s.")
+                print(f"Epoch {epoch}/{self.config.num_epochs}: {epoch_elapsed:.2f} s. | train_loss: {avg_train_loss:.6f}")
 
                 # Log the loss to CometML
                 if experiment is not None:
-                    experiment.log_metric("loss", loss.item(), epoch=epoch)
+                    experiment.log_metric("loss", avg_train_loss, epoch=epoch)
 
             # Run an evaluation on validation set
             if epoch % self.config.save_image_epochs == 0 or epoch == self.config.num_epochs - 1:
@@ -476,17 +490,37 @@ class DiffusionClassifier(nn.Module):
 
                 # TODO: cleanup and consider multiple metrics
                 val_samples, batches, _ = self.evaluate(
-                                            val_dataloader, 
+                                            val_dataloader,
                                             stop_idx=self.config.evaluation_batches,
                                             metrics=None,
                                         )
-                
-                _, _, metrics = self.evaluate(
-                                    val_dataloader, 
-                                    stop_idx=self.config.evaluation_batches,
-                                    metrics=metrics,
-                                    classification=True
-                                )
+
+                # Classification (majority voting) only makes sense with >1 class.
+                # For single-class pretraining (metrics=None), skip the expensive
+                # classify() pass entirely and instead track the validation
+                # reconstruction/diffusion loss on the batches already loaded
+                # above (no extra sampling pass, and no added cost for the
+                # existing 2-class training/finetuning runs below).
+                avg_val_loss = None
+                if metrics is not None:
+                    _, _, metrics = self.evaluate(
+                                        val_dataloader,
+                                        stop_idx=self.config.evaluation_batches,
+                                        metrics=metrics,
+                                        classification=True
+                                    )
+                else:
+                    val_loss_sum = 0.0
+                    val_loss_count = 0
+                    with torch.no_grad():
+                        for b in batches:
+                            vx = b["images"]
+                            vp = b["prompt"] if "prompt" in b.keys() else None
+                            with accelerator.autocast():
+                                vloss = self.loss(vx, vp)
+                            val_loss_sum += vloss.item()
+                            val_loss_count += 1
+                    avg_val_loss = val_loss_sum / max(val_loss_count, 1)
                 
                 # Use the provided plot_function to plot the samples
                 if plot_function is not None:
@@ -521,15 +555,29 @@ class DiffusionClassifier(nn.Module):
                 # Print some statistics, save (best) checkpoint
                 val_evaluation_elapsed = time.time() - val_evaluation_start_time
                 if accelerator.is_main_process:
-                    if (checkpoint_metric is not None): 
+                    if avg_val_loss is not None:
+                        print(f"Val loss: {avg_val_loss:.6f}")
+                        if experiment is not None:
+                            experiment.log_metric("val_loss", avg_val_loss, epoch=epoch)
+
+                    if (checkpoint_metric is not None):
+                        # Metric-driven best checkpoint (higher-is-better).
                         self.save_checkpoint(accelerator, epoch, experiment, checkpoint_tracker)
+                    elif metrics is None:
+                        # Single-class pretraining: keep the checkpoint with the
+                        # lowest validation loss (plus always the latest).
+                        loss_tracker = {'value': avg_val_loss, 'save_flag': avg_val_loss < best_val_loss}
+                        if avg_val_loss < best_val_loss:
+                            best_val_loss = avg_val_loss
+                        self.save_checkpoint(accelerator, epoch, experiment, loss_tracker)
                     else:
                         self.save_checkpoint(accelerator, epoch, experiment)
 
                     print(f"Val evaluation time: {val_evaluation_elapsed:.2f} s.")
 
                 # Reset flags
-                checkpoint_tracker['save_flag'] = False
+                if checkpoint_tracker is not None:
+                    checkpoint_tracker['save_flag'] = False
                 model.train()
 
     @torch.no_grad()
