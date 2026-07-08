@@ -133,7 +133,8 @@ def main(active_label: bool):
         wavelet_transform=config.wavelet_transform,
         cf_label=active_label,
         batch_size=config.batch_size,
-        num_workers=config.num_workers
+        num_workers=config.num_workers,
+        split_prefix=config.split_prefix or "fundus"
     )
 
     train_loader = data.get_train_loader()

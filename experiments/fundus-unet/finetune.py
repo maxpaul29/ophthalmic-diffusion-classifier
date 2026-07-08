@@ -176,7 +176,8 @@ def main():
         data_path=config.data_path,
         wavelet_transform=config.wavelet_transform,
         batch_size=config.batch_size,
-        num_workers=config.num_workers
+        num_workers=config.num_workers,
+        split_prefix=config.split_prefix or "fundus"
     )
 
     train_loader = data.get_train_loader()

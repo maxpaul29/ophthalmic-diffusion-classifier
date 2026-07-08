@@ -7,13 +7,17 @@ from torchvision import transforms
 from utils.wavelet import wavelet_dec_2
 
 class FundusDataset(Dataset):
-    def __init__(self, data_path, split="train", wavelet_transform=False, image_size=(256,256)):
+    def __init__(self, data_path, split="train", wavelet_transform=False, image_size=(256,256), split_prefix="fundus"):
         """
         Args:
             data_path (str): Path to the Fundus dataset.
             split (str): Dataset split to use. One of "train", "valid", "test".
             wavelet_transform (bool): Whether to apply wavelet transform to the images.
             image_size (tuple): Size to resize the images to.
+            split_prefix (str): Which CSV split set to load, i.e. reads
+                dataset/splits/{split_prefix}-{split}.csv. Use "fundus" for the
+                Kaggle fundus data, "pretrain" for the Phase-1 healthy-only
+                pretraining set, or "drusen" for the Phase-2 Drusen set.
 
         Note:
             Everything is derived from the train split.
@@ -26,13 +30,11 @@ class FundusDataset(Dataset):
         # Get images path
         self.img_dir = os.path.join(self.data_path, "train")
 
-        # Check the dataset split and apply filtering accordingly
-        if split == "train": # Take first 80% of the data
-            self.data = pl.read_csv("dataset/splits/fundus-train.csv")
-        elif split == "valid": # Take first half of last 20%) of the data
-            self.data = pl.read_csv("dataset/splits/fundus-valid.csv")
-        elif split == "test": # Take second half of last 20% of the data
-            self.data = pl.read_csv("dataset/splits/fundus-test.csv")
+        # Load the requested split CSV (split_prefix selects which experiment's splits)
+        if split in ("train", "valid", "test"):
+            self.data = pl.read_csv(f"dataset/splits/{split_prefix}-{split}.csv")
+        else:
+            raise ValueError(f"Unknown split '{split}', expected one of train/valid/test")
 
         # Print length of dataset
         print(f"Dataset length: {len(self.data)}")
@@ -72,16 +74,16 @@ class FundusDataset(Dataset):
         return image, label
     
 class FundusDataLoader:
-    def __init__(self, wavelet_transform, data_path, cf_label=None, batch_size=64, num_workers=4, image_size=(256,256)):
+    def __init__(self, wavelet_transform, data_path, cf_label=None, batch_size=64, num_workers=4, image_size=(256,256), split_prefix="fundus"):
         self.data_path = data_path
         self.batch_size = batch_size
         self.num_workers = num_workers
         self.cf_label = cf_label
 
         # Initialize datasets
-        self.train_dataset = FundusDataset(data_path=self.data_path, split="train", wavelet_transform=wavelet_transform, image_size=image_size)
-        self.val_dataset = FundusDataset(data_path=self.data_path, split="valid", wavelet_transform=wavelet_transform, image_size=image_size)
-        self.test_dataset = FundusDataset(data_path=self.data_path, split="test", wavelet_transform=wavelet_transform, image_size=image_size)
+        self.train_dataset = FundusDataset(data_path=self.data_path, split="train", wavelet_transform=wavelet_transform, image_size=image_size, split_prefix=split_prefix)
+        self.val_dataset = FundusDataset(data_path=self.data_path, split="valid", wavelet_transform=wavelet_transform, image_size=image_size, split_prefix=split_prefix)
+        self.test_dataset = FundusDataset(data_path=self.data_path, split="test", wavelet_transform=wavelet_transform, image_size=image_size, split_prefix=split_prefix)
 
         # Initialize DataLoaders
         self.train_loader = DataLoader(

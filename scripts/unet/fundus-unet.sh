@@ -4,9 +4,11 @@ export DATA_PATH="$DATA_ROOT/fundus//full-fundus"   # Path to the fundus data di
 export SEED=42
 
 # Data parameters
-export IMAGE_SIZE=256                   # (int) Size of the input images          
+export IMAGE_SIZE=256                   # (int) Size of the input images
 export IMAGE_CHANNELS=3                 # (int) Number of channels in the input images
 export WAVELET_TRANSFORM=true           # (bool) Whether to use the wavelet transform or not
+export SPLIT_PREFIX="fundus"            # (str) Which split CSV set to load: "fundus" (Kaggle),
+                                        #       "pretrain" (Phase-1 healthy-only), "drusen" (Phase-2)
 
 # Optimizer/EMA parameters
 export BATCH_SIZE=128                    # (int) Batch size for training
@@ -66,6 +68,7 @@ export CONFIG="{
   \"data_path\": \"$DATA_PATH\",
   \"image_size\": $IMAGE_SIZE,
   \"wavelet_transform\": $WAVELET_TRANSFORM,
+  \"split_prefix\": \"$SPLIT_PREFIX\",
   \"image_channels\": $IMAGE_CHANNELS,
   \"batch_size\": $BATCH_SIZE,
   \"num_epochs\": $NUM_EPOCHS,
