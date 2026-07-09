@@ -1,6 +1,7 @@
 services:
   odc:
     image: ophthalmic-diffusion-classifier
+    shm_size: '8gb'
     build: .
     runtime: nvidia
     environment:

@@ -2,6 +2,8 @@ export PROJECT_ROOT="/workspace"                  # Path to diffusion-classifier
 export DATA_ROOT="/data"                    # Path to the data directory containing chexpert and mel_isic_balanced  
 export INFERENCE_CHECKPOINT_FOLDER="/checkpoints/final-models"  # Checkpoint folder for inference
 
+export CUDA_VISIBLE_DEVICES=1 # Set the GPU device to use
+
 export COMET_PROJECT_NAME="diffusion-classifier"  
 export COMET_WORKSPACE=""
 export COMET_API_KEY=""
