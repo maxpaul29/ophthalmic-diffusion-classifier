@@ -11,7 +11,7 @@ export SPLIT_PREFIX="pretrain"            # (str) Which split CSV set to load: "
                                         #       "pretrain" (Phase-1 healthy-only), "drusen" (Phase-2)
 
 # Optimizer/EMA parameters
-export BATCH_SIZE=128                    # (int) Batch size for training
+export BATCH_SIZE=64                    # (int) Batch size for training
 if [[ "$FUNCTION" == "finetune" ]]; then
     export NUM_EPOCHS=200                  # (int) Number of epochs to train for (700 for the full training, 200 for finetuning)
 else
