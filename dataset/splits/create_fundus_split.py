@@ -1,6 +1,6 @@
 import pandas as pd
-from sklearn.model_selection import train_test_split
 from pathlib import Path
+import random
 
 INPUT_CSV = "fundus-metadata.csv"
 RANDOM_SEED = 42
@@ -25,8 +25,28 @@ df = df[df["target"] != -1].reset_index(drop=True)
 
 print(f"number of remaining samples: {len(df)}")
 
+
+def split_train_valid_test(df, test_size, random_state, stratify=None):
+    """Shuffle and split a DataFrame deterministically without sklearn."""
+    if stratify is not None:
+        groups = df.groupby(stratify.name)
+        indices = []
+        for _, group in groups:
+            idx = group.index.to_list()
+            random.Random(random_state).shuffle(idx)
+            indices.extend(idx)
+        shuffled = df.loc[indices].reset_index(drop=True)
+    else:
+        shuffled = df.sample(frac=1.0, random_state=random_state).reset_index(drop=True)
+
+    n_test = round(len(shuffled) * test_size)
+    test = shuffled.iloc[:n_test]
+    train = shuffled.iloc[n_test:]
+    return train, test
+
+
 # 80 % train, 20 % rest
-train_df, temp_df = train_test_split(
+train_df, temp_df = split_train_valid_test(
     df,
     test_size=0.2,
     random_state=RANDOM_SEED,
@@ -34,7 +54,7 @@ train_df, temp_df = train_test_split(
 )
 
 # split rest into 50 % valid, 50 % test -> 10 % valid, 10 % test
-valid_df, test_df = train_test_split(
+valid_df, test_df = split_train_valid_test(
     temp_df,
     test_size=0.5,
     random_state=RANDOM_SEED,

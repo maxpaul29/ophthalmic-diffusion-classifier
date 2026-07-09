@@ -48,7 +48,8 @@ def list_images(directory):
 
 
 def rel(path, data_path):
-    return os.path.relpath(str(path), data_path)
+    # Always return POSIX-style relative paths (forward slashes), even on Windows.
+    return os.path.relpath(str(path), data_path).replace('\\', '/')
 
 
 def split_train_valid_test(items, valid_frac, test_frac, seed):
