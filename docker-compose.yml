@@ -22,6 +22,7 @@ services:
       - ${DATA_PATH:-./dataset/data}:/data
       - ${CHECKPOINT_PATH:-./checkpoints}:/checkpoints
     working_dir: /workspace
+    # without notification: command: bash scripts/run.sh
     command: bash scripts/entrypoint_with_notify.sh
     stdin_open: true
     tty: true
