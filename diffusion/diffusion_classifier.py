@@ -463,7 +463,13 @@ class DiffusionClassifier(nn.Module):
                     lr_scheduler.step()
                     optimizer.zero_grad()
 
-                    self.ema.update()
+                    # Gate EMA updates the same way accelerate gates optimizer/scheduler
+                    # steps: only on the real (synced) step, not every micro-batch.
+                    # Otherwise, with gradient accumulation > 1, the EMA's internal call
+                    # counter advances faster than real optimizer steps, making
+                    # ema_update_freq/ema_warmup effectively smaller than configured.
+                    if accelerator.sync_gradients:
+                        self.ema.update()
 
                     epoch_loss_sum += loss.item()
                     n_steps += 1
