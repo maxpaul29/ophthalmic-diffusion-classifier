@@ -58,16 +58,47 @@ export DATA_ROOT="/data"
 export INFERENCE_CHECKPOINT_FOLDER="/checkpoints/final-models"
 ```
 
-### 3. Training starten
+### 3. E-Mail-Benachrichtigung einrichten (optional, aber empfohlen fürs Abmelden)
+
+Der Container läuft standardmäßig über `scripts/entrypoint_with_notify.sh`: es mitschreibt den kompletten Trainingslog nach `training.log` und schickt danach — egal ob Erfolg oder Fehler — eine E-Mail mit einer Zusammenfassung (Loss-Werte, Checkpoint-Meldungen, Fehler/Traceback falls vorhanden).
+
+Für den Versand über GMX mit App-Passwort:
+1. In deinem GMX-Konto: **Einstellungen → Sicherheit → App-Passwörter** → neues App-Passwort erstellen (nicht dein normales Login-Passwort verwenden).
+2. In der `.env`-Datei im Projektroot ergänzen:
+```
+SMTP_USER=deinname@gmx.de
+SMTP_PASSWORD=das-app-passwort
+NOTIFY_EMAIL_TO=deinname@gmx.de
+```
+`SMTP_HOST`/`SMTP_PORT` müssen für GMX nicht gesetzt werden (Standard: `mail.gmx.net:587`).
+
+Sind `SMTP_USER`/`SMTP_PASSWORD` nicht gesetzt, wird die Benachrichtigung übersprungen — das Training läuft trotzdem normal, nur ohne Mail.
+
+### 4. Training starten — detached, überlebt Abmelden
+
+Damit das Training weiterläuft, nachdem du dich vom Klinik-PC abgemeldet hast, **detached** starten (`-d`), nicht mit `docker compose run` (das ist an dein Terminal gebunden):
+
 ```bash
-# Startet scripts/run.sh
-docker compose run odc
+docker compose up -d
 ```
 
-### 4. Interaktive Shell
+Logs jederzeit live mitverfolgen (auch nach erneutem Einloggen):
+```bash
+docker compose logs -f
+```
+
+Container-Status prüfen:
+```bash
+docker compose ps
+```
+
+**Wichtig:** Abmelden ist unproblematisch, solange Docker Desktop weiterläuft (Docker Desktop läuft als Windows-Dienst/WSL2-Hintergrundprozess, unabhängig von deiner angemeldeten Sitzung). Der PC darf aber nicht **heruntergefahren** oder in den **Ruhezustand** versetzt werden — das stoppt auch die WSL2-VM und damit den Container.
+
+### 5. Interaktive Shell
 ```bash
 docker compose run odc bash
 ```
+(nutzt weiterhin die normale, attached `run`-Variante ohne den Notify-Wrapper — praktisch zum Debuggen)
 
 ---
 
