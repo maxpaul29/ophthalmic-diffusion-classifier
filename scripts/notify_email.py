@@ -16,6 +16,12 @@ never mask the actual training exit code.
 
 Usage:
     python scripts/notify_email.py --exit-code 0 --log /workspace/training.log
+
+    # Periodic in-progress update while training is still running (e.g. hourly,
+    # see entrypoint_with_notify.sh): sends the complete log instead of the
+    # summary+tail, with an overridden subject/status label.
+    python scripts/notify_email.py --exit-code 0 --log /workspace/training.log \
+        --label "IN PROGRESS (hourly update)" --full
 """
 
 import argparse
@@ -48,6 +54,11 @@ def main():
     parser = argparse.ArgumentParser(description="Email a training run summary.")
     parser.add_argument("--exit-code", type=int, required=True)
     parser.add_argument("--log", required=True, help="Path to the captured training log.")
+    parser.add_argument("--label", default=None,
+                        help="Override the computed SUCCESS/FAILED status text in the subject/body "
+                             "(used for periodic in-progress updates).")
+    parser.add_argument("--full", action="store_true",
+                        help="Send the complete log instead of the summary + truncated tail.")
     args = parser.parse_args()
 
     smtp_user = os.environ.get("SMTP_USER")
@@ -66,15 +77,18 @@ def main():
         with open(args.log, "r", errors="replace") as f:
             log_text = f.read()
 
-    status = "SUCCESS" if args.exit_code == 0 else f"FAILED (exit code {args.exit_code})"
-    summary = extract_summary(log_text) or "(no matching summary lines found)"
-    tail_raw = tail(log_text, MAX_LOG_CHARS)
+    status = args.label or ("SUCCESS" if args.exit_code == 0 else f"FAILED (exit code {args.exit_code})")
 
-    body = (
-        f"Training run finished: {status}\n\n"
-        f"---- Summary (matched lines) ----\n{summary}\n\n"
-        f"---- Log tail (last {MAX_LOG_CHARS} chars) ----\n{tail_raw}\n"
-    )
+    if args.full:
+        body = f"Training run status: {status}\n\n---- Full log ----\n{log_text}\n"
+    else:
+        summary = extract_summary(log_text) or "(no matching summary lines found)"
+        tail_raw = tail(log_text, MAX_LOG_CHARS)
+        body = (
+            f"Training run finished: {status}\n\n"
+            f"---- Summary (matched lines) ----\n{summary}\n\n"
+            f"---- Log tail (last {MAX_LOG_CHARS} chars) ----\n{tail_raw}\n"
+        )
 
     msg = MIMEText(body, _charset="utf-8")
     msg["Subject"] = f"[ophthalmic-diffusion-classifier] Training {status}"
