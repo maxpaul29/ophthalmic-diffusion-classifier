@@ -172,7 +172,14 @@ def main():
         num_training_steps=len(train_loader) * config.num_epochs,
     )    
 
-    metrics = [Accuracy("accuracy"), F1("f1"), Precision("precision"), Recall("recall"), AUC("auc")]
+    # Single-class pretraining (only healthy images, label=0) makes F1/AUC/etc.
+    # undefined (no positive class present). In that case, skip the classification
+    # metrics entirely so train_loop uses validation loss for checkpoint selection
+    # instead of running the expensive classify()/majority-voting evaluation.
+    if config.split_prefix == "pretrain":
+        metrics = None
+    else:
+        metrics = [Accuracy("accuracy"), F1("f1"), Precision("precision"), Recall("recall"), AUC("auc")]
 
     # Train the model
     diffusion_classifier.train_loop(
