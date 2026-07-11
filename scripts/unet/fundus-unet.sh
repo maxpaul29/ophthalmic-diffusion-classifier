@@ -52,7 +52,7 @@ export RESUME=0
 export PRETRAINED_CHECKPOINT=""  # (str) ISIC checkpoint to finetune from (set to "" for scratch)
 
 ###### Inference/Explain parameters ######
-export CHECKPOINT_FOLDER="$INFERENCE_CHECKPOINT_FOLDER/experiments/fundus-unet/best_checkpoint"      # (str) Checkpoint folder for inference
+export CHECKPOINT_FOLDER="$INFERENCE_CHECKPOINT_FOLDER/experiments/fundus-unet/checkpoints"      # (str) Checkpoint folder for inference
 export FLASH_ATTENTION=false            # (bool) Whether to use the flash attention or not
 
 export CFG_W=4.5                        # (int) Classifier guidance scale
