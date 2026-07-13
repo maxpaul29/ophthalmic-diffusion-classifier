@@ -7,6 +7,9 @@ experiments/*/plots/
 #experiments/*/inference_images/
 #experiments/*/training_images/
 
+# Old Training Data
+experiments/fundus-unet/old-training
+
 # Python cache
 __pycache__/
 **/__pycache__/
