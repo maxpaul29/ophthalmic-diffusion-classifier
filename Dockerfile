@@ -2,6 +2,13 @@ FROM pytorch/pytorch:2.6.0-cuda12.4-cudnn9-runtime
 
 WORKDIR /workspace
 
+# Force stdout/stderr to be unbuffered. Without this, Python switches to block
+# buffering whenever stdout isn't a TTY (e.g. piped through `tee` as in
+# entrypoint_with_notify.sh), so print() output can sit invisible in an
+# internal buffer for a very long time instead of appearing in the log/console
+# in real time — easily mistaken for a hang.
+ENV PYTHONUNBUFFERED=1
+
 # OpenCV system dependencies (for CLAHE)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libgl1-mesa-glx \
