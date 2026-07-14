@@ -437,8 +437,10 @@ class DiffusionClassifier(nn.Module):
             model.train()
             epoch_loss_sum = 0.0
             n_steps = 0
+            total_batches = len(train_dataloader)
+            progress_every = 10  # print within-epoch progress every N micro-batches
 
-            for _, batch in enumerate(train_dataloader):
+            for batch_idx, batch in enumerate(train_dataloader):
 
                 with accelerator.accumulate(model):
                     x = batch["images"]
@@ -473,6 +475,11 @@ class DiffusionClassifier(nn.Module):
 
                     epoch_loss_sum += loss.item()
                     n_steps += 1
+
+                    if accelerator.is_main_process and (batch_idx % progress_every == 0 or batch_idx == total_batches - 1):
+                        elapsed = time.time() - epoch_start_time
+                        print(f"  Epoch {epoch} step {batch_idx + 1}/{total_batches} "
+                              f"({elapsed:.1f}s elapsed) | loss: {loss.item():.6f}")
 
             # Average training loss over the epoch (not just the last batch).
             avg_train_loss = epoch_loss_sum / max(n_steps, 1)
