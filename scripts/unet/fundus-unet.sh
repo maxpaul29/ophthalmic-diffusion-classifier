@@ -48,8 +48,8 @@ export N_KEEP_PER_STAGE=[1]             # (list) Number of classes to keep per s
 export MAJORITY_VOTING=true            # (bool) Whether to perform majority voting or not
 
 ###### Training parameters ######
-export RESUME=0
-export PRETRAINED_CHECKPOINT=""  # (str) ISIC checkpoint to finetune from (set to "" for scratch)
+export RESUME=1
+export PRETRAINED_CHECKPOINT="/experiments/fundus-unet/checkpoints"  # (str) ISIC checkpoint to finetune from (set to "" for scratch)
 
 ###### Inference/Explain parameters ######
 export CHECKPOINT_FOLDER="$INFERENCE_CHECKPOINT_FOLDER/experiments/fundus-unet/checkpoints"      # (str) Checkpoint folder for inference
