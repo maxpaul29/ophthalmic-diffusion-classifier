@@ -920,6 +920,16 @@ class DiffusionClassifier(nn.Module):
         # Restore the accelerator state
         accelerator.load_state(input_dir=checkpoint_path)
 
+        # accelerator.load_state() restores the optimizer state (torch.load, not
+        # safetensors) directly onto its originally-saved device. Since Adam's
+        # per-parameter state (exp_avg/exp_avg_sq) is otherwise allocated lazily
+        # on the first optimizer.step(), this load is a single large burst
+        # allocation for the whole ~276M-parameter state at once. Under WDDM
+        # (Windows GPU driver) this burst can leave the caching allocator holding
+        # far more VRAM than is actually needed afterwards; force it to release
+        # any now-unreferenced blocks back to the driver.
+        torch.cuda.empty_cache()
+
         # Get the experiment state path
         experiment_state_path = os.path.join(checkpoint_path, "experiment_state.pth")
 
