@@ -917,8 +917,17 @@ class DiffusionClassifier(nn.Module):
         Returns:
         tuple: The epoch, best metric (if available), and experiment.
         """
+        # DIAGNOSTIC: PyTorch's own memory accounting, independent of whatever
+        # nvidia-smi/WDDM reports. Remove once the VRAM issue is understood.
+        print(f"[mem] before load_state: allocated={torch.cuda.memory_allocated()/1e9:.2f}GB "
+              f"reserved={torch.cuda.memory_reserved()/1e9:.2f}GB")
+
         # Restore the accelerator state
         accelerator.load_state(input_dir=checkpoint_path)
+
+        print(f"[mem] after load_state: allocated={torch.cuda.memory_allocated()/1e9:.2f}GB "
+              f"reserved={torch.cuda.memory_reserved()/1e9:.2f}GB "
+              f"max_allocated={torch.cuda.max_memory_allocated()/1e9:.2f}GB")
 
         # accelerator.load_state() restores the optimizer state (torch.load, not
         # safetensors) directly onto its originally-saved device. Since Adam's
@@ -929,6 +938,9 @@ class DiffusionClassifier(nn.Module):
         # far more VRAM than is actually needed afterwards; force it to release
         # any now-unreferenced blocks back to the driver.
         torch.cuda.empty_cache()
+
+        print(f"[mem] after empty_cache: allocated={torch.cuda.memory_allocated()/1e9:.2f}GB "
+              f"reserved={torch.cuda.memory_reserved()/1e9:.2f}GB")
 
         # Get the experiment state path
         experiment_state_path = os.path.join(checkpoint_path, "experiment_state.pth")
