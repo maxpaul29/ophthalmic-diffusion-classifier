@@ -602,6 +602,16 @@ class DiffusionClassifier(nn.Module):
                 # Reset flags
                 if checkpoint_tracker is not None:
                     checkpoint_tracker['save_flag'] = False
+
+                # The evaluation/sampling pass above has very different tensor
+                # lifetimes than training (many intermediate reverse-diffusion
+                # steps), which can leave PyTorch's CUDA caching allocator
+                # fragmented once training resumes. Releasing the unused cache
+                # here is cheap (typically milliseconds) and reduces the risk of
+                # a later, unrelated training step failing with a fragmentation-
+                # induced CUDA OOM.
+                torch.cuda.empty_cache()
+
                 model.train()
 
     @torch.no_grad()

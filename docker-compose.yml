@@ -6,10 +6,6 @@ services:
     runtime: nvidia
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
-      # Reduces CUDA-OOM crashes caused by allocator fragmentation from
-      # repeatedly switching between training and the sampling-heavy
-      # evaluation/plotting phase (very different tensor lifetimes each time).
-      - PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
       - PROJECT_ROOT=/workspace
       - DATA_PATH=${DATA_PATH:-/data}
       - CHECKPOINT_PATH=${CHECKPOINT_PATH:-/checkpoints}
