@@ -421,6 +421,13 @@ class DiffusionClassifier(nn.Module):
                 experiment.log_other("Python Version", sys.version)
             start_epoch = 0
 
+        # On resume, load_checkpoint() above just deserialized the full model +
+        # EMA + encoder + optimizer state onto the GPU in one go, which can leave
+        # the CUDA caching allocator holding temporary/fragmented memory before
+        # the very first training step even runs. Clearing it here is a cheap,
+        # one-off safeguard (only runs once, not per epoch).
+        torch.cuda.empty_cache()
+
         # Train!
         if accelerator.is_main_process:
             print(self.config.__dict__)
