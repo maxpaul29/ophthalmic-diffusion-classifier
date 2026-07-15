@@ -595,7 +595,7 @@ class DiffusionClassifier(nn.Module):
                             best_val_loss = avg_val_loss
                         self.save_checkpoint(accelerator, epoch, experiment, loss_tracker)
                     else:
-                        self.save_checkpoint(accelerator, epoch, experiment)
+                        pass #self.save_checkpoint(accelerator, epoch, experiment) moved up above to before the evaluation
 
                     print(f"Val evaluation time: {val_evaluation_elapsed:.2f} s.")
 
