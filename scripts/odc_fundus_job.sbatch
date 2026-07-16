@@ -20,7 +20,7 @@ module load lang/Python/3.12.3-GCCcore-13.3.0
 # --- Data preperation ---
 mkdir -p /localscratch/${SLURM_JOB_ID}/dataset/fundus
 cp /lustre/project/ki-css/data-opthalmic-classification-thesis/big-fundus-dataset.zip /localscratch/${SLURM_JOB_ID}/
-unzip /localscratch/${SLURM_JOB_ID}/big-fundus-dataset.zip -d /localscratch/${SLURM_JOB_ID}/dataset/fundus
+UNZIP_DISABLE_ZIPBOMB_DETECTION=TRUE unzip /localscratch/${SLURM_JOB_ID}/big-fundus-dataset.zip -d /localscratch/${SLURM_JOB_ID}/dataset/fundus
 
 echo "--- Control of the directory structure ---"
 find /localscratch/${SLURM_JOB_ID}/dataset -type d
