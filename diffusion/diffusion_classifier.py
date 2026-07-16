@@ -479,14 +479,7 @@ class DiffusionClassifier(nn.Module):
 
             epoch_elapsed = time.time() - epoch_start_time
             if accelerator.is_main_process:
-                # PyTorch's own memory accounting, independent of nvidia-smi/WDDM,
-                # logged every epoch so we can see the trend across a whole run
-                # without a separate manual diagnostic pass.
-                mem_allocated = torch.cuda.memory_allocated() / 1e9
-                mem_reserved = torch.cuda.memory_reserved() / 1e9
-                mem_max = torch.cuda.max_memory_allocated() / 1e9
-                print(f"Epoch {epoch}/{self.config.num_epochs}: {epoch_elapsed:.2f} s. | train_loss: {avg_train_loss:.6f} | "
-                      f"mem_allocated={mem_allocated:.2f}GB mem_reserved={mem_reserved:.2f}GB mem_max={mem_max:.2f}GB")
+                print(f"Epoch {epoch}/{self.config.num_epochs}: {epoch_elapsed:.2f} s. | train_loss: {avg_train_loss:.6f}")
 
                 # Log the loss to CometML
                 if experiment is not None:
