@@ -1,6 +1,6 @@
 ###### Shared parameters for training/inference/explain ######
 export EXPERIMENT_DIR="/experiments/fundus-unet"
-export DATA_PATH="$DATA_ROOT"   # Path to the fundus data directory
+export DATA_PATH="$DATA_ROOT/fundus/usable"   # Path to the fundus data directory
 export SEED=42
 
 # Data parameters
