@@ -1,6 +1,6 @@
-export PROJECT_ROOT="/workspace"                  # Path to diffusion-classifier repository
-export DATA_ROOT="/data"                    # Path to the data directory containing chexpert and mel_isic_balanced  
-export INFERENCE_CHECKPOINT_FOLDER="/checkpoints/final-models"  # Checkpoint folder for inference
+export PROJECT_ROOT="$HOME/bachelor-thesis/ophthalmic-diffusion-classifier"                  # Path to diffusion-classifier repository
+export DATA_ROOT="/localscratch/${SLURM_JOB_ID}/dataset"                    # Path to the data directory containing chexpert and mel_isic_balanced  
+export INFERENCE_CHECKPOINT_FOLDER="$HOME/bachelor-thesis/ophthalmic-diffusion-classifier/checkpoints/final-models"  # Checkpoint folder for inference
 
 export COMET_PROJECT_NAME="diffusion-classifier"  
 export COMET_WORKSPACE=""

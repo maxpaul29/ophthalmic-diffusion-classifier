@@ -11,13 +11,13 @@ export SPLIT_PREFIX="pretrain"            # (str) Which split CSV set to load: "
                                         #       "pretrain" (Phase-1 healthy-only), "drusen" (Phase-2)
 
 # Optimizer/EMA parameters
-export BATCH_SIZE=64                    # (int) Batch size for training
+export BATCH_SIZE=128                    # (int) Batch size for training
 if [[ "$FUNCTION" == "finetune" ]]; then
     export NUM_EPOCHS=200                  # (int) Number of epochs to train for (700 for the full training, 200 for finetuning)
 else
     export NUM_EPOCHS=500                  # (int) Number of epochs to train for (700 for the full training, 200 for finetuning)
 fi
-export GRADIENT_ACCUMULATION_STEPS=2    # (int) Number of gradient accumulation steps
+export GRADIENT_ACCUMULATION_STEPS=1    # (int) Number of gradient accumulation steps
 if [[ "$FUNCTION" == "finetune" ]]; then
     export LEARNING_RATE=0.00001             # (float) Learning rate for finetuning (1e-5)
 else
