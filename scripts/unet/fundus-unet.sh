@@ -15,7 +15,7 @@ export BATCH_SIZE=128                    # (int) Batch size for training
 if [[ "$FUNCTION" == "finetune" ]]; then
     export NUM_EPOCHS=200                  # (int) Number of epochs to train for (700 for the full training, 200 for finetuning)
 else
-    export NUM_EPOCHS=500                  # (int) Number of epochs to train for (700 for the full training, 200 for finetuning)
+    export NUM_EPOCHS=30                  # (int) Number of epochs to train for (700 for the full training, 200 for finetuning)
 fi
 export GRADIENT_ACCUMULATION_STEPS=1    # (int) Number of gradient accumulation steps
 if [[ "$FUNCTION" == "finetune" ]]; then
@@ -24,10 +24,10 @@ else
     export LEARNING_RATE=0.0001             # (float) Learning rate for full training (1e-4)
 fi
 export LR_WARMUP_STEPS=100              # (int) Number of warmup steps for the learning rate
-export EVALUATION_BATCHES=80             # (int) Number of batches to evaluate on
+export EVALUATION_BATCHES=8             # (int) Number of batches to evaluate on
 export MIXED_PRECISION="fp16"           # (str) Mixed precision training ('fp16' or 'fp32' or 'none')
 export NUM_WORKERS=6                    # (int) Number of workers for the data loader
-export SAVE_IMAGE_EPOCHS=25             # (int) Number of epochs between saving images/evaluation (default 50)
+export SAVE_IMAGE_EPOCHS=1             # (int) Number of epochs between saving images/evaluation (default 50)
 
 export EMA_BETA=0.999                   # (float) Exponential moving average beta
 export EMA_WARMUP=50                    # (int) Number of warmup steps for the exponential moving average

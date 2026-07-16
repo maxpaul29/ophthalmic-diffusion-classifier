@@ -176,7 +176,7 @@ def main():
     # undefined (no positive class present). In that case, skip the classification
     # metrics entirely so train_loop uses validation loss for checkpoint selection
     # instead of running the expensive classify()/majority-voting evaluation.
-    if config.split_prefix == "pretrain":
+    if "pretrain" in config.split_prefix:
         metrics = None
     else:
         metrics = [Accuracy("accuracy"), F1("f1"), Precision("precision"), Recall("recall"), AUC("auc")]
