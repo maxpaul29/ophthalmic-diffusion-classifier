@@ -7,7 +7,7 @@ export SEED=42
 export IMAGE_SIZE=256                   # (int) Size of the input images
 export IMAGE_CHANNELS=3                 # (int) Number of channels in the input images
 export WAVELET_TRANSFORM=true           # (bool) Whether to use the wavelet transform or not
-export SPLIT_PREFIX="pretrain"            # (str) Which split CSV set to load: "fundus" (Kaggle),
+export SPLIT_PREFIX="pretrain-mogon"            # (str) Which split CSV set to load: "fundus" (Kaggle),
                                         #       "pretrain" (Phase-1 healthy-only), "drusen" (Phase-2)
 
 # Optimizer/EMA parameters
