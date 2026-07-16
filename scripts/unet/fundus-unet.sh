@@ -27,7 +27,7 @@ export LR_WARMUP_STEPS=100              # (int) Number of warmup steps for the l
 export EVALUATION_BATCHES=8             # (int) Number of batches to evaluate on
 export MIXED_PRECISION="fp16"           # (str) Mixed precision training ('fp16' or 'fp32' or 'none')
 export NUM_WORKERS=6                    # (int) Number of workers for the data loader
-export SAVE_IMAGE_EPOCHS=1             # (int) Number of epochs between saving images/evaluation (default 50)
+export SAVE_IMAGE_EPOCHS=2             # (int) Number of epochs between saving images/evaluation (default 50)
 
 export EMA_BETA=0.999                   # (float) Exponential moving average beta
 export EMA_WARMUP=50                    # (int) Number of warmup steps for the exponential moving average
