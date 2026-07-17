@@ -27,11 +27,7 @@ Usage:
         --output-dir  dataset/splits
 
     # Drusen Split for Finetuning (Windows):
-    python .\\create_drusen_split.py \
-        --data-path "G:\\OpticDiscDrusen\\AlleBilderQuality" \
-        --drusen-dir "G:\\OpticDiscDrusen\\AlleBilderQuality\\Drusen\\usable" \
-        --healthy-dir "G:\\OpticDiscDrusen\\AlleBilderQuality\\keineDrusen\\usable" \
-        --output-dir "dataset/splits"
+    python .\dataset\splits\create_drusen_split.py --data-path "C:\Users\Max Paul\Documents\OpticDiscDrusen\AlleBilderQuality" --drusen-dir "C:\Users\Max Paul\Documents\OpticDiscDrusen\AlleBilderQuality\Drusen\usable" --healthy-dir "C:\Users\Max Paul\Documents\OpticDiscDrusen\AlleBilderQuality\keineDrusen\usable" --output-dir "dataset/splits"
 
     # With custom parameters:
     python dataset/splits/create_drusen_split.py \

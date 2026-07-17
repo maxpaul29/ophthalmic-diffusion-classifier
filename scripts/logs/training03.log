@@ -1,0 +1,262 @@
+The following values were not passed to `accelerate launch` and had defaults used instead:
+	`--dynamo_backend` was set to a value of `'no'`
+To avoid this warning pass in values for each of the problematic parameters or run `accelerate config`.
+Dataset length: 4357
+Label column name: target
+shape: (1, 2)
+┌────────┬───────┐
+│ target ┆ count │
+│ ---    ┆ ---   │
+│ i64    ┆ u32   │
+╞════════╪═══════╡
+│ 0      ┆ 4357  │
+└────────┴───────┘
+Dataset length: 242
+Label column name: target
+shape: (1, 2)
+┌────────┬───────┐
+│ target ┆ count │
+│ ---    ┆ ---   │
+│ i64    ┆ u32   │
+╞════════╪═══════╡
+│ 0      ┆ 242   │
+└────────┴───────┘
+Dataset length: 242
+Label column name: target
+shape: (1, 2)
+┌────────┬───────┐
+│ target ┆ count │
+│ ---    ┆ ---   │
+│ i64    ┆ u32   │
+╞════════╪═══════╡
+│ 0      ┆ 242   │
+└────────┴───────┘
+Parameter count: 275840268
+Checkpoint loaded from /workspace/experiments/fundus-unet/checkpoints. Resuming from epoch 76. Best metric {'value': None, 'save_flag': False}
+{'config': {'resume': 1, 'pretrained_checkpoint': '/checkpoints/final-models/drusen-unet/pretrain-epoch-75', 'checkpoint_folder': '/checkpoints/final-models/drusen-unet/pretrain-epoch-75', 'project_root': '/workspace', 'experiment_dir': '/experiments/fundus-unet', 'data_path': '/data', 'image_size': 256, 'wavelet_transform': True, 'split_prefix': 'pretrain', 'image_channels': 3, 'batch_size': 64, 'num_epochs': 500, 'gradient_accumulation_steps': 2, 'learning_rate': 0.0001, 'lr_warmup_steps': 100, 'save_image_epochs': 25, 'evaluation_batches': 80, 'ema_beta': 0.999, 'ema_warmup': 50, 'ema_update_freq': 5, 'pred_param': 'v', 'schedule': 'shifted_cosine', 'noise_d': 64, 'mixed_precision': 'fp16', 'num_workers': 6, 'classes': 2, 'encoder_type': 'nn', 'cfg_w': 4.5, 'sampling_steps': 50, 'seed': 42, 'use_comet': 0, 'comet_project_name': 'diffusion-classifier', 'comet_workspace': '', 'comet_experiment_name': '', 'comet_api_key': '', 'classification': True, 'n_stages': 1, 'evaluation_per_stage': [51], 'n_keep_per_stage': [1], 'majority_voting': True, 'flash_attention': False, 'from_t': 0.5}, 'project_root': '/workspace', 'experiment_dir': '/experiments/fundus-unet', 'experiment_path': '/workspace/experiments/fundus-unet'}
+  Epoch 76 step 1/69 (18.6s elapsed) | loss: 0.002054
+  Epoch 76 step 11/69 (161.1s elapsed) | loss: 0.000715
+  Epoch 76 step 21/69 (304.2s elapsed) | loss: 0.000737
+  Epoch 76 step 31/69 (445.1s elapsed) | loss: 0.000711
+  Epoch 76 step 41/69 (585.9s elapsed) | loss: 0.000588
+  Epoch 76 step 51/69 (726.7s elapsed) | loss: 0.000609
+  Epoch 76 step 61/69 (867.6s elapsed) | loss: 0.000837
+  Epoch 76 step 69/69 (965.8s elapsed) | loss: 0.000508
+Epoch 76/500: 965.76 s. | train_loss: 0.000974
+  Epoch 77 step 1/69 (15.8s elapsed) | loss: 0.001715
+  Epoch 77 step 11/69 (157.0s elapsed) | loss: 0.000511
+  Epoch 77 step 21/69 (297.8s elapsed) | loss: 0.000829
+  Epoch 77 step 31/69 (438.6s elapsed) | loss: 0.000410
+  Epoch 77 step 41/69 (611.4s elapsed) | loss: 0.000624
+  Epoch 77 step 51/69 (752.4s elapsed) | loss: 0.000548
+  Epoch 77 step 61/69 (893.5s elapsed) | loss: 0.000715
+  Epoch 77 step 69/69 (991.8s elapsed) | loss: 0.000097
+Epoch 77/500: 991.80 s. | train_loss: 0.000658
+  Epoch 78 step 1/69 (15.9s elapsed) | loss: 0.000760
+  Epoch 78 step 11/69 (157.0s elapsed) | loss: 0.000798
+  Epoch 78 step 21/69 (298.1s elapsed) | loss: 0.000627
+  Epoch 78 step 31/69 (439.1s elapsed) | loss: 0.000468
+  Epoch 78 step 41/69 (580.1s elapsed) | loss: 0.000560
+  Epoch 78 step 51/69 (721.2s elapsed) | loss: 0.000602
+  Epoch 78 step 61/69 (862.2s elapsed) | loss: 0.000724
+  Epoch 78 step 69/69 (971.6s elapsed) | loss: 0.000368
+Epoch 78/500: 971.57 s. | train_loss: 0.000677
+  Epoch 79 step 1/69 (17.1s elapsed) | loss: 0.000669
+  Epoch 79 step 11/69 (202.4s elapsed) | loss: 0.000513
+  Epoch 79 step 21/69 (349.0s elapsed) | loss: 0.000529
+  Epoch 79 step 31/69 (495.8s elapsed) | loss: 0.000957
+  Epoch 79 step 41/69 (637.1s elapsed) | loss: 0.000667
+  Epoch 79 step 51/69 (778.5s elapsed) | loss: 0.000490
+  Epoch 79 step 61/69 (919.7s elapsed) | loss: 0.001364
+  Epoch 79 step 69/69 (1018.1s elapsed) | loss: 0.001521
+Epoch 79/500: 1018.07 s. | train_loss: 0.000665
+  Epoch 80 step 1/69 (15.8s elapsed) | loss: 0.000374
+  Epoch 80 step 11/69 (157.0s elapsed) | loss: 0.000448
+  Epoch 80 step 21/69 (298.1s elapsed) | loss: 0.001534
+  Epoch 80 step 31/69 (439.2s elapsed) | loss: 0.000683
+  Epoch 80 step 41/69 (580.2s elapsed) | loss: 0.000507
+  Epoch 80 step 51/69 (721.3s elapsed) | loss: 0.000402
+  Epoch 80 step 61/69 (862.4s elapsed) | loss: 0.000447
+  Epoch 80 step 69/69 (960.8s elapsed) | loss: 0.000677
+Epoch 80/500: 960.77 s. | train_loss: 0.000599
+  Epoch 81 step 1/69 (15.8s elapsed) | loss: 0.000312
+  Epoch 81 step 11/69 (157.0s elapsed) | loss: 0.000761
+  Epoch 81 step 21/69 (298.1s elapsed) | loss: 0.000939
+  Epoch 81 step 31/69 (439.1s elapsed) | loss: 0.000491
+  Epoch 81 step 41/69 (580.3s elapsed) | loss: 0.000595
+  Epoch 81 step 51/69 (721.4s elapsed) | loss: 0.000465
+  Epoch 81 step 61/69 (862.5s elapsed) | loss: 0.000485
+  Epoch 81 step 69/69 (960.9s elapsed) | loss: 0.001120
+Epoch 81/500: 960.85 s. | train_loss: 0.000659
+  Epoch 82 step 1/69 (15.9s elapsed) | loss: 0.000529
+  Epoch 82 step 11/69 (189.6s elapsed) | loss: 0.000537
+  Epoch 82 step 21/69 (381.4s elapsed) | loss: 0.000426
+  Epoch 82 step 31/69 (573.8s elapsed) | loss: 0.000596
+  Epoch 82 step 41/69 (765.5s elapsed) | loss: 0.000954
+  Epoch 82 step 51/69 (957.1s elapsed) | loss: 0.000929
+  Epoch 82 step 61/69 (1148.9s elapsed) | loss: 0.001013
+  Epoch 82 step 69/69 (1253.3s elapsed) | loss: 0.000211
+Epoch 82/500: 1253.26 s. | train_loss: 0.000614
+  Epoch 83 step 1/69 (16.0s elapsed) | loss: 0.000846
+  Epoch 83 step 11/69 (157.5s elapsed) | loss: 0.000394
+  Epoch 83 step 21/69 (298.7s elapsed) | loss: 0.000588
+  Epoch 83 step 31/69 (440.9s elapsed) | loss: 0.000656
+  Epoch 83 step 41/69 (582.0s elapsed) | loss: 0.000491
+  Epoch 83 step 51/69 (724.2s elapsed) | loss: 0.000548
+  Epoch 83 step 61/69 (865.4s elapsed) | loss: 0.000460
+  Epoch 83 step 69/69 (963.9s elapsed) | loss: 0.003056
+Epoch 83/500: 963.87 s. | train_loss: 0.000643
+  Epoch 84 step 1/69 (16.0s elapsed) | loss: 0.000872
+  Epoch 84 step 11/69 (157.2s elapsed) | loss: 0.000641
+  Epoch 84 step 21/69 (298.4s elapsed) | loss: 0.001364
+  Epoch 84 step 31/69 (439.6s elapsed) | loss: 0.001522
+  Epoch 84 step 41/69 (580.8s elapsed) | loss: 0.001192
+  Epoch 84 step 51/69 (721.9s elapsed) | loss: 0.000643
+  Epoch 84 step 61/69 (863.0s elapsed) | loss: 0.002550
+  Epoch 84 step 69/69 (961.5s elapsed) | loss: 0.000402
+Epoch 84/500: 961.51 s. | train_loss: 0.001215
+  Epoch 85 step 1/69 (15.8s elapsed) | loss: 0.000498
+  Epoch 85 step 11/69 (157.0s elapsed) | loss: 0.000509
+  Epoch 85 step 21/69 (298.1s elapsed) | loss: 0.000862
+  Epoch 85 step 31/69 (439.3s elapsed) | loss: 0.000685
+  Epoch 85 step 41/69 (580.4s elapsed) | loss: 0.000437
+  Epoch 85 step 51/69 (721.6s elapsed) | loss: 0.000564
+  Epoch 85 step 61/69 (863.3s elapsed) | loss: 0.000739
+  Epoch 85 step 69/69 (961.8s elapsed) | loss: 0.000512
+Epoch 85/500: 961.79 s. | train_loss: 0.000664
+  Epoch 86 step 1/69 (15.9s elapsed) | loss: 0.000502
+  Epoch 86 step 11/69 (157.1s elapsed) | loss: 0.000562
+  Epoch 86 step 21/69 (298.2s elapsed) | loss: 0.000771
+  Epoch 86 step 31/69 (439.4s elapsed) | loss: 0.000479
+  Epoch 86 step 41/69 (580.6s elapsed) | loss: 0.000618
+  Epoch 86 step 51/69 (721.7s elapsed) | loss: 0.000484
+  Epoch 86 step 61/69 (863.3s elapsed) | loss: 0.000677
+  Epoch 86 step 69/69 (961.7s elapsed) | loss: 0.000264
+Epoch 86/500: 961.71 s. | train_loss: 0.000595
+  Epoch 87 step 1/69 (15.9s elapsed) | loss: 0.000354
+  Epoch 87 step 11/69 (157.0s elapsed) | loss: 0.000341
+  Epoch 87 step 21/69 (298.1s elapsed) | loss: 0.000525
+  Epoch 87 step 31/69 (439.2s elapsed) | loss: 0.000471
+  Epoch 87 step 41/69 (580.4s elapsed) | loss: 0.001523
+  Epoch 87 step 51/69 (721.6s elapsed) | loss: 0.000678
+  Epoch 87 step 61/69 (862.7s elapsed) | loss: 0.000273
+  Epoch 87 step 69/69 (961.2s elapsed) | loss: 0.000630
+Epoch 87/500: 961.20 s. | train_loss: 0.000570
+  Epoch 88 step 1/69 (15.8s elapsed) | loss: 0.000400
+  Epoch 88 step 11/69 (157.0s elapsed) | loss: 0.000692
+  Epoch 88 step 21/69 (298.2s elapsed) | loss: 0.000398
+  Epoch 88 step 31/69 (439.3s elapsed) | loss: 0.000660
+  Epoch 88 step 41/69 (580.5s elapsed) | loss: 0.000544
+  Epoch 88 step 51/69 (721.6s elapsed) | loss: 0.000312
+  Epoch 88 step 61/69 (862.8s elapsed) | loss: 0.000743
+  Epoch 88 step 69/69 (961.2s elapsed) | loss: 0.000116
+Epoch 88/500: 961.24 s. | train_loss: 0.000638
+  Epoch 89 step 1/69 (15.8s elapsed) | loss: 0.000477
+  Epoch 89 step 11/69 (157.0s elapsed) | loss: 0.000626
+  Epoch 89 step 21/69 (298.1s elapsed) | loss: 0.000748
+  Epoch 89 step 31/69 (439.3s elapsed) | loss: 0.000579
+  Epoch 89 step 41/69 (580.5s elapsed) | loss: 0.000574
+  Epoch 89 step 51/69 (721.6s elapsed) | loss: 0.000603
+  Epoch 89 step 61/69 (862.8s elapsed) | loss: 0.000595
+  Epoch 89 step 69/69 (961.2s elapsed) | loss: 0.000450
+Epoch 89/500: 961.24 s. | train_loss: 0.000639
+  Epoch 90 step 1/69 (15.8s elapsed) | loss: 0.001822
+  Epoch 90 step 11/69 (157.0s elapsed) | loss: 0.000620
+  Epoch 90 step 21/69 (298.2s elapsed) | loss: 0.000273
+  Epoch 90 step 31/69 (439.3s elapsed) | loss: 0.000422
+  Epoch 90 step 41/69 (580.9s elapsed) | loss: 0.000569
+  Epoch 90 step 51/69 (722.1s elapsed) | loss: 0.000314
+  Epoch 90 step 61/69 (863.1s elapsed) | loss: 0.000536
+  Epoch 90 step 69/69 (961.5s elapsed) | loss: 0.000775
+Epoch 90/500: 961.55 s. | train_loss: 0.000649
+  Epoch 91 step 1/69 (15.9s elapsed) | loss: 0.000459
+  Epoch 91 step 11/69 (157.1s elapsed) | loss: 0.001076
+  Epoch 91 step 21/69 (298.3s elapsed) | loss: 0.000384
+  Epoch 91 step 31/69 (439.4s elapsed) | loss: 0.000406
+  Epoch 91 step 41/69 (580.6s elapsed) | loss: 0.000410
+  Epoch 91 step 51/69 (721.8s elapsed) | loss: 0.000568
+  Epoch 91 step 61/69 (862.9s elapsed) | loss: 0.000298
+  Epoch 91 step 69/69 (961.3s elapsed) | loss: 0.000561
+Epoch 91/500: 961.34 s. | train_loss: 0.000550
+  Epoch 92 step 1/69 (15.8s elapsed) | loss: 0.000587
+  Epoch 92 step 11/69 (157.0s elapsed) | loss: 0.000703
+  Epoch 92 step 21/69 (298.2s elapsed) | loss: 0.000623
+  Epoch 92 step 31/69 (439.3s elapsed) | loss: 0.001058
+  Epoch 92 step 41/69 (580.5s elapsed) | loss: 0.000496
+  Epoch 92 step 51/69 (721.6s elapsed) | loss: 0.000355
+  Epoch 92 step 61/69 (862.8s elapsed) | loss: 0.000509
+  Epoch 92 step 69/69 (961.1s elapsed) | loss: 0.000197
+Epoch 92/500: 961.13 s. | train_loss: 0.000581
+  Epoch 93 step 1/69 (15.8s elapsed) | loss: 0.000308
+  Epoch 93 step 11/69 (157.0s elapsed) | loss: 0.000554
+  Epoch 93 step 21/69 (298.2s elapsed) | loss: 0.000480
+  Epoch 93 step 31/69 (439.3s elapsed) | loss: 0.000388
+  Epoch 93 step 41/69 (580.4s elapsed) | loss: 0.000731
+  Epoch 93 step 51/69 (721.6s elapsed) | loss: 0.000796
+  Epoch 93 step 61/69 (862.7s elapsed) | loss: 0.000533
+  Epoch 93 step 69/69 (961.1s elapsed) | loss: 0.000305
+Epoch 93/500: 961.13 s. | train_loss: 0.000556
+  Epoch 94 step 1/69 (15.8s elapsed) | loss: 0.000593
+  Epoch 94 step 11/69 (157.1s elapsed) | loss: 0.000489
+  Epoch 94 step 21/69 (298.6s elapsed) | loss: 0.000289
+  Epoch 94 step 31/69 (439.7s elapsed) | loss: 0.000439
+  Epoch 94 step 41/69 (580.9s elapsed) | loss: 0.000459
+  Epoch 94 step 51/69 (722.0s elapsed) | loss: 0.000340
+  Epoch 94 step 61/69 (863.1s elapsed) | loss: 0.000373
+  Epoch 94 step 69/69 (961.5s elapsed) | loss: 0.001368
+Epoch 94/500: 961.54 s. | train_loss: 0.000607
+  Epoch 95 step 1/69 (15.9s elapsed) | loss: 0.000390
+  Epoch 95 step 11/69 (157.0s elapsed) | loss: 0.000534
+  Epoch 95 step 21/69 (298.2s elapsed) | loss: 0.000949
+  Epoch 95 step 31/69 (439.3s elapsed) | loss: 0.000353
+  Epoch 95 step 41/69 (580.5s elapsed) | loss: 0.000291
+  Epoch 95 step 51/69 (721.6s elapsed) | loss: 0.000481
+  Epoch 95 step 61/69 (862.8s elapsed) | loss: 0.001232
+  Epoch 95 step 69/69 (961.2s elapsed) | loss: 0.000114
+Epoch 95/500: 961.18 s. | train_loss: 0.000567
+  Epoch 96 step 1/69 (15.9s elapsed) | loss: 0.000437
+  Epoch 96 step 11/69 (157.2s elapsed) | loss: 0.000960
+  Epoch 96 step 21/69 (298.3s elapsed) | loss: 0.000504
+  Epoch 96 step 31/69 (439.5s elapsed) | loss: 0.000414
+  Epoch 96 step 41/69 (580.6s elapsed) | loss: 0.000449
+  Epoch 96 step 51/69 (721.8s elapsed) | loss: 0.000695
+  Epoch 96 step 61/69 (862.9s elapsed) | loss: 0.000397
+  Epoch 96 step 69/69 (961.4s elapsed) | loss: 0.000826
+Epoch 96/500: 961.36 s. | train_loss: 0.000592
+  Epoch 97 step 1/69 (15.8s elapsed) | loss: 0.000576
+  Epoch 97 step 11/69 (157.0s elapsed) | loss: 0.000748
+  Epoch 97 step 21/69 (298.2s elapsed) | loss: 0.000248
+  Epoch 97 step 31/69 (439.3s elapsed) | loss: 0.000585
+  Epoch 97 step 41/69 (580.5s elapsed) | loss: 0.000512
+  Epoch 97 step 51/69 (721.5s elapsed) | loss: 0.000443
+  Epoch 97 step 61/69 (862.7s elapsed) | loss: 0.000943
+  Epoch 97 step 69/69 (961.1s elapsed) | loss: 0.000289
+Epoch 97/500: 961.09 s. | train_loss: 0.000612
+  Epoch 98 step 1/69 (15.8s elapsed) | loss: 0.000679
+  Epoch 98 step 11/69 (157.4s elapsed) | loss: 0.000570
+  Epoch 98 step 21/69 (298.5s elapsed) | loss: 0.000391
+  Epoch 98 step 31/69 (439.6s elapsed) | loss: 0.000813
+  Epoch 98 step 41/69 (580.8s elapsed) | loss: 0.000547
+  Epoch 98 step 51/69 (721.9s elapsed) | loss: 0.000654
+  Epoch 98 step 61/69 (863.1s elapsed) | loss: 0.000367
+  Epoch 98 step 69/69 (961.5s elapsed) | loss: 0.000156
+Epoch 98/500: 961.55 s. | train_loss: 0.000593
+  Epoch 99 step 1/69 (15.8s elapsed) | loss: 0.000454
+  Epoch 99 step 11/69 (157.0s elapsed) | loss: 0.000582
+  Epoch 99 step 21/69 (298.2s elapsed) | loss: 0.000562
+  Epoch 99 step 31/69 (439.3s elapsed) | loss: 0.000515
+  Epoch 99 step 41/69 (580.5s elapsed) | loss: 0.000341
+  Epoch 99 step 51/69 (721.7s elapsed) | loss: 0.000345
+  Epoch 99 step 61/69 (862.9s elapsed) | loss: 0.000383
+  Epoch 99 step 69/69 (961.3s elapsed) | loss: 0.000101
+Epoch 99/500: 961.27 s. | train_loss: 0.000507
+  Epoch 100 step 1/69 (15.9s elapsed) | loss: 0.000422
+  Epoch 100 step 11/69 (157.0s elapsed) | loss: 0.000499
+  Epoch 100 step 21/69 (298.2s elapsed) | loss: 0.000420
+  Epoch 100 step 31/69 (439.4s elapsed) | loss: 0.000688
+  Epoch 100 step 41/69 (580.5s elapsed) | loss: 0.000350
+  Epoch 100 step 51/69 (721.6s elapsed) | loss: 0.000595
+  Epoch 100 step 61/69 (862.8s elapsed) | loss: 0.000930
+  Epoch 100 step 69/69 (961.2s elapsed) | loss: 0.000370
+Epoch 100/500: 961.22 s. | train_loss: 0.000480
+Evaluating:   0%|          | 0/4 [00:00<?, ?it/s]Evaluating:  25%|██▌       | 1/4 [00:07<00:21,  7.04s/it]Evaluating:  50%|█████     | 2/4 [1:01:52<1:12:45, 2182.52s/it]Evaluating:  75%|███████▌  | 3/4 [2:03:43<48:00, 2880.41s/it]  
