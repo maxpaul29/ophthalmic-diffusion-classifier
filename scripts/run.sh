@@ -9,7 +9,7 @@ export COMET_EXPERIMENT_NAME=""
 export USE_COMET=0
 
 export MODEL="unet"                           # "baseline", "unet", "dit", "sd"
-export FUNCTION="train"                        # "train", "inference", "explain", "finetune" (only supported for funuds-unet)
+export FUNCTION="finetune"                        # "train", "inference", "explain", "finetune" (only supported for funuds-unet)
 export DATA="fundus"                            # "chexpert", "isic", "fundus"
 
 # For the baseline

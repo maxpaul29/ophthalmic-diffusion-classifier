@@ -178,8 +178,10 @@ def main():
     # instead of running the expensive classify()/majority-voting evaluation.
     if config.split_prefix == "pretrain":
         metrics = None
+        checkpoint_metric = None
     else:
         metrics = [Accuracy("accuracy"), F1("f1"), Precision("precision"), Recall("recall"), AUC("auc")]
+        checkpoint_metric = "recall"
 
     # Train the model
     diffusion_classifier.train_loop(
@@ -188,7 +190,7 @@ def main():
         optimizer=optimizer,
         lr_scheduler=lr_scheduler,
         metrics=metrics,
-        checkpoint_metric=None,
+        checkpoint_metric=checkpoint_metric,
         plot_function=fundus_plotter
     )
 

@@ -20,18 +20,18 @@ import matplotlib.ticker as mticker
 # ── USER INPUT ────────────────────────────────────────────────────────────────
 # One value per EPOCH (train_loss is printed every epoch).
 TRAIN_LOSS = [
-    # 0.842, 0.791, 0.734, ...
+    0.002520, 0.000729, 0.000566, 0.000504, 0.000475, 0.000443, 0.000431, 0.000420, 0.000410, 0.000398, 0.000389, 0.000391, 0.000385, 0.000383, 0.000376, 0.000379, 0.000366, 0.000365, 0.000362, 0.000362
 ]
 
 # One value per EVAL EPOCH (val_loss is printed only every SAVE_IMAGE_EPOCHS).
 VAL_LOSS = [
-    # 0.860, 0.775, 0.740, ...
+    0.000944, 0.000543, 0.000569, 0.000432, 0.000415, 0.000402, 0.000469, 0.000353, 0.000371, 0.000406
 ]
 
 # Epoch at which the first eval was logged and the interval between evals
 # (must match SAVE_IMAGE_EPOCHS in fundus-unet.sh).
 FIRST_EVAL_EPOCH = 0
-EVAL_INTERVAL = 25
+EVAL_INTERVAL = 2
 
 OUTPUT_DIR = "experiments/fundus-unet/plots"
 # ─────────────────────────────────────────────────────────────────────────────
