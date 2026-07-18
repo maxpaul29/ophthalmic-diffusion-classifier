@@ -39,10 +39,9 @@ Parameter count: 275840268
 [mem] after load_state: allocated=4.43GB reserved=4.45GB max_allocated=4.43GB
 [mem] after empty_cache: allocated=4.43GB reserved=4.45GB
 Checkpoint loaded from /checkpoints/final-models/drusen-unet/finetune-epoch-300. Resuming from epoch 301. Best metric {'value': 0.95652174949646, 'save_flag': False}
-Evaluating:   0%|          | 0/2 [00:00<?, ?it/s]Evaluating:  50%|█████     | 1/2 [00:00<00:00,  3.20it/s]Evaluating: 100%|██████████| 2/2 [00:08<00:00,  5.14s/it]Evaluating: 100%|██████████| 2/2 [00:12<00:00,  6.31s/it]
-Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [0.06226304..1.006305].
-Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [0.12907231..1.00769].
-Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [0.07666129..1.0071218].
+Evaluating:   0%|          | 0/2 [00:00<?, ?it/s]Evaluating:  50%|█████     | 1/2 [00:00<00:00,  2.41it/s]Evaluating: 100%|██████████| 2/2 [00:41<00:00, 24.47s/it]Evaluating: 100%|██████████| 2/2 [00:58<00:00, 29.28s/it]
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [0.17051184..1.0024993].
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [0.086466044..1.0025461].
 Dataset length: 1780
 Label column name: target
 shape: (2, 2)
@@ -81,9 +80,9 @@ Parameter count: 275840268
 [mem] after load_state: allocated=4.44GB reserved=7.53GB max_allocated=6.66GB
 [mem] after empty_cache: allocated=4.44GB reserved=4.52GB
 Checkpoint loaded from /checkpoints/final-models/drusen-unet/finetune-epoch-300. Resuming from epoch 301. Best metric {'value': 0.95652174949646, 'save_flag': False}
-Evaluating:   0%|          | 0/2 [00:00<?, ?it/s]Evaluating:  50%|█████     | 1/2 [00:00<00:00,  2.62it/s]Evaluating: 100%|██████████| 2/2 [00:08<00:00,  4.89s/it]Evaluating: 100%|██████████| 2/2 [00:12<00:00,  6.01s/it]
-Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-0.013348877..0.85085857].
-Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-0.012144923..1.0059932].
-Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-0.011316597..0.75647783].
-Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-0.006766081..0.9490733].
-Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-0.0083553195..0.6303532].
+Evaluating:   0%|          | 0/2 [00:00<?, ?it/s]Evaluating:  50%|█████     | 1/2 [00:00<00:00,  2.60it/s]Evaluating: 100%|██████████| 2/2 [00:40<00:00, 23.85s/it]Evaluating: 100%|██████████| 2/2 [00:57<00:00, 28.68s/it]
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-0.0030058026..0.83203113].
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-0.02889812..1.0028598].
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-0.004796028..0.7897011].
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-0.018372774..0.91814756].
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-0.0029372573..0.55525047].

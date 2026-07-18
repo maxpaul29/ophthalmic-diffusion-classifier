@@ -56,7 +56,7 @@ export CHECKPOINT_FOLDER="$INFERENCE_CHECKPOINT_FOLDER/drusen-unet/finetune-epoc
 export FLASH_ATTENTION=false            # (bool) Whether to use the flash attention or not
 
 export CFG_W=4.5                        # (int) Classifier guidance scale
-export SAMPLING_STEPS=50               # (int) Number of sampling steps for the reverse diffusion process
+export SAMPLING_STEPS=256               # (int) Number of sampling steps for the reverse diffusion process
 export FROM_T=0.5
 
 export CONFIG="{
