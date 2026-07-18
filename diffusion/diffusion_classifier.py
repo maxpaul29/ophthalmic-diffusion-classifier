@@ -512,17 +512,6 @@ class DiffusionClassifier(nn.Module):
 
                 model.eval()
 
-                # Save the "latest" checkpoint for this epoch BEFORE the (much
-                # slower, sampling-based) evaluation below. The reverse-diffusion
-                # sampling used for the training-image preview can take a very
-                # long time (or stall) on a single machine; saving here first
-                # guarantees this epoch's weights are safely on disk even if the
-                # evaluation/plotting step below hangs, crashes, or is killed.
-                # The "best" checkpoint (metric/val-loss driven) is still decided
-                # further below, once evaluation has actually completed.
-                if accelerator.is_main_process:
-                    self.save_checkpoint(accelerator, epoch, experiment)
-
                 # Make directory for saving images
                 training_images_path = os.path.join(self.config.experiment_path, "training_images/")
 
@@ -609,7 +598,7 @@ class DiffusionClassifier(nn.Module):
                             best_val_loss = avg_val_loss
                         self.save_checkpoint(accelerator, epoch, experiment, loss_tracker)
                     else:
-                        pass #self.save_checkpoint(accelerator, epoch, experiment) moved up above to before the evaluation
+                        self.save_checkpoint(accelerator, epoch, experiment)
 
                     print(f"Val evaluation time: {val_evaluation_elapsed:.2f} s.")
 
