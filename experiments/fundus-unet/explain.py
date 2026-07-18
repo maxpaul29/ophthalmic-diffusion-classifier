@@ -67,7 +67,7 @@ def fundus_plotter(output_dir: str, batches: list, samples: list, epoch: int, pr
         original_labels = batch["original_labels"]
         samples = sample
 
-        for j in range(16): # batch size
+        for j in range(images.shape[0]): # actual batch size (last batch can be smaller)
 
             if config.wavelet_transform:
                 sample_item = samples[j] * 2 # [-2, 2]
