@@ -210,6 +210,9 @@ def main():
         encoder_hid_dim_type='text_proj',
         cross_attention_dim=512,
     )
+    if config.flash_attention:
+        from xformers.ops import MemoryEfficientAttentionFlashAttentionOp
+        unet.enable_xformers_memory_efficient_attention(attention_op=MemoryEfficientAttentionFlashAttentionOp)
 
     # Create the diffusion classifier object
     diffusion_classifier = DiffusionClassifier(
