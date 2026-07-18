@@ -250,7 +250,7 @@ def main():
         optimizer=optimizer,
         lr_scheduler=lr_scheduler,
         metrics=metrics,
-        checkpoint_metric="recall",
+        checkpoint_metric="f1",
         plot_function=fundus_plotter
     )
 

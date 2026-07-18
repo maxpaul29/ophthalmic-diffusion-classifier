@@ -13,7 +13,7 @@ export SPLIT_PREFIX="drusen"            # (str) Which split CSV set to load: "fu
 # Optimizer/EMA parameters
 export BATCH_SIZE=16                    # (int) Batch size for training
 if [[ "$FUNCTION" == "finetune" ]]; then
-    export NUM_EPOCHS=200                  # (int) Number of epochs to train for (700 for the full training, 200 for finetuning)
+    export NUM_EPOCHS=400                  # (int) Number of epochs to train for (700 for the full training, 200 for finetuning)
 else
     export NUM_EPOCHS=500                  # (int) Number of epochs to train for (700 for the full training, 200 for finetuning)
 fi
@@ -48,8 +48,8 @@ export N_KEEP_PER_STAGE=[1]             # (list) Number of classes to keep per s
 export MAJORITY_VOTING=true            # (bool) Whether to perform majority voting or not
 
 ###### Training parameters ######
-export RESUME=0
-export PRETRAINED_CHECKPOINT="/checkpoints/final-models/drusen-unet/pretrain-mogon"  # (str) ISIC checkpoint to finetune from (set to "" for scratch), /experiments/fundus-unet/drusen-unet/pretrain-mogon
+export RESUME=1
+export PRETRAINED_CHECKPOINT=""  # (str) ISIC checkpoint to finetune from (set to "" for scratch), /experiments/fundus-unet/drusen-unet/pretrain-mogon
 
 ###### Inference/Explain parameters ######
 export CHECKPOINT_FOLDER="$INFERENCE_CHECKPOINT_FOLDER/drusen-unet/pretrain-epoch-75"      # (str) Checkpoint folder for inference
