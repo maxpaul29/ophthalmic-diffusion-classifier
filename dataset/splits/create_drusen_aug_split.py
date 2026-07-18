@@ -24,7 +24,7 @@ Output CSVs use the same `image_name,target` format as create_fundus_split.py,
 with paths relative to --data-path so dataset/fundus.py can load them directly.
 
 Usage:
-    python dataset/splits/create_drusen_split.py \
+    python dataset/splits/create_drusen_aug_split.py \
         --data-path   /data \
         --drusen-dir  /data/clinic/drusen_augmented \
         --healthy-dir /data/clinic/healthy \
