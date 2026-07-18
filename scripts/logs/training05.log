@@ -1,0 +1,1554 @@
+The following values were not passed to `accelerate launch` and had defaults used instead:
+	`--dynamo_backend` was set to a value of `'no'`
+To avoid this warning pass in values for each of the problematic parameters or run `accelerate config`.
+Dataset length: 178
+Label column name: target
+shape: (2, 2)
+┌────────┬───────┐
+│ target ┆ count │
+│ ---    ┆ ---   │
+│ i64    ┆ u32   │
+╞════════╪═══════╡
+│ 0      ┆ 89    │
+│ 1      ┆ 89    │
+└────────┴───────┘
+Dataset length: 22
+Label column name: target
+shape: (2, 2)
+┌────────┬───────┐
+│ target ┆ count │
+│ ---    ┆ ---   │
+│ i64    ┆ u32   │
+╞════════╪═══════╡
+│ 0      ┆ 11    │
+│ 1      ┆ 11    │
+└────────┴───────┘
+Dataset length: 22
+Label column name: target
+shape: (2, 2)
+┌────────┬───────┐
+│ target ┆ count │
+│ ---    ┆ ---   │
+│ i64    ┆ u32   │
+╞════════╪═══════╡
+│ 0      ┆ 11    │
+│ 1      ┆ 11    │
+└────────┴───────┘
+Parameter count: 275840268
+[mem] before load_state: allocated=2.22GB reserved=2.24GB
+[mem] after load_state: allocated=4.43GB reserved=4.45GB max_allocated=4.43GB
+[mem] after empty_cache: allocated=4.43GB reserved=4.45GB
+Checkpoint loaded from /workspace/experiments/fundus-unet/checkpoints. Resuming from epoch 1. Best metric {'value': 0.5454545617103577, 'save_flag': False}
+{'config': {'resume': 1, 'pretrained_checkpoint': '', 'checkpoint_folder': '/checkpoints/final-models/drusen-unet/pretrain-epoch-75', 'project_root': '/workspace', 'experiment_dir': '/experiments/fundus-unet', 'data_path': '/data', 'image_size': 256, 'wavelet_transform': True, 'split_prefix': 'drusen', 'image_channels': 3, 'batch_size': 16, 'num_epochs': 200, 'gradient_accumulation_steps': 8, 'learning_rate': 1e-05, 'lr_warmup_steps': 100, 'save_image_epochs': 25, 'evaluation_batches': 80, 'ema_beta': 0.999, 'ema_warmup': 50, 'ema_update_freq': 5, 'pred_param': 'v', 'schedule': 'shifted_cosine', 'noise_d': 64, 'mixed_precision': 'fp16', 'num_workers': 6, 'classes': 2, 'encoder_type': 'nn', 'cfg_w': 4.5, 'sampling_steps': 50, 'seed': 42, 'use_comet': 0, 'comet_project_name': 'diffusion-classifier', 'comet_workspace': '', 'comet_experiment_name': '', 'comet_api_key': '', 'classification': True, 'n_stages': 1, 'evaluation_per_stage': [51], 'n_keep_per_stage': [1], 'majority_voting': True, 'flash_attention': False, 'from_t': 0.5}, 'project_root': '/workspace', 'experiment_dir': '/experiments/fundus-unet', 'experiment_path': '/workspace/experiments/fundus-unet'}
+  Epoch 1 step 1/12 (2.0s elapsed) | loss: 0.000184
+  Epoch 1 step 11/12 (3.8s elapsed) | loss: 0.000165
+  Epoch 1 step 12/12 (4.1s elapsed) | loss: 0.000164
+Epoch 1/200: 4.05 s. | train_loss: 0.000173 | mem_allocated=4.45GB mem_reserved=15.57GB mem_max=15.09GB
+  Epoch 2 step 1/12 (0.4s elapsed) | loss: 0.000165
+  Epoch 2 step 11/12 (2.1s elapsed) | loss: 0.000282
+  Epoch 2 step 12/12 (2.3s elapsed) | loss: 0.000249
+Epoch 2/200: 2.26 s. | train_loss: 0.000259 | mem_allocated=4.45GB mem_reserved=15.57GB mem_max=15.09GB
+  Epoch 3 step 1/12 (0.4s elapsed) | loss: 0.000150
+  Epoch 3 step 11/12 (2.1s elapsed) | loss: 0.000252
+  Epoch 3 step 12/12 (2.3s elapsed) | loss: 0.000163
+Epoch 3/200: 2.28 s. | train_loss: 0.000756 | mem_allocated=4.45GB mem_reserved=15.57GB mem_max=15.09GB
+  Epoch 4 step 1/12 (0.4s elapsed) | loss: 0.000150
+  Epoch 4 step 11/12 (2.2s elapsed) | loss: 0.000237
+  Epoch 4 step 12/12 (2.3s elapsed) | loss: 0.000144
+Epoch 4/200: 2.34 s. | train_loss: 0.000241 | mem_allocated=4.45GB mem_reserved=15.57GB mem_max=15.09GB
+  Epoch 5 step 1/12 (0.4s elapsed) | loss: 0.000168
+  Epoch 5 step 11/12 (2.1s elapsed) | loss: 0.000183
+  Epoch 5 step 12/12 (2.3s elapsed) | loss: 0.000220
+Epoch 5/200: 2.28 s. | train_loss: 0.000191 | mem_allocated=4.45GB mem_reserved=15.57GB mem_max=15.09GB
+  Epoch 6 step 1/12 (0.4s elapsed) | loss: 0.000284
+  Epoch 6 step 11/12 (2.1s elapsed) | loss: 0.000185
+  Epoch 6 step 12/12 (2.3s elapsed) | loss: 0.000276
+Epoch 6/200: 2.31 s. | train_loss: 0.000195 | mem_allocated=4.45GB mem_reserved=15.57GB mem_max=15.09GB
+  Epoch 7 step 1/12 (0.4s elapsed) | loss: 0.000103
+  Epoch 7 step 11/12 (2.2s elapsed) | loss: 0.000153
+  Epoch 7 step 12/12 (2.3s elapsed) | loss: 0.000082
+Epoch 7/200: 2.34 s. | train_loss: 0.000213 | mem_allocated=4.45GB mem_reserved=15.57GB mem_max=15.09GB
+  Epoch 8 step 1/12 (0.4s elapsed) | loss: 0.000150
+  Epoch 8 step 11/12 (2.1s elapsed) | loss: 0.000236
+  Epoch 8 step 12/12 (2.2s elapsed) | loss: 0.000294
+Epoch 8/200: 2.25 s. | train_loss: 0.000241 | mem_allocated=4.45GB mem_reserved=15.57GB mem_max=15.09GB
+  Epoch 9 step 1/12 (0.4s elapsed) | loss: 0.000226
+  Epoch 9 step 11/12 (2.1s elapsed) | loss: 0.000242
+  Epoch 9 step 12/12 (2.3s elapsed) | loss: 0.000279
+Epoch 9/200: 2.26 s. | train_loss: 0.000235 | mem_allocated=4.45GB mem_reserved=15.57GB mem_max=15.09GB
+  Epoch 10 step 1/12 (0.4s elapsed) | loss: 0.000208
+  Epoch 10 step 11/12 (2.1s elapsed) | loss: 0.000410
+  Epoch 10 step 12/12 (2.3s elapsed) | loss: 0.000313
+Epoch 10/200: 2.32 s. | train_loss: 0.000235 | mem_allocated=4.45GB mem_reserved=15.57GB mem_max=15.09GB
+  Epoch 11 step 1/12 (0.4s elapsed) | loss: 0.000318
+  Epoch 11 step 11/12 (2.1s elapsed) | loss: 0.000179
+  Epoch 11 step 12/12 (2.3s elapsed) | loss: 0.000390
+Epoch 11/200: 2.32 s. | train_loss: 0.000258 | mem_allocated=4.45GB mem_reserved=15.57GB mem_max=15.09GB
+  Epoch 12 step 1/12 (0.4s elapsed) | loss: 0.000170
+  Epoch 12 step 11/12 (2.2s elapsed) | loss: 0.000157
+  Epoch 12 step 12/12 (2.3s elapsed) | loss: 0.000106
+Epoch 12/200: 2.35 s. | train_loss: 0.000178 | mem_allocated=4.45GB mem_reserved=15.57GB mem_max=15.09GB
+  Epoch 13 step 1/12 (0.4s elapsed) | loss: 0.000120
+  Epoch 13 step 11/12 (2.2s elapsed) | loss: 0.000116
+  Epoch 13 step 12/12 (2.3s elapsed) | loss: 0.000833
+Epoch 13/200: 2.29 s. | train_loss: 0.000280 | mem_allocated=4.45GB mem_reserved=15.57GB mem_max=15.09GB
+  Epoch 14 step 1/12 (0.4s elapsed) | loss: 0.000222
+  Epoch 14 step 11/12 (2.1s elapsed) | loss: 0.000595
+  Epoch 14 step 12/12 (2.3s elapsed) | loss: 0.000098
+Epoch 14/200: 2.31 s. | train_loss: 0.000213 | mem_allocated=4.45GB mem_reserved=15.57GB mem_max=15.09GB
+  Epoch 15 step 1/12 (0.4s elapsed) | loss: 0.000162
+  Epoch 15 step 11/12 (2.1s elapsed) | loss: 0.000196
+  Epoch 15 step 12/12 (2.3s elapsed) | loss: 0.000400
+Epoch 15/200: 2.30 s. | train_loss: 0.000628 | mem_allocated=4.45GB mem_reserved=15.57GB mem_max=15.09GB
+  Epoch 16 step 1/12 (0.4s elapsed) | loss: 0.000198
+  Epoch 16 step 11/12 (2.1s elapsed) | loss: 0.000206
+  Epoch 16 step 12/12 (2.3s elapsed) | loss: 0.000416
+Epoch 16/200: 2.28 s. | train_loss: 0.000259 | mem_allocated=4.45GB mem_reserved=15.57GB mem_max=15.09GB
+  Epoch 17 step 1/12 (0.4s elapsed) | loss: 0.000992
+  Epoch 17 step 11/12 (2.1s elapsed) | loss: 0.000133
+  Epoch 17 step 12/12 (2.2s elapsed) | loss: 0.000279
+Epoch 17/200: 2.21 s. | train_loss: 0.000340 | mem_allocated=4.45GB mem_reserved=15.57GB mem_max=15.09GB
+  Epoch 18 step 1/12 (0.4s elapsed) | loss: 0.000152
+  Epoch 18 step 11/12 (2.1s elapsed) | loss: 0.000241
+  Epoch 18 step 12/12 (2.2s elapsed) | loss: 0.000116
+Epoch 18/200: 2.22 s. | train_loss: 0.000273 | mem_allocated=4.45GB mem_reserved=15.57GB mem_max=15.09GB
+  Epoch 19 step 1/12 (0.4s elapsed) | loss: 0.000240
+  Epoch 19 step 11/12 (2.1s elapsed) | loss: 0.000142
+  Epoch 19 step 12/12 (2.2s elapsed) | loss: 0.000038
+Epoch 19/200: 2.20 s. | train_loss: 0.000232 | mem_allocated=4.45GB mem_reserved=15.57GB mem_max=15.09GB
+  Epoch 20 step 1/12 (0.3s elapsed) | loss: 0.000183
+  Epoch 20 step 11/12 (2.1s elapsed) | loss: 0.000625
+  Epoch 20 step 12/12 (2.2s elapsed) | loss: 0.000688
+Epoch 20/200: 2.24 s. | train_loss: 0.000252 | mem_allocated=4.45GB mem_reserved=15.57GB mem_max=15.09GB
+  Epoch 21 step 1/12 (0.4s elapsed) | loss: 0.000231
+  Epoch 21 step 11/12 (2.1s elapsed) | loss: 0.000306
+  Epoch 21 step 12/12 (2.2s elapsed) | loss: 0.003826
+Epoch 21/200: 2.24 s. | train_loss: 0.000570 | mem_allocated=4.45GB mem_reserved=15.57GB mem_max=15.09GB
+  Epoch 22 step 1/12 (0.4s elapsed) | loss: 0.000658
+  Epoch 22 step 11/12 (2.2s elapsed) | loss: 0.000163
+  Epoch 22 step 12/12 (2.3s elapsed) | loss: 0.000171
+Epoch 22/200: 2.32 s. | train_loss: 0.000282 | mem_allocated=4.45GB mem_reserved=15.57GB mem_max=15.09GB
+  Epoch 23 step 1/12 (0.4s elapsed) | loss: 0.000211
+  Epoch 23 step 11/12 (2.2s elapsed) | loss: 0.000145
+  Epoch 23 step 12/12 (2.3s elapsed) | loss: 0.000118
+Epoch 23/200: 2.34 s. | train_loss: 0.000184 | mem_allocated=4.45GB mem_reserved=15.57GB mem_max=15.09GB
+  Epoch 24 step 1/12 (0.4s elapsed) | loss: 0.000071
+  Epoch 24 step 11/12 (2.2s elapsed) | loss: 0.000187
+  Epoch 24 step 12/12 (2.3s elapsed) | loss: 0.000132
+Epoch 24/200: 2.35 s. | train_loss: 0.000163 | mem_allocated=4.45GB mem_reserved=15.57GB mem_max=15.09GB
+  Epoch 25 step 1/12 (0.4s elapsed) | loss: 0.000203
+  Epoch 25 step 11/12 (2.2s elapsed) | loss: 0.000073
+  Epoch 25 step 12/12 (2.3s elapsed) | loss: 0.000604
+Epoch 25/200: 2.33 s. | train_loss: 0.000217 | mem_allocated=4.45GB mem_reserved=15.57GB mem_max=15.09GB
+Evaluating:   0%|          | 0/2 [00:00<?, ?it/s]Evaluating:  50%|█████     | 1/2 [00:00<00:00,  2.77it/s]Evaluating: 100%|██████████| 2/2 [00:08<00:00,  4.95s/it]Evaluating: 100%|██████████| 2/2 [00:11<00:00,  5.87s/it]
+Evaluating:   0%|          | 0/2 [00:00<?, ?it/s]Evaluating:  50%|█████     | 1/2 [00:00<00:00,  5.65it/s]
+  0%|          | 0/51 [00:00<?, ?it/s][A
+  2%|▏         | 1/51 [00:00<00:05,  9.45it/s][A
+  4%|▍         | 2/51 [00:00<00:05,  8.29it/s][A
+  6%|▌         | 3/51 [00:00<00:06,  7.19it/s][A
+  8%|▊         | 4/51 [00:00<00:06,  6.77it/s][A
+ 10%|▉         | 5/51 [00:00<00:07,  6.55it/s][A
+ 12%|█▏        | 6/51 [00:00<00:06,  6.43it/s][A
+ 14%|█▎        | 7/51 [00:01<00:06,  6.36it/s][A
+ 16%|█▌        | 8/51 [00:01<00:06,  6.31it/s][A
+ 18%|█▊        | 9/51 [00:01<00:06,  6.28it/s][A
+ 20%|█▉        | 10/51 [00:01<00:06,  6.26it/s][A
+ 22%|██▏       | 11/51 [00:01<00:06,  6.25it/s][A
+ 24%|██▎       | 12/51 [00:01<00:06,  6.23it/s][A
+ 25%|██▌       | 13/51 [00:02<00:06,  6.23it/s][A
+ 27%|██▋       | 14/51 [00:02<00:05,  6.22it/s][A
+ 29%|██▉       | 15/51 [00:02<00:05,  6.21it/s][A
+ 31%|███▏      | 16/51 [00:02<00:05,  6.20it/s][A
+ 33%|███▎      | 17/51 [00:02<00:05,  6.20it/s][A
+ 35%|███▌      | 18/51 [00:02<00:05,  6.21it/s][A
+ 37%|███▋      | 19/51 [00:02<00:05,  6.21it/s][A
+ 39%|███▉      | 20/51 [00:03<00:04,  6.21it/s][A
+ 41%|████      | 21/51 [00:03<00:04,  6.21it/s][A
+ 43%|████▎     | 22/51 [00:03<00:04,  6.21it/s][A
+ 45%|████▌     | 23/51 [00:03<00:04,  6.21it/s][A
+ 47%|████▋     | 24/51 [00:03<00:04,  6.22it/s][A
+ 49%|████▉     | 25/51 [00:03<00:04,  6.22it/s][A
+ 51%|█████     | 26/51 [00:04<00:04,  6.22it/s][A
+ 53%|█████▎    | 27/51 [00:04<00:03,  6.22it/s][A
+ 55%|█████▍    | 28/51 [00:04<00:03,  6.22it/s][A
+ 57%|█████▋    | 29/51 [00:04<00:03,  6.21it/s][A
+ 59%|█████▉    | 30/51 [00:04<00:03,  6.20it/s][A
+ 61%|██████    | 31/51 [00:04<00:03,  6.21it/s][A
+ 63%|██████▎   | 32/51 [00:05<00:03,  6.21it/s][A
+ 65%|██████▍   | 33/51 [00:05<00:02,  6.21it/s][A
+ 67%|██████▋   | 34/51 [00:05<00:02,  6.21it/s][A
+ 69%|██████▊   | 35/51 [00:05<00:02,  6.21it/s][A
+ 71%|███████   | 36/51 [00:05<00:02,  6.21it/s][A
+ 73%|███████▎  | 37/51 [00:05<00:02,  6.21it/s][A
+ 75%|███████▍  | 38/51 [00:06<00:02,  6.21it/s][A
+ 76%|███████▋  | 39/51 [00:06<00:01,  6.21it/s][A
+ 78%|███████▊  | 40/51 [00:06<00:01,  6.21it/s][A
+ 80%|████████  | 41/51 [00:06<00:01,  6.21it/s][A
+ 82%|████████▏ | 42/51 [00:06<00:01,  6.21it/s][A
+ 84%|████████▍ | 43/51 [00:06<00:01,  6.21it/s][A
+ 86%|████████▋ | 44/51 [00:07<00:01,  6.21it/s][A
+ 88%|████████▊ | 45/51 [00:07<00:00,  6.21it/s][A
+ 90%|█████████ | 46/51 [00:07<00:00,  6.21it/s][A
+ 92%|█████████▏| 47/51 [00:07<00:00,  6.22it/s][A
+ 94%|█████████▍| 48/51 [00:07<00:00,  6.22it/s][A
+ 96%|█████████▌| 49/51 [00:07<00:00,  6.22it/s][A
+ 98%|█████████▊| 50/51 [00:07<00:00,  6.22it/s][A
+100%|██████████| 51/51 [00:08<00:00,  6.21it/s][A100%|██████████| 51/51 [00:08<00:00,  6.28it/s]
+Evaluating: 100%|██████████| 2/2 [00:08<00:00,  4.94s/it]
+  0%|          | 0/51 [00:00<?, ?it/s][A
+  4%|▍         | 2/51 [00:00<00:02, 16.65it/s][A
+  8%|▊         | 4/51 [00:00<00:02, 15.94it/s][A
+ 12%|█▏        | 6/51 [00:00<00:03, 14.19it/s][A
+ 16%|█▌        | 8/51 [00:00<00:03, 13.58it/s][A
+ 20%|█▉        | 10/51 [00:00<00:02, 14.46it/s][A
+ 24%|██▎       | 12/51 [00:00<00:02, 14.69it/s][A
+ 27%|██▋       | 14/51 [00:00<00:02, 14.96it/s][A
+ 31%|███▏      | 16/51 [00:01<00:02, 15.43it/s][A
+ 35%|███▌      | 18/51 [00:01<00:02, 15.29it/s][A
+ 39%|███▉      | 20/51 [00:01<00:02, 15.36it/s][A
+ 43%|████▎     | 22/51 [00:01<00:01, 15.34it/s][A
+ 47%|████▋     | 24/51 [00:01<00:01, 15.29it/s][A
+ 51%|█████     | 26/51 [00:01<00:01, 15.24it/s][A
+ 55%|█████▍    | 28/51 [00:01<00:01, 15.23it/s][A
+ 59%|█████▉    | 30/51 [00:01<00:01, 15.28it/s][A
+ 63%|██████▎   | 32/51 [00:02<00:01, 15.04it/s][A
+ 67%|██████▋   | 34/51 [00:02<00:01, 15.04it/s][A
+ 71%|███████   | 36/51 [00:02<00:01, 14.85it/s][A
+ 75%|███████▍  | 38/51 [00:02<00:00, 14.78it/s][A
+ 78%|███████▊  | 40/51 [00:02<00:00, 14.83it/s][A
+ 82%|████████▏ | 42/51 [00:02<00:00, 14.86it/s][A
+ 86%|████████▋ | 44/51 [00:02<00:00, 15.09it/s][A
+ 90%|█████████ | 46/51 [00:03<00:00, 15.16it/s][A
+ 94%|█████████▍| 48/51 [00:03<00:00, 15.17it/s][A
+ 98%|█████████▊| 50/51 [00:03<00:00, 15.15it/s][A100%|██████████| 51/51 [00:03<00:00, 15.07it/s]
+Evaluating: 100%|██████████| 2/2 [00:11<00:00,  5.93s/it]
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-0.014192581..0.997508].
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [0.17168361..1.0139232].
+{'accuracy': tensor(0.4545, device='cuda:0')}
+{'f1': tensor(0.5000, device='cuda:0')}
+{'precision': tensor(0.4615, device='cuda:0')}
+{'recall': tensor(0.5455, device='cuda:0')}
+{'auc': tensor(0.3058, device='cuda:0')}
+Checkpoint saved to /workspace/experiments/fundus-unet/checkpoints/experiment_state.pth
+Val evaluation time: 24.57 s.
+  Epoch 26 step 1/12 (0.9s elapsed) | loss: 0.000226
+  Epoch 26 step 11/12 (2.6s elapsed) | loss: 0.000173
+  Epoch 26 step 12/12 (2.7s elapsed) | loss: 0.000081
+Epoch 26/200: 2.75 s. | train_loss: 0.000227 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.13GB
+  Epoch 27 step 1/12 (0.4s elapsed) | loss: 0.000129
+  Epoch 27 step 11/12 (2.1s elapsed) | loss: 0.000154
+  Epoch 27 step 12/12 (2.3s elapsed) | loss: 0.000174
+Epoch 27/200: 2.26 s. | train_loss: 0.000184 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.13GB
+  Epoch 28 step 1/12 (0.4s elapsed) | loss: 0.000328
+  Epoch 28 step 11/12 (2.1s elapsed) | loss: 0.000151
+  Epoch 28 step 12/12 (2.2s elapsed) | loss: 0.000179
+Epoch 28/200: 2.24 s. | train_loss: 0.000310 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.13GB
+  Epoch 29 step 1/12 (0.4s elapsed) | loss: 0.000158
+  Epoch 29 step 11/12 (2.2s elapsed) | loss: 0.000239
+  Epoch 29 step 12/12 (2.3s elapsed) | loss: 0.000444
+Epoch 29/200: 2.30 s. | train_loss: 0.000421 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.13GB
+  Epoch 30 step 1/12 (0.4s elapsed) | loss: 0.000221
+  Epoch 30 step 11/12 (2.2s elapsed) | loss: 0.000136
+  Epoch 30 step 12/12 (2.3s elapsed) | loss: 0.000162
+Epoch 30/200: 2.32 s. | train_loss: 0.000199 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.13GB
+  Epoch 31 step 1/12 (0.4s elapsed) | loss: 0.000476
+  Epoch 31 step 11/12 (2.1s elapsed) | loss: 0.000354
+  Epoch 31 step 12/12 (2.2s elapsed) | loss: 0.000040
+Epoch 31/200: 2.23 s. | train_loss: 0.000204 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.13GB
+  Epoch 32 step 1/12 (0.4s elapsed) | loss: 0.000177
+  Epoch 32 step 11/12 (2.1s elapsed) | loss: 0.000425
+  Epoch 32 step 12/12 (2.3s elapsed) | loss: 0.000161
+Epoch 32/200: 2.32 s. | train_loss: 0.000296 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.13GB
+  Epoch 33 step 1/12 (0.4s elapsed) | loss: 0.000135
+  Epoch 33 step 11/12 (2.1s elapsed) | loss: 0.000290
+  Epoch 33 step 12/12 (2.3s elapsed) | loss: 0.000126
+Epoch 33/200: 2.33 s. | train_loss: 0.000180 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.13GB
+  Epoch 34 step 1/12 (0.4s elapsed) | loss: 0.000119
+  Epoch 34 step 11/12 (2.2s elapsed) | loss: 0.000168
+  Epoch 34 step 12/12 (2.4s elapsed) | loss: 0.000121
+Epoch 34/200: 2.37 s. | train_loss: 0.000224 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.13GB
+  Epoch 35 step 1/12 (0.4s elapsed) | loss: 0.000132
+  Epoch 35 step 11/12 (2.3s elapsed) | loss: 0.000226
+  Epoch 35 step 12/12 (2.5s elapsed) | loss: 0.000256
+Epoch 35/200: 2.53 s. | train_loss: 0.000184 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.13GB
+  Epoch 36 step 1/12 (0.4s elapsed) | loss: 0.000114
+  Epoch 36 step 11/12 (2.2s elapsed) | loss: 0.000238
+  Epoch 36 step 12/12 (2.4s elapsed) | loss: 0.000123
+Epoch 36/200: 2.35 s. | train_loss: 0.000216 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.13GB
+  Epoch 37 step 1/12 (0.4s elapsed) | loss: 0.000101
+  Epoch 37 step 11/12 (2.1s elapsed) | loss: 0.000103
+  Epoch 37 step 12/12 (2.3s elapsed) | loss: 0.000253
+Epoch 37/200: 2.26 s. | train_loss: 0.000492 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.13GB
+  Epoch 38 step 1/12 (0.4s elapsed) | loss: 0.000824
+  Epoch 38 step 11/12 (2.2s elapsed) | loss: 0.001856
+  Epoch 38 step 12/12 (2.3s elapsed) | loss: 0.000061
+Epoch 38/200: 2.32 s. | train_loss: 0.000474 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.13GB
+  Epoch 39 step 1/12 (0.4s elapsed) | loss: 0.000162
+  Epoch 39 step 11/12 (2.2s elapsed) | loss: 0.000270
+  Epoch 39 step 12/12 (2.4s elapsed) | loss: 0.000149
+Epoch 39/200: 2.41 s. | train_loss: 0.000174 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.13GB
+  Epoch 40 step 1/12 (0.4s elapsed) | loss: 0.000155
+  Epoch 40 step 11/12 (2.2s elapsed) | loss: 0.000144
+  Epoch 40 step 12/12 (2.3s elapsed) | loss: 0.000186
+Epoch 40/200: 2.33 s. | train_loss: 0.000271 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.13GB
+  Epoch 41 step 1/12 (0.4s elapsed) | loss: 0.000136
+  Epoch 41 step 11/12 (2.2s elapsed) | loss: 0.000103
+  Epoch 41 step 12/12 (2.3s elapsed) | loss: 0.000194
+Epoch 41/200: 2.28 s. | train_loss: 0.000263 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.13GB
+  Epoch 42 step 1/12 (0.4s elapsed) | loss: 0.000128
+  Epoch 42 step 11/12 (2.2s elapsed) | loss: 0.000240
+  Epoch 42 step 12/12 (2.3s elapsed) | loss: 0.000267
+Epoch 42/200: 2.34 s. | train_loss: 0.000187 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.13GB
+  Epoch 43 step 1/12 (0.4s elapsed) | loss: 0.000097
+  Epoch 43 step 11/12 (2.1s elapsed) | loss: 0.000221
+  Epoch 43 step 12/12 (2.3s elapsed) | loss: 0.000347
+Epoch 43/200: 2.27 s. | train_loss: 0.000240 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.13GB
+  Epoch 44 step 1/12 (0.4s elapsed) | loss: 0.000124
+  Epoch 44 step 11/12 (2.1s elapsed) | loss: 0.000208
+  Epoch 44 step 12/12 (2.3s elapsed) | loss: 0.000368
+Epoch 44/200: 2.28 s. | train_loss: 0.000215 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.13GB
+  Epoch 45 step 1/12 (0.4s elapsed) | loss: 0.000362
+  Epoch 45 step 11/12 (2.2s elapsed) | loss: 0.000189
+  Epoch 45 step 12/12 (2.3s elapsed) | loss: 0.000593
+Epoch 45/200: 2.31 s. | train_loss: 0.000400 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.13GB
+  Epoch 46 step 1/12 (0.4s elapsed) | loss: 0.000174
+  Epoch 46 step 11/12 (2.2s elapsed) | loss: 0.000271
+  Epoch 46 step 12/12 (2.3s elapsed) | loss: 0.000120
+Epoch 46/200: 2.32 s. | train_loss: 0.000220 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.13GB
+  Epoch 47 step 1/12 (0.4s elapsed) | loss: 0.000135
+  Epoch 47 step 11/12 (2.2s elapsed) | loss: 0.000136
+  Epoch 47 step 12/12 (2.6s elapsed) | loss: 0.000184
+Epoch 47/200: 2.56 s. | train_loss: 0.000162 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.13GB
+  Epoch 48 step 1/12 (0.4s elapsed) | loss: 0.000284
+  Epoch 48 step 11/12 (2.1s elapsed) | loss: 0.000140
+  Epoch 48 step 12/12 (2.3s elapsed) | loss: 0.000234
+Epoch 48/200: 2.30 s. | train_loss: 0.000666 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.13GB
+  Epoch 49 step 1/12 (0.3s elapsed) | loss: 0.000162
+  Epoch 49 step 11/12 (2.1s elapsed) | loss: 0.000150
+  Epoch 49 step 12/12 (2.2s elapsed) | loss: 0.000129
+Epoch 49/200: 2.19 s. | train_loss: 0.000306 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.13GB
+  Epoch 50 step 1/12 (0.4s elapsed) | loss: 0.000222
+  Epoch 50 step 11/12 (2.1s elapsed) | loss: 0.000197
+  Epoch 50 step 12/12 (2.3s elapsed) | loss: 0.000092
+Epoch 50/200: 2.27 s. | train_loss: 0.000372 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.13GB
+Evaluating:   0%|          | 0/2 [00:00<?, ?it/s]Evaluating:  50%|█████     | 1/2 [00:00<00:00,  6.13it/s]Evaluating: 100%|██████████| 2/2 [00:08<00:00,  4.76s/it]Evaluating: 100%|██████████| 2/2 [00:11<00:00,  5.84s/it]
+Evaluating:   0%|          | 0/2 [00:00<?, ?it/s]Evaluating:  50%|█████     | 1/2 [00:00<00:00,  5.88it/s]
+  0%|          | 0/51 [00:00<?, ?it/s][A
+  4%|▍         | 2/51 [00:00<00:05,  8.65it/s][A
+  6%|▌         | 3/51 [00:00<00:06,  7.40it/s][A
+  8%|▊         | 4/51 [00:00<00:06,  6.89it/s][A
+ 10%|▉         | 5/51 [00:00<00:06,  6.63it/s][A
+ 12%|█▏        | 6/51 [00:00<00:06,  6.47it/s][A
+ 14%|█▎        | 7/51 [00:01<00:06,  6.37it/s][A
+ 16%|█▌        | 8/51 [00:01<00:06,  6.31it/s][A
+ 18%|█▊        | 9/51 [00:01<00:06,  6.26it/s][A
+ 20%|█▉        | 10/51 [00:01<00:06,  6.24it/s][A
+ 22%|██▏       | 11/51 [00:01<00:06,  6.22it/s][A
+ 24%|██▎       | 12/51 [00:01<00:06,  6.22it/s][A
+ 25%|██▌       | 13/51 [00:02<00:06,  6.22it/s][A
+ 27%|██▋       | 14/51 [00:02<00:05,  6.21it/s][A
+ 29%|██▉       | 15/51 [00:02<00:05,  6.21it/s][A
+ 31%|███▏      | 16/51 [00:02<00:05,  6.21it/s][A
+ 33%|███▎      | 17/51 [00:02<00:05,  6.21it/s][A
+ 35%|███▌      | 18/51 [00:02<00:05,  6.20it/s][A
+ 37%|███▋      | 19/51 [00:02<00:05,  6.19it/s][A
+ 39%|███▉      | 20/51 [00:03<00:05,  6.19it/s][A
+ 41%|████      | 21/51 [00:03<00:04,  6.19it/s][A
+ 43%|████▎     | 22/51 [00:03<00:04,  6.19it/s][A
+ 45%|████▌     | 23/51 [00:03<00:04,  6.18it/s][A
+ 47%|████▋     | 24/51 [00:03<00:04,  6.18it/s][A
+ 49%|████▉     | 25/51 [00:03<00:04,  6.18it/s][A
+ 51%|█████     | 26/51 [00:04<00:04,  6.18it/s][A
+ 53%|█████▎    | 27/51 [00:04<00:03,  6.18it/s][A
+ 55%|█████▍    | 28/51 [00:04<00:03,  6.20it/s][A
+ 57%|█████▋    | 29/51 [00:04<00:03,  6.20it/s][A
+ 59%|█████▉    | 30/51 [00:04<00:03,  6.20it/s][A
+ 61%|██████    | 31/51 [00:04<00:03,  6.21it/s][A
+ 63%|██████▎   | 32/51 [00:05<00:03,  6.21it/s][A
+ 65%|██████▍   | 33/51 [00:05<00:02,  6.21it/s][A
+ 67%|██████▋   | 34/51 [00:05<00:02,  6.21it/s][A
+ 69%|██████▊   | 35/51 [00:05<00:02,  6.21it/s][A
+ 71%|███████   | 36/51 [00:05<00:02,  6.21it/s][A
+ 73%|███████▎  | 37/51 [00:05<00:02,  6.22it/s][A
+ 75%|███████▍  | 38/51 [00:06<00:02,  6.22it/s][A
+ 76%|███████▋  | 39/51 [00:06<00:01,  6.22it/s][A
+ 78%|███████▊  | 40/51 [00:06<00:01,  6.22it/s][A
+ 80%|████████  | 41/51 [00:06<00:01,  6.22it/s][A
+ 82%|████████▏ | 42/51 [00:06<00:01,  6.22it/s][A
+ 84%|████████▍ | 43/51 [00:06<00:01,  6.22it/s][A
+ 86%|████████▋ | 44/51 [00:07<00:01,  6.22it/s][A
+ 88%|████████▊ | 45/51 [00:07<00:00,  6.22it/s][A
+ 90%|█████████ | 46/51 [00:07<00:00,  6.22it/s][A
+ 92%|█████████▏| 47/51 [00:07<00:00,  6.21it/s][A
+ 94%|█████████▍| 48/51 [00:07<00:00,  6.22it/s][A
+ 96%|█████████▌| 49/51 [00:07<00:00,  6.20it/s][A
+ 98%|█████████▊| 50/51 [00:07<00:00,  6.20it/s][A
+100%|██████████| 51/51 [00:08<00:00,  6.18it/s][A100%|██████████| 51/51 [00:08<00:00,  6.27it/s]
+Evaluating: 100%|██████████| 2/2 [00:08<00:00,  4.91s/it]
+  0%|          | 0/51 [00:00<?, ?it/s][A
+  4%|▍         | 2/51 [00:00<00:03, 12.39it/s][A
+  8%|▊         | 4/51 [00:00<00:03, 12.24it/s][A
+ 12%|█▏        | 6/51 [00:00<00:03, 14.13it/s][A
+ 16%|█▌        | 8/51 [00:00<00:02, 14.59it/s][A
+ 20%|█▉        | 10/51 [00:00<00:02, 14.65it/s][A
+ 24%|██▎       | 12/51 [00:00<00:02, 14.86it/s][A
+ 27%|██▋       | 14/51 [00:00<00:02, 15.03it/s][A
+ 31%|███▏      | 16/51 [00:01<00:02, 15.09it/s][A
+ 35%|███▌      | 18/51 [00:01<00:02, 15.18it/s][A
+ 39%|███▉      | 20/51 [00:01<00:02, 15.18it/s][A
+ 43%|████▎     | 22/51 [00:01<00:01, 15.15it/s][A
+ 47%|████▋     | 24/51 [00:01<00:01, 15.29it/s][A
+ 51%|█████     | 26/51 [00:01<00:01, 15.29it/s][A
+ 55%|█████▍    | 28/51 [00:01<00:01, 15.22it/s][A
+ 59%|█████▉    | 30/51 [00:02<00:01, 15.29it/s][A
+ 63%|██████▎   | 32/51 [00:02<00:01, 15.22it/s][A
+ 67%|██████▋   | 34/51 [00:02<00:01, 15.26it/s][A
+ 71%|███████   | 36/51 [00:02<00:00, 15.20it/s][A
+ 75%|███████▍  | 38/51 [00:02<00:00, 15.28it/s][A
+ 78%|███████▊  | 40/51 [00:02<00:00, 15.23it/s][A
+ 82%|████████▏ | 42/51 [00:02<00:00, 15.10it/s][A
+ 86%|████████▋ | 44/51 [00:02<00:00, 15.04it/s][A
+ 90%|█████████ | 46/51 [00:03<00:00, 15.08it/s][A
+ 94%|█████████▍| 48/51 [00:03<00:00, 15.09it/s][A
+ 98%|█████████▊| 50/51 [00:03<00:00, 15.43it/s][A100%|██████████| 51/51 [00:03<00:00, 15.02it/s]
+Evaluating: 100%|██████████| 2/2 [00:11<00:00,  5.92s/it]
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-0.025754333..0.99463904].
+{'accuracy': tensor(0.4545, device='cuda:0')}
+{'f1': tensor(0.4000, device='cuda:0')}
+{'precision': tensor(0.4444, device='cuda:0')}
+{'recall': tensor(0.3636, device='cuda:0')}
+{'auc': tensor(0.4628, device='cuda:0')}
+Checkpoint saved to /workspace/experiments/fundus-unet/checkpoints/experiment_state.pth
+Val evaluation time: 24.26 s.
+  Epoch 51 step 1/12 (0.8s elapsed) | loss: 0.000158
+  Epoch 51 step 11/12 (2.6s elapsed) | loss: 0.003497
+  Epoch 51 step 12/12 (2.7s elapsed) | loss: 0.000087
+Epoch 51/200: 2.69 s. | train_loss: 0.000486 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 52 step 1/12 (0.4s elapsed) | loss: 0.000230
+  Epoch 52 step 11/12 (2.2s elapsed) | loss: 0.000154
+  Epoch 52 step 12/12 (2.3s elapsed) | loss: 0.000204
+Epoch 52/200: 2.33 s. | train_loss: 0.000194 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 53 step 1/12 (0.4s elapsed) | loss: 0.000320
+  Epoch 53 step 11/12 (2.2s elapsed) | loss: 0.000174
+  Epoch 53 step 12/12 (2.4s elapsed) | loss: 0.000103
+Epoch 53/200: 2.35 s. | train_loss: 0.000228 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 54 step 1/12 (0.4s elapsed) | loss: 0.000750
+  Epoch 54 step 11/12 (2.1s elapsed) | loss: 0.000198
+  Epoch 54 step 12/12 (2.3s elapsed) | loss: 0.000039
+Epoch 54/200: 2.34 s. | train_loss: 0.000280 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 55 step 1/12 (0.4s elapsed) | loss: 0.000223
+  Epoch 55 step 11/12 (2.2s elapsed) | loss: 0.000217
+  Epoch 55 step 12/12 (2.3s elapsed) | loss: 0.000057
+Epoch 55/200: 2.34 s. | train_loss: 0.000170 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 56 step 1/12 (0.4s elapsed) | loss: 0.000164
+  Epoch 56 step 11/12 (2.1s elapsed) | loss: 0.000138
+  Epoch 56 step 12/12 (2.2s elapsed) | loss: 0.000134
+Epoch 56/200: 2.24 s. | train_loss: 0.000170 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 57 step 1/12 (0.4s elapsed) | loss: 0.000172
+  Epoch 57 step 11/12 (2.1s elapsed) | loss: 0.000125
+  Epoch 57 step 12/12 (2.2s elapsed) | loss: 0.000060
+Epoch 57/200: 2.24 s. | train_loss: 0.000162 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 58 step 1/12 (0.4s elapsed) | loss: 0.000191
+  Epoch 58 step 11/12 (2.1s elapsed) | loss: 0.002717
+  Epoch 58 step 12/12 (2.2s elapsed) | loss: 0.000246
+Epoch 58/200: 2.24 s. | train_loss: 0.000501 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 59 step 1/12 (0.4s elapsed) | loss: 0.000161
+  Epoch 59 step 11/12 (2.2s elapsed) | loss: 0.000119
+  Epoch 59 step 12/12 (2.4s elapsed) | loss: 0.000171
+Epoch 59/200: 2.35 s. | train_loss: 0.000275 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 60 step 1/12 (0.4s elapsed) | loss: 0.000135
+  Epoch 60 step 11/12 (2.1s elapsed) | loss: 0.000183
+  Epoch 60 step 12/12 (2.2s elapsed) | loss: 0.000241
+Epoch 60/200: 2.22 s. | train_loss: 0.000436 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 61 step 1/12 (0.4s elapsed) | loss: 0.000197
+  Epoch 61 step 11/12 (2.1s elapsed) | loss: 0.000128
+  Epoch 61 step 12/12 (2.2s elapsed) | loss: 0.000137
+Epoch 61/200: 2.24 s. | train_loss: 0.000367 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 62 step 1/12 (0.4s elapsed) | loss: 0.000117
+  Epoch 62 step 11/12 (2.1s elapsed) | loss: 0.000422
+  Epoch 62 step 12/12 (2.2s elapsed) | loss: 0.000122
+Epoch 62/200: 2.24 s. | train_loss: 0.000259 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 63 step 1/12 (0.4s elapsed) | loss: 0.000139
+  Epoch 63 step 11/12 (2.1s elapsed) | loss: 0.000097
+  Epoch 63 step 12/12 (2.3s elapsed) | loss: 0.000123
+Epoch 63/200: 2.29 s. | train_loss: 0.000465 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 64 step 1/12 (0.4s elapsed) | loss: 0.000162
+  Epoch 64 step 11/12 (2.1s elapsed) | loss: 0.000206
+  Epoch 64 step 12/12 (2.3s elapsed) | loss: 0.004334
+Epoch 64/200: 2.31 s. | train_loss: 0.000522 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 65 step 1/12 (0.4s elapsed) | loss: 0.000210
+  Epoch 65 step 11/12 (2.1s elapsed) | loss: 0.000135
+  Epoch 65 step 12/12 (2.3s elapsed) | loss: 0.000132
+Epoch 65/200: 2.27 s. | train_loss: 0.000185 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 66 step 1/12 (0.4s elapsed) | loss: 0.000258
+  Epoch 66 step 11/12 (2.1s elapsed) | loss: 0.000118
+  Epoch 66 step 12/12 (2.2s elapsed) | loss: 0.000160
+Epoch 66/200: 2.20 s. | train_loss: 0.000246 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 67 step 1/12 (0.4s elapsed) | loss: 0.000191
+  Epoch 67 step 11/12 (2.1s elapsed) | loss: 0.000204
+  Epoch 67 step 12/12 (2.3s elapsed) | loss: 0.000066
+Epoch 67/200: 2.29 s. | train_loss: 0.000167 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 68 step 1/12 (0.4s elapsed) | loss: 0.000205
+  Epoch 68 step 11/12 (2.2s elapsed) | loss: 0.000188
+  Epoch 68 step 12/12 (2.4s elapsed) | loss: 0.000118
+Epoch 68/200: 2.36 s. | train_loss: 0.000378 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 69 step 1/12 (0.4s elapsed) | loss: 0.001628
+  Epoch 69 step 11/12 (2.2s elapsed) | loss: 0.000261
+  Epoch 69 step 12/12 (2.3s elapsed) | loss: 0.000030
+Epoch 69/200: 2.34 s. | train_loss: 0.000482 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 70 step 1/12 (0.4s elapsed) | loss: 0.000156
+  Epoch 70 step 11/12 (2.2s elapsed) | loss: 0.000178
+  Epoch 70 step 12/12 (2.4s elapsed) | loss: 0.000196
+Epoch 70/200: 2.36 s. | train_loss: 0.000355 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 71 step 1/12 (0.4s elapsed) | loss: 0.000278
+  Epoch 71 step 11/12 (2.2s elapsed) | loss: 0.000133
+  Epoch 71 step 12/12 (2.3s elapsed) | loss: 0.000178
+Epoch 71/200: 2.28 s. | train_loss: 0.000271 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 72 step 1/12 (0.4s elapsed) | loss: 0.000169
+  Epoch 72 step 11/12 (2.1s elapsed) | loss: 0.000144
+  Epoch 72 step 12/12 (2.3s elapsed) | loss: 0.000731
+Epoch 72/200: 2.27 s. | train_loss: 0.000404 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 73 step 1/12 (0.4s elapsed) | loss: 0.000106
+  Epoch 73 step 11/12 (2.2s elapsed) | loss: 0.000264
+  Epoch 73 step 12/12 (2.4s elapsed) | loss: 0.000346
+Epoch 73/200: 2.36 s. | train_loss: 0.000201 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 74 step 1/12 (0.4s elapsed) | loss: 0.000112
+  Epoch 74 step 11/12 (2.2s elapsed) | loss: 0.000139
+  Epoch 74 step 12/12 (2.3s elapsed) | loss: 0.000056
+Epoch 74/200: 2.30 s. | train_loss: 0.000190 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 75 step 1/12 (0.4s elapsed) | loss: 0.000133
+  Epoch 75 step 11/12 (2.1s elapsed) | loss: 0.000231
+  Epoch 75 step 12/12 (2.3s elapsed) | loss: 0.000279
+Epoch 75/200: 2.26 s. | train_loss: 0.000380 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+Evaluating:   0%|          | 0/2 [00:00<?, ?it/s]Evaluating:  50%|█████     | 1/2 [00:00<00:00,  6.05it/s]Evaluating: 100%|██████████| 2/2 [00:08<00:00,  4.77s/it]Evaluating: 100%|██████████| 2/2 [00:11<00:00,  5.97s/it]
+Evaluating:   0%|          | 0/2 [00:00<?, ?it/s]Evaluating:  50%|█████     | 1/2 [00:00<00:00,  5.90it/s]
+  0%|          | 0/51 [00:00<?, ?it/s][A
+  4%|▍         | 2/51 [00:00<00:05,  8.65it/s][A
+  6%|▌         | 3/51 [00:00<00:06,  7.40it/s][A
+  8%|▊         | 4/51 [00:00<00:06,  6.89it/s][A
+ 10%|▉         | 5/51 [00:00<00:06,  6.63it/s][A
+ 12%|█▏        | 6/51 [00:00<00:06,  6.47it/s][A
+ 14%|█▎        | 7/51 [00:01<00:06,  6.38it/s][A
+ 16%|█▌        | 8/51 [00:01<00:06,  6.31it/s][A
+ 18%|█▊        | 9/51 [00:01<00:06,  6.27it/s][A
+ 20%|█▉        | 10/51 [00:01<00:06,  6.24it/s][A
+ 22%|██▏       | 11/51 [00:01<00:06,  6.22it/s][A
+ 24%|██▎       | 12/51 [00:01<00:06,  6.20it/s][A
+ 25%|██▌       | 13/51 [00:02<00:06,  6.19it/s][A
+ 27%|██▋       | 14/51 [00:02<00:05,  6.19it/s][A
+ 29%|██▉       | 15/51 [00:02<00:05,  6.20it/s][A
+ 31%|███▏      | 16/51 [00:02<00:05,  6.19it/s][A
+ 33%|███▎      | 17/51 [00:02<00:05,  6.19it/s][A
+ 35%|███▌      | 18/51 [00:02<00:05,  6.19it/s][A
+ 37%|███▋      | 19/51 [00:02<00:05,  6.18it/s][A
+ 39%|███▉      | 20/51 [00:03<00:05,  6.20it/s][A
+ 41%|████      | 21/51 [00:03<00:04,  6.20it/s][A
+ 43%|████▎     | 22/51 [00:03<00:04,  6.20it/s][A
+ 45%|████▌     | 23/51 [00:03<00:04,  6.21it/s][A
+ 47%|████▋     | 24/51 [00:03<00:04,  6.21it/s][A
+ 49%|████▉     | 25/51 [00:03<00:04,  6.21it/s][A
+ 51%|█████     | 26/51 [00:04<00:04,  6.22it/s][A
+ 53%|█████▎    | 27/51 [00:04<00:03,  6.22it/s][A
+ 55%|█████▍    | 28/51 [00:04<00:03,  6.21it/s][A
+ 57%|█████▋    | 29/51 [00:04<00:03,  6.21it/s][A
+ 59%|█████▉    | 30/51 [00:04<00:03,  6.21it/s][A
+ 61%|██████    | 31/51 [00:04<00:03,  6.21it/s][A
+ 63%|██████▎   | 32/51 [00:05<00:03,  6.21it/s][A
+ 65%|██████▍   | 33/51 [00:05<00:02,  6.21it/s][A
+ 67%|██████▋   | 34/51 [00:05<00:02,  6.20it/s][A
+ 69%|██████▊   | 35/51 [00:05<00:02,  6.20it/s][A
+ 71%|███████   | 36/51 [00:05<00:02,  6.20it/s][A
+ 73%|███████▎  | 37/51 [00:05<00:02,  6.20it/s][A
+ 75%|███████▍  | 38/51 [00:06<00:02,  6.20it/s][A
+ 76%|███████▋  | 39/51 [00:06<00:01,  6.21it/s][A
+ 78%|███████▊  | 40/51 [00:06<00:01,  6.21it/s][A
+ 80%|████████  | 41/51 [00:06<00:01,  6.21it/s][A
+ 82%|████████▏ | 42/51 [00:06<00:01,  6.21it/s][A
+ 84%|████████▍ | 43/51 [00:06<00:01,  6.20it/s][A
+ 86%|████████▋ | 44/51 [00:07<00:01,  6.21it/s][A
+ 88%|████████▊ | 45/51 [00:07<00:00,  6.21it/s][A
+ 90%|█████████ | 46/51 [00:07<00:00,  6.21it/s][A
+ 92%|█████████▏| 47/51 [00:07<00:00,  6.20it/s][A
+ 94%|█████████▍| 48/51 [00:07<00:00,  6.19it/s][A
+ 96%|█████████▌| 49/51 [00:07<00:00,  6.19it/s][A
+ 98%|█████████▊| 50/51 [00:07<00:00,  6.20it/s][A
+100%|██████████| 51/51 [00:08<00:00,  6.20it/s][A100%|██████████| 51/51 [00:08<00:00,  6.27it/s]
+Evaluating: 100%|██████████| 2/2 [00:08<00:00,  4.91s/it]
+  0%|          | 0/51 [00:00<?, ?it/s][A
+  4%|▍         | 2/51 [00:00<00:02, 18.98it/s][A
+  8%|▊         | 4/51 [00:00<00:02, 16.75it/s][A
+ 12%|█▏        | 6/51 [00:00<00:02, 16.01it/s][A
+ 16%|█▌        | 8/51 [00:00<00:02, 15.70it/s][A
+ 20%|█▉        | 10/51 [00:00<00:02, 15.58it/s][A
+ 24%|██▎       | 12/51 [00:00<00:02, 15.35it/s][A
+ 27%|██▋       | 14/51 [00:00<00:02, 15.42it/s][A
+ 31%|███▏      | 16/51 [00:01<00:02, 15.33it/s][A
+ 35%|███▌      | 18/51 [00:01<00:02, 15.22it/s][A
+ 39%|███▉      | 20/51 [00:01<00:02, 15.24it/s][A
+ 43%|████▎     | 22/51 [00:01<00:01, 15.22it/s][A
+ 47%|████▋     | 24/51 [00:01<00:01, 15.36it/s][A
+ 51%|█████     | 26/51 [00:01<00:01, 15.37it/s][A
+ 55%|█████▍    | 28/51 [00:01<00:01, 14.79it/s][A
+ 59%|█████▉    | 30/51 [00:01<00:01, 15.12it/s][A
+ 63%|██████▎   | 32/51 [00:02<00:01, 15.23it/s][A
+ 67%|██████▋   | 34/51 [00:02<00:01, 15.16it/s][A
+ 71%|███████   | 36/51 [00:02<00:00, 15.24it/s][A
+ 75%|███████▍  | 38/51 [00:02<00:00, 15.14it/s][A
+ 78%|███████▊  | 40/51 [00:02<00:00, 14.90it/s][A
+ 82%|████████▏ | 42/51 [00:02<00:00, 15.25it/s][A
+ 86%|████████▋ | 44/51 [00:02<00:00, 15.23it/s][A
+ 90%|█████████ | 46/51 [00:02<00:00, 15.34it/s][A
+ 94%|█████████▍| 48/51 [00:03<00:00, 15.26it/s][A
+ 98%|█████████▊| 50/51 [00:03<00:00, 15.23it/s][A100%|██████████| 51/51 [00:03<00:00, 15.32it/s]
+Evaluating: 100%|██████████| 2/2 [00:11<00:00,  5.88s/it]
+{'accuracy': tensor(0.5455, device='cuda:0')}
+{'f1': tensor(0.5455, device='cuda:0')}
+{'precision': tensor(0.5455, device='cuda:0')}
+{'recall': tensor(0.5455, device='cuda:0')}
+{'auc': tensor(0.2975, device='cuda:0')}
+Checkpoint saved to /workspace/experiments/fundus-unet/checkpoints/experiment_state.pth
+Val evaluation time: 24.44 s.
+  Epoch 76 step 1/12 (0.8s elapsed) | loss: 0.000110
+  Epoch 76 step 11/12 (2.6s elapsed) | loss: 0.000147
+  Epoch 76 step 12/12 (2.8s elapsed) | loss: 0.000032
+Epoch 76/200: 2.75 s. | train_loss: 0.000330 | mem_allocated=4.51GB mem_reserved=15.63GB mem_max=15.14GB
+  Epoch 77 step 1/12 (0.4s elapsed) | loss: 0.000065
+  Epoch 77 step 11/12 (2.2s elapsed) | loss: 0.000270
+  Epoch 77 step 12/12 (2.4s elapsed) | loss: 0.000095
+Epoch 77/200: 2.38 s. | train_loss: 0.000187 | mem_allocated=4.51GB mem_reserved=15.63GB mem_max=15.14GB
+  Epoch 78 step 1/12 (0.4s elapsed) | loss: 0.000091
+  Epoch 78 step 11/12 (2.2s elapsed) | loss: 0.000148
+  Epoch 78 step 12/12 (2.4s elapsed) | loss: 0.000192
+Epoch 78/200: 2.36 s. | train_loss: 0.000205 | mem_allocated=4.51GB mem_reserved=15.63GB mem_max=15.14GB
+  Epoch 79 step 1/12 (0.4s elapsed) | loss: 0.000144
+  Epoch 79 step 11/12 (2.2s elapsed) | loss: 0.000290
+  Epoch 79 step 12/12 (2.3s elapsed) | loss: 0.000137
+Epoch 79/200: 2.27 s. | train_loss: 0.000196 | mem_allocated=4.51GB mem_reserved=15.63GB mem_max=15.14GB
+  Epoch 80 step 1/12 (0.4s elapsed) | loss: 0.000376
+  Epoch 80 step 11/12 (2.2s elapsed) | loss: 0.000201
+  Epoch 80 step 12/12 (2.4s elapsed) | loss: 0.000489
+Epoch 80/200: 2.38 s. | train_loss: 0.000226 | mem_allocated=4.51GB mem_reserved=15.63GB mem_max=15.14GB
+  Epoch 81 step 1/12 (0.4s elapsed) | loss: 0.000175
+  Epoch 81 step 11/12 (2.2s elapsed) | loss: 0.000229
+  Epoch 81 step 12/12 (2.4s elapsed) | loss: 0.000223
+Epoch 81/200: 2.43 s. | train_loss: 0.000198 | mem_allocated=4.51GB mem_reserved=15.63GB mem_max=15.14GB
+  Epoch 82 step 1/12 (0.4s elapsed) | loss: 0.000175
+  Epoch 82 step 11/12 (2.2s elapsed) | loss: 0.000157
+  Epoch 82 step 12/12 (2.4s elapsed) | loss: 0.000113
+Epoch 82/200: 2.41 s. | train_loss: 0.000274 | mem_allocated=4.51GB mem_reserved=15.63GB mem_max=15.14GB
+  Epoch 83 step 1/12 (0.4s elapsed) | loss: 0.000171
+  Epoch 83 step 11/12 (2.1s elapsed) | loss: 0.000247
+  Epoch 83 step 12/12 (2.3s elapsed) | loss: 0.000225
+Epoch 83/200: 2.33 s. | train_loss: 0.000166 | mem_allocated=4.51GB mem_reserved=15.63GB mem_max=15.14GB
+  Epoch 84 step 1/12 (0.4s elapsed) | loss: 0.000132
+  Epoch 84 step 11/12 (2.1s elapsed) | loss: 0.000328
+  Epoch 84 step 12/12 (2.2s elapsed) | loss: 0.000096
+Epoch 84/200: 2.22 s. | train_loss: 0.000248 | mem_allocated=4.51GB mem_reserved=15.63GB mem_max=15.14GB
+  Epoch 85 step 1/12 (0.4s elapsed) | loss: 0.000153
+  Epoch 85 step 11/12 (2.1s elapsed) | loss: 0.001064
+  Epoch 85 step 12/12 (2.3s elapsed) | loss: 0.000329
+Epoch 85/200: 2.30 s. | train_loss: 0.000598 | mem_allocated=4.51GB mem_reserved=15.63GB mem_max=15.14GB
+  Epoch 86 step 1/12 (0.4s elapsed) | loss: 0.000538
+  Epoch 86 step 11/12 (2.1s elapsed) | loss: 0.000213
+  Epoch 86 step 12/12 (2.2s elapsed) | loss: 0.000257
+Epoch 86/200: 2.20 s. | train_loss: 0.000293 | mem_allocated=4.51GB mem_reserved=15.63GB mem_max=15.14GB
+  Epoch 87 step 1/12 (0.4s elapsed) | loss: 0.000178
+  Epoch 87 step 11/12 (2.2s elapsed) | loss: 0.000287
+  Epoch 87 step 12/12 (2.3s elapsed) | loss: 0.000188
+Epoch 87/200: 2.28 s. | train_loss: 0.000261 | mem_allocated=4.51GB mem_reserved=15.63GB mem_max=15.14GB
+  Epoch 88 step 1/12 (0.3s elapsed) | loss: 0.000908
+  Epoch 88 step 11/12 (2.2s elapsed) | loss: 0.000120
+  Epoch 88 step 12/12 (2.4s elapsed) | loss: 0.000228
+Epoch 88/200: 2.42 s. | train_loss: 0.000349 | mem_allocated=4.51GB mem_reserved=15.63GB mem_max=15.14GB
+  Epoch 89 step 1/12 (0.4s elapsed) | loss: 0.000437
+  Epoch 89 step 11/12 (2.1s elapsed) | loss: 0.000119
+  Epoch 89 step 12/12 (2.2s elapsed) | loss: 0.000154
+Epoch 89/200: 2.20 s. | train_loss: 0.000356 | mem_allocated=4.51GB mem_reserved=15.63GB mem_max=15.14GB
+  Epoch 90 step 1/12 (0.4s elapsed) | loss: 0.000148
+  Epoch 90 step 11/12 (2.1s elapsed) | loss: 0.000218
+  Epoch 90 step 12/12 (2.2s elapsed) | loss: 0.000113
+Epoch 90/200: 2.22 s. | train_loss: 0.000216 | mem_allocated=4.51GB mem_reserved=15.63GB mem_max=15.14GB
+  Epoch 91 step 1/12 (0.4s elapsed) | loss: 0.000179
+  Epoch 91 step 11/12 (2.2s elapsed) | loss: 0.000101
+  Epoch 91 step 12/12 (2.4s elapsed) | loss: 0.000022
+Epoch 91/200: 2.37 s. | train_loss: 0.000398 | mem_allocated=4.51GB mem_reserved=15.63GB mem_max=15.14GB
+  Epoch 92 step 1/12 (0.4s elapsed) | loss: 0.000150
+  Epoch 92 step 11/12 (2.2s elapsed) | loss: 0.000229
+  Epoch 92 step 12/12 (2.4s elapsed) | loss: 0.000257
+Epoch 92/200: 2.38 s. | train_loss: 0.000219 | mem_allocated=4.51GB mem_reserved=15.63GB mem_max=15.14GB
+  Epoch 93 step 1/12 (0.4s elapsed) | loss: 0.000470
+  Epoch 93 step 11/12 (2.2s elapsed) | loss: 0.000315
+  Epoch 93 step 12/12 (2.4s elapsed) | loss: 0.000189
+Epoch 93/200: 2.43 s. | train_loss: 0.000238 | mem_allocated=4.51GB mem_reserved=15.63GB mem_max=15.14GB
+  Epoch 94 step 1/12 (0.4s elapsed) | loss: 0.000128
+  Epoch 94 step 11/12 (2.3s elapsed) | loss: 0.000263
+  Epoch 94 step 12/12 (2.5s elapsed) | loss: 0.000015
+Epoch 94/200: 2.49 s. | train_loss: 0.000195 | mem_allocated=4.51GB mem_reserved=15.63GB mem_max=15.14GB
+  Epoch 95 step 1/12 (0.4s elapsed) | loss: 0.000257
+  Epoch 95 step 11/12 (2.2s elapsed) | loss: 0.000184
+  Epoch 95 step 12/12 (2.4s elapsed) | loss: 0.000077
+Epoch 95/200: 2.42 s. | train_loss: 0.000240 | mem_allocated=4.51GB mem_reserved=15.63GB mem_max=15.14GB
+  Epoch 96 step 1/12 (0.4s elapsed) | loss: 0.000327
+  Epoch 96 step 11/12 (2.2s elapsed) | loss: 0.000917
+  Epoch 96 step 12/12 (2.3s elapsed) | loss: 0.000082
+Epoch 96/200: 2.28 s. | train_loss: 0.000250 | mem_allocated=4.51GB mem_reserved=15.63GB mem_max=15.14GB
+  Epoch 97 step 1/12 (0.4s elapsed) | loss: 0.000130
+  Epoch 97 step 11/12 (2.2s elapsed) | loss: 0.000204
+  Epoch 97 step 12/12 (2.3s elapsed) | loss: 0.000069
+Epoch 97/200: 2.31 s. | train_loss: 0.000166 | mem_allocated=4.51GB mem_reserved=15.63GB mem_max=15.14GB
+  Epoch 98 step 1/12 (0.4s elapsed) | loss: 0.000155
+  Epoch 98 step 11/12 (2.2s elapsed) | loss: 0.000199
+  Epoch 98 step 12/12 (2.3s elapsed) | loss: 0.000196
+Epoch 98/200: 2.34 s. | train_loss: 0.000286 | mem_allocated=4.51GB mem_reserved=15.63GB mem_max=15.14GB
+  Epoch 99 step 1/12 (0.4s elapsed) | loss: 0.000124
+  Epoch 99 step 11/12 (2.1s elapsed) | loss: 0.000199
+  Epoch 99 step 12/12 (2.2s elapsed) | loss: 0.000047
+Epoch 99/200: 2.22 s. | train_loss: 0.000227 | mem_allocated=4.51GB mem_reserved=15.63GB mem_max=15.14GB
+  Epoch 100 step 1/12 (0.4s elapsed) | loss: 0.000151
+  Epoch 100 step 11/12 (2.2s elapsed) | loss: 0.000176
+  Epoch 100 step 12/12 (2.3s elapsed) | loss: 0.000227
+Epoch 100/200: 2.35 s. | train_loss: 0.000209 | mem_allocated=4.51GB mem_reserved=15.63GB mem_max=15.14GB
+Evaluating:   0%|          | 0/2 [00:00<?, ?it/s]Evaluating:  50%|█████     | 1/2 [00:00<00:00,  6.13it/s]Evaluating: 100%|██████████| 2/2 [00:08<00:00,  4.77s/it]Evaluating: 100%|██████████| 2/2 [00:11<00:00,  5.69s/it]
+Evaluating:   0%|          | 0/2 [00:00<?, ?it/s]Evaluating:  50%|█████     | 1/2 [00:00<00:00,  5.96it/s]
+  0%|          | 0/51 [00:00<?, ?it/s][A
+  4%|▍         | 2/51 [00:00<00:05,  8.69it/s][A
+  6%|▌         | 3/51 [00:00<00:06,  7.45it/s][A
+  8%|▊         | 4/51 [00:00<00:06,  6.95it/s][A
+ 10%|▉         | 5/51 [00:00<00:06,  6.65it/s][A
+ 12%|█▏        | 6/51 [00:00<00:07,  6.39it/s][A
+ 14%|█▎        | 7/51 [00:01<00:07,  6.24it/s][A
+ 16%|█▌        | 8/51 [00:01<00:06,  6.15it/s][A
+ 18%|█▊        | 9/51 [00:01<00:06,  6.09it/s][A
+ 20%|█▉        | 10/51 [00:01<00:06,  6.07it/s][A
+ 22%|██▏       | 11/51 [00:01<00:06,  6.07it/s][A
+ 24%|██▎       | 12/51 [00:01<00:06,  6.08it/s][A
+ 25%|██▌       | 13/51 [00:02<00:06,  6.11it/s][A
+ 27%|██▋       | 14/51 [00:02<00:06,  6.13it/s][A
+ 29%|██▉       | 15/51 [00:02<00:05,  6.14it/s][A
+ 31%|███▏      | 16/51 [00:02<00:05,  6.15it/s][A
+ 33%|███▎      | 17/51 [00:02<00:05,  6.08it/s][A
+ 35%|███▌      | 18/51 [00:02<00:05,  6.05it/s][A
+ 37%|███▋      | 19/51 [00:03<00:05,  6.03it/s][A
+ 39%|███▉      | 20/51 [00:03<00:05,  6.00it/s][A
+ 41%|████      | 21/51 [00:03<00:05,  5.99it/s][A
+ 43%|████▎     | 22/51 [00:03<00:04,  6.03it/s][A
+ 45%|████▌     | 23/51 [00:03<00:04,  6.07it/s][A
+ 47%|████▋     | 24/51 [00:03<00:04,  6.11it/s][A
+ 49%|████▉     | 25/51 [00:04<00:04,  6.10it/s][A
+ 51%|█████     | 26/51 [00:04<00:04,  5.97it/s][A
+ 53%|█████▎    | 27/51 [00:04<00:03,  6.04it/s][A
+ 55%|█████▍    | 28/51 [00:04<00:03,  6.08it/s][A
+ 57%|█████▋    | 29/51 [00:04<00:03,  6.00it/s][A
+ 59%|█████▉    | 30/51 [00:04<00:03,  5.95it/s][A
+ 61%|██████    | 31/51 [00:05<00:03,  5.94it/s][A
+ 63%|██████▎   | 32/51 [00:05<00:03,  5.92it/s][A
+ 65%|██████▍   | 33/51 [00:05<00:03,  5.92it/s][A
+ 67%|██████▋   | 34/51 [00:05<00:02,  5.92it/s][A
+ 69%|██████▊   | 35/51 [00:05<00:02,  5.94it/s][A
+ 71%|███████   | 36/51 [00:05<00:02,  5.96it/s][A
+ 73%|███████▎  | 37/51 [00:06<00:02,  6.00it/s][A
+ 75%|███████▍  | 38/51 [00:06<00:02,  6.03it/s][A
+ 76%|███████▋  | 39/51 [00:06<00:01,  6.06it/s][A
+ 78%|███████▊  | 40/51 [00:06<00:01,  6.07it/s][A
+ 80%|████████  | 41/51 [00:06<00:01,  6.11it/s][A
+ 82%|████████▏ | 42/51 [00:06<00:01,  6.12it/s][A
+ 84%|████████▍ | 43/51 [00:07<00:01,  6.15it/s][A
+ 86%|████████▋ | 44/51 [00:07<00:01,  6.13it/s][A
+ 88%|████████▊ | 45/51 [00:07<00:00,  6.15it/s][A
+ 90%|█████████ | 46/51 [00:07<00:00,  6.13it/s][A
+ 92%|█████████▏| 47/51 [00:07<00:00,  6.10it/s][A
+ 94%|█████████▍| 48/51 [00:07<00:00,  6.13it/s][A
+ 96%|█████████▌| 49/51 [00:07<00:00,  6.16it/s][A
+ 98%|█████████▊| 50/51 [00:08<00:00,  6.17it/s][A
+100%|██████████| 51/51 [00:08<00:00,  6.17it/s][A100%|██████████| 51/51 [00:08<00:00,  6.14it/s]
+Evaluating: 100%|██████████| 2/2 [00:08<00:00,  5.01s/it]
+  0%|          | 0/51 [00:00<?, ?it/s][A
+  4%|▍         | 2/51 [00:00<00:02, 19.00it/s][A
+  8%|▊         | 4/51 [00:00<00:02, 16.13it/s][A
+ 12%|█▏        | 6/51 [00:00<00:02, 15.90it/s][A
+ 16%|█▌        | 8/51 [00:00<00:02, 15.25it/s][A
+ 20%|█▉        | 10/51 [00:00<00:02, 14.73it/s][A
+ 24%|██▎       | 12/51 [00:00<00:02, 14.68it/s][A
+ 27%|██▋       | 14/51 [00:00<00:02, 14.49it/s][A
+ 31%|███▏      | 16/51 [00:01<00:02, 14.97it/s][A
+ 35%|███▌      | 18/51 [00:01<00:02, 14.92it/s][A
+ 39%|███▉      | 20/51 [00:01<00:02, 14.83it/s][A
+ 43%|████▎     | 22/51 [00:01<00:02, 14.49it/s][A
+ 47%|████▋     | 24/51 [00:01<00:01, 14.74it/s][A
+ 51%|█████     | 26/51 [00:01<00:01, 15.03it/s][A
+ 55%|█████▍    | 28/51 [00:01<00:01, 15.25it/s][A
+ 59%|█████▉    | 30/51 [00:01<00:01, 15.40it/s][A
+ 63%|██████▎   | 32/51 [00:02<00:01, 15.38it/s][A
+ 67%|██████▋   | 34/51 [00:02<00:01, 14.91it/s][A
+ 71%|███████   | 36/51 [00:02<00:01, 14.98it/s][A
+ 75%|███████▍  | 38/51 [00:02<00:00, 15.43it/s][A
+ 78%|███████▊  | 40/51 [00:02<00:00, 15.38it/s][A
+ 82%|████████▏ | 42/51 [00:02<00:00, 15.16it/s][A
+ 86%|████████▋ | 44/51 [00:02<00:00, 15.19it/s][A
+ 90%|█████████ | 46/51 [00:03<00:00, 15.01it/s][A
+ 94%|█████████▍| 48/51 [00:03<00:00, 14.12it/s][A
+ 98%|█████████▊| 50/51 [00:03<00:00, 13.50it/s][A100%|██████████| 51/51 [00:03<00:00, 14.79it/s]
+Evaluating: 100%|██████████| 2/2 [00:12<00:00,  6.02s/it]
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [0.38482565..1.0157843].
+{'accuracy': tensor(0.3636, device='cuda:0')}
+{'f1': tensor(0.3636, device='cuda:0')}
+{'precision': tensor(0.3636, device='cuda:0')}
+{'recall': tensor(0.3636, device='cuda:0')}
+{'auc': tensor(0.1405, device='cuda:0')}
+Checkpoint saved to /workspace/experiments/fundus-unet/checkpoints/experiment_state.pth
+Val evaluation time: 24.17 s.
+  Epoch 101 step 1/12 (0.7s elapsed) | loss: 0.000129
+  Epoch 101 step 11/12 (2.5s elapsed) | loss: 0.000233
+  Epoch 101 step 12/12 (2.7s elapsed) | loss: 0.000011
+Epoch 101/200: 2.69 s. | train_loss: 0.000156 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 102 step 1/12 (0.4s elapsed) | loss: 0.000160
+  Epoch 102 step 11/12 (2.1s elapsed) | loss: 0.000168
+  Epoch 102 step 12/12 (2.3s elapsed) | loss: 0.000046
+Epoch 102/200: 2.35 s. | train_loss: 0.000189 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 103 step 1/12 (0.4s elapsed) | loss: 0.000130
+  Epoch 103 step 11/12 (2.2s elapsed) | loss: 0.000105
+  Epoch 103 step 12/12 (2.4s elapsed) | loss: 0.000020
+Epoch 103/200: 2.40 s. | train_loss: 0.000274 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 104 step 1/12 (0.4s elapsed) | loss: 0.000244
+  Epoch 104 step 11/12 (2.3s elapsed) | loss: 0.000146
+  Epoch 104 step 12/12 (2.4s elapsed) | loss: 0.000161
+Epoch 104/200: 2.39 s. | train_loss: 0.000198 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 105 step 1/12 (0.4s elapsed) | loss: 0.000141
+  Epoch 105 step 11/12 (2.1s elapsed) | loss: 0.000093
+  Epoch 105 step 12/12 (2.2s elapsed) | loss: 0.000073
+Epoch 105/200: 2.22 s. | train_loss: 0.000173 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 106 step 1/12 (0.4s elapsed) | loss: 0.000088
+  Epoch 106 step 11/12 (2.1s elapsed) | loss: 0.000076
+  Epoch 106 step 12/12 (2.3s elapsed) | loss: 0.000194
+Epoch 106/200: 2.28 s. | train_loss: 0.000293 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 107 step 1/12 (0.4s elapsed) | loss: 0.000118
+  Epoch 107 step 11/12 (2.1s elapsed) | loss: 0.000190
+  Epoch 107 step 12/12 (2.3s elapsed) | loss: 0.000243
+Epoch 107/200: 2.33 s. | train_loss: 0.000264 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 108 step 1/12 (0.4s elapsed) | loss: 0.000373
+  Epoch 108 step 11/12 (2.2s elapsed) | loss: 0.000197
+  Epoch 108 step 12/12 (2.4s elapsed) | loss: 0.000078
+Epoch 108/200: 2.37 s. | train_loss: 0.000305 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 109 step 1/12 (0.4s elapsed) | loss: 0.000291
+  Epoch 109 step 11/12 (2.1s elapsed) | loss: 0.000265
+  Epoch 109 step 12/12 (2.2s elapsed) | loss: 0.000059
+Epoch 109/200: 2.22 s. | train_loss: 0.000420 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 110 step 1/12 (0.4s elapsed) | loss: 0.000134
+  Epoch 110 step 11/12 (2.1s elapsed) | loss: 0.000187
+  Epoch 110 step 12/12 (2.2s elapsed) | loss: 0.000228
+Epoch 110/200: 2.23 s. | train_loss: 0.000243 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 111 step 1/12 (0.4s elapsed) | loss: 0.000222
+  Epoch 111 step 11/12 (2.1s elapsed) | loss: 0.000485
+  Epoch 111 step 12/12 (2.3s elapsed) | loss: 0.000403
+Epoch 111/200: 2.30 s. | train_loss: 0.000259 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 112 step 1/12 (0.4s elapsed) | loss: 0.001181
+  Epoch 112 step 11/12 (2.1s elapsed) | loss: 0.000148
+  Epoch 112 step 12/12 (2.3s elapsed) | loss: 0.000031
+Epoch 112/200: 2.26 s. | train_loss: 0.000229 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 113 step 1/12 (0.4s elapsed) | loss: 0.000304
+  Epoch 113 step 11/12 (2.2s elapsed) | loss: 0.000140
+  Epoch 113 step 12/12 (2.3s elapsed) | loss: 0.000139
+Epoch 113/200: 2.32 s. | train_loss: 0.000217 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 114 step 1/12 (0.4s elapsed) | loss: 0.000167
+  Epoch 114 step 11/12 (2.3s elapsed) | loss: 0.000298
+  Epoch 114 step 12/12 (2.4s elapsed) | loss: 0.000333
+Epoch 114/200: 2.45 s. | train_loss: 0.000245 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 115 step 1/12 (0.4s elapsed) | loss: 0.000205
+  Epoch 115 step 11/12 (2.2s elapsed) | loss: 0.000203
+  Epoch 115 step 12/12 (2.3s elapsed) | loss: 0.000145
+Epoch 115/200: 2.32 s. | train_loss: 0.000180 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 116 step 1/12 (0.4s elapsed) | loss: 0.000118
+  Epoch 116 step 11/12 (2.1s elapsed) | loss: 0.000152
+  Epoch 116 step 12/12 (2.2s elapsed) | loss: 0.000323
+Epoch 116/200: 2.25 s. | train_loss: 0.000256 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 117 step 1/12 (0.4s elapsed) | loss: 0.000192
+  Epoch 117 step 11/12 (2.1s elapsed) | loss: 0.000372
+  Epoch 117 step 12/12 (2.3s elapsed) | loss: 0.000222
+Epoch 117/200: 2.34 s. | train_loss: 0.000265 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 118 step 1/12 (0.4s elapsed) | loss: 0.000257
+  Epoch 118 step 11/12 (2.3s elapsed) | loss: 0.000119
+  Epoch 118 step 12/12 (2.5s elapsed) | loss: 0.000034
+Epoch 118/200: 2.49 s. | train_loss: 0.000207 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 119 step 1/12 (0.4s elapsed) | loss: 0.000167
+  Epoch 119 step 11/12 (2.2s elapsed) | loss: 0.000241
+  Epoch 119 step 12/12 (2.3s elapsed) | loss: 0.000025
+Epoch 119/200: 2.33 s. | train_loss: 0.000178 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 120 step 1/12 (0.4s elapsed) | loss: 0.000165
+  Epoch 120 step 11/12 (2.2s elapsed) | loss: 0.000100
+  Epoch 120 step 12/12 (2.3s elapsed) | loss: 0.000077
+Epoch 120/200: 2.33 s. | train_loss: 0.000193 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 121 step 1/12 (0.4s elapsed) | loss: 0.000223
+  Epoch 121 step 11/12 (2.1s elapsed) | loss: 0.000160
+  Epoch 121 step 12/12 (2.3s elapsed) | loss: 0.000176
+Epoch 121/200: 2.31 s. | train_loss: 0.000173 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 122 step 1/12 (0.4s elapsed) | loss: 0.000464
+  Epoch 122 step 11/12 (2.1s elapsed) | loss: 0.000149
+  Epoch 122 step 12/12 (2.4s elapsed) | loss: 0.000145
+Epoch 122/200: 2.39 s. | train_loss: 0.000229 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 123 step 1/12 (0.4s elapsed) | loss: 0.002083
+  Epoch 123 step 11/12 (2.2s elapsed) | loss: 0.001123
+  Epoch 123 step 12/12 (2.3s elapsed) | loss: 0.000140
+Epoch 123/200: 2.30 s. | train_loss: 0.000486 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 124 step 1/12 (0.4s elapsed) | loss: 0.000326
+  Epoch 124 step 11/12 (2.2s elapsed) | loss: 0.000239
+  Epoch 124 step 12/12 (2.3s elapsed) | loss: 0.000136
+Epoch 124/200: 2.29 s. | train_loss: 0.000343 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 125 step 1/12 (0.4s elapsed) | loss: 0.000132
+  Epoch 125 step 11/12 (2.2s elapsed) | loss: 0.000263
+  Epoch 125 step 12/12 (2.4s elapsed) | loss: 0.000078
+Epoch 125/200: 2.36 s. | train_loss: 0.000309 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+Evaluating:   0%|          | 0/2 [00:00<?, ?it/s]Evaluating:  50%|█████     | 1/2 [00:00<00:00,  5.90it/s]Evaluating: 100%|██████████| 2/2 [00:08<00:00,  4.78s/it]Evaluating: 100%|██████████| 2/2 [00:11<00:00,  5.77s/it]
+Evaluating:   0%|          | 0/2 [00:00<?, ?it/s]Evaluating:  50%|█████     | 1/2 [00:00<00:00,  6.14it/s]
+  0%|          | 0/51 [00:00<?, ?it/s][A
+  4%|▍         | 2/51 [00:00<00:05,  8.62it/s][A
+  6%|▌         | 3/51 [00:00<00:06,  7.39it/s][A
+  8%|▊         | 4/51 [00:00<00:06,  6.89it/s][A
+ 10%|▉         | 5/51 [00:00<00:06,  6.59it/s][A
+ 12%|█▏        | 6/51 [00:00<00:06,  6.46it/s][A
+ 14%|█▎        | 7/51 [00:01<00:06,  6.36it/s][A
+ 16%|█▌        | 8/51 [00:01<00:06,  6.31it/s][A
+ 18%|█▊        | 9/51 [00:01<00:06,  6.27it/s][A
+ 20%|█▉        | 10/51 [00:01<00:06,  6.24it/s][A
+ 22%|██▏       | 11/51 [00:01<00:06,  6.21it/s][A
+ 24%|██▎       | 12/51 [00:01<00:06,  6.23it/s][A
+ 25%|██▌       | 13/51 [00:02<00:06,  6.21it/s][A
+ 27%|██▋       | 14/51 [00:02<00:05,  6.20it/s][A
+ 29%|██▉       | 15/51 [00:02<00:05,  6.19it/s][A
+ 31%|███▏      | 16/51 [00:02<00:05,  6.19it/s][A
+ 33%|███▎      | 17/51 [00:02<00:05,  6.18it/s][A
+ 35%|███▌      | 18/51 [00:02<00:05,  6.18it/s][A
+ 37%|███▋      | 19/51 [00:02<00:05,  6.18it/s][A
+ 39%|███▉      | 20/51 [00:03<00:05,  6.18it/s][A
+ 41%|████      | 21/51 [00:03<00:04,  6.18it/s][A
+ 43%|████▎     | 22/51 [00:03<00:04,  6.18it/s][A
+ 45%|████▌     | 23/51 [00:03<00:04,  6.18it/s][A
+ 47%|████▋     | 24/51 [00:03<00:04,  6.17it/s][A
+ 49%|████▉     | 25/51 [00:03<00:04,  6.17it/s][A
+ 51%|█████     | 26/51 [00:04<00:04,  6.18it/s][A
+ 53%|█████▎    | 27/51 [00:04<00:03,  6.18it/s][A
+ 55%|█████▍    | 28/51 [00:04<00:03,  6.18it/s][A
+ 57%|█████▋    | 29/51 [00:04<00:03,  6.16it/s][A
+ 59%|█████▉    | 30/51 [00:04<00:03,  6.14it/s][A
+ 61%|██████    | 31/51 [00:04<00:03,  6.15it/s][A
+ 63%|██████▎   | 32/51 [00:05<00:03,  6.17it/s][A
+ 65%|██████▍   | 33/51 [00:05<00:02,  6.17it/s][A
+ 67%|██████▋   | 34/51 [00:05<00:02,  6.18it/s][A
+ 69%|██████▊   | 35/51 [00:05<00:02,  6.18it/s][A
+ 71%|███████   | 36/51 [00:05<00:02,  6.17it/s][A
+ 73%|███████▎  | 37/51 [00:05<00:02,  6.18it/s][A
+ 75%|███████▍  | 38/51 [00:06<00:02,  6.19it/s][A
+ 76%|███████▋  | 39/51 [00:06<00:01,  6.20it/s][A
+ 78%|███████▊  | 40/51 [00:06<00:01,  6.19it/s][A
+ 80%|████████  | 41/51 [00:06<00:01,  6.20it/s][A
+ 82%|████████▏ | 42/51 [00:06<00:01,  6.21it/s][A
+ 84%|████████▍ | 43/51 [00:06<00:01,  6.20it/s][A
+ 86%|████████▋ | 44/51 [00:07<00:01,  6.21it/s][A
+ 88%|████████▊ | 45/51 [00:07<00:00,  6.20it/s][A
+ 90%|█████████ | 46/51 [00:07<00:00,  6.21it/s][A
+ 92%|█████████▏| 47/51 [00:07<00:00,  6.21it/s][A
+ 94%|█████████▍| 48/51 [00:07<00:00,  6.21it/s][A
+ 96%|█████████▌| 49/51 [00:07<00:00,  6.19it/s][A
+ 98%|█████████▊| 50/51 [00:07<00:00,  6.19it/s][A
+100%|██████████| 51/51 [00:08<00:00,  6.18it/s][A100%|██████████| 51/51 [00:08<00:00,  6.25it/s]
+Evaluating: 100%|██████████| 2/2 [00:08<00:00,  4.92s/it]
+  0%|          | 0/51 [00:00<?, ?it/s][A
+  4%|▍         | 2/51 [00:00<00:03, 13.36it/s][A
+  8%|▊         | 4/51 [00:00<00:03, 12.94it/s][A
+ 12%|█▏        | 6/51 [00:00<00:03, 12.84it/s][A
+ 16%|█▌        | 8/51 [00:00<00:03, 12.89it/s][A
+ 20%|█▉        | 10/51 [00:00<00:03, 13.38it/s][A
+ 24%|██▎       | 12/51 [00:00<00:02, 13.00it/s][A
+ 27%|██▋       | 14/51 [00:01<00:02, 12.91it/s][A
+ 31%|███▏      | 16/51 [00:01<00:02, 12.89it/s][A
+ 35%|███▌      | 18/51 [00:01<00:02, 12.74it/s][A
+ 39%|███▉      | 20/51 [00:01<00:02, 12.65it/s][A
+ 43%|████▎     | 22/51 [00:01<00:02, 12.66it/s][A
+ 47%|████▋     | 24/51 [00:01<00:02, 13.46it/s][A
+ 51%|█████     | 26/51 [00:01<00:01, 13.83it/s][A
+ 55%|█████▍    | 28/51 [00:02<00:01, 14.25it/s][A
+ 59%|█████▉    | 30/51 [00:02<00:01, 14.49it/s][A
+ 63%|██████▎   | 32/51 [00:02<00:01, 14.63it/s][A
+ 67%|██████▋   | 34/51 [00:02<00:01, 14.68it/s][A
+ 71%|███████   | 36/51 [00:02<00:01, 14.71it/s][A
+ 75%|███████▍  | 38/51 [00:02<00:00, 15.04it/s][A
+ 78%|███████▊  | 40/51 [00:02<00:00, 15.09it/s][A
+ 82%|████████▏ | 42/51 [00:03<00:00, 15.12it/s][A
+ 86%|████████▋ | 44/51 [00:03<00:00, 15.15it/s][A
+ 90%|█████████ | 46/51 [00:03<00:00, 15.05it/s][A
+ 94%|█████████▍| 48/51 [00:03<00:00, 14.99it/s][A
+ 98%|█████████▊| 50/51 [00:03<00:00, 15.12it/s][A100%|██████████| 51/51 [00:03<00:00, 14.05it/s]
+Evaluating: 100%|██████████| 2/2 [00:12<00:00,  6.04s/it]
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [0.008283615..1.0178077].
+{'accuracy': tensor(0.5455, device='cuda:0')}
+{'f1': tensor(0.5000, device='cuda:0')}
+{'precision': tensor(0.5556, device='cuda:0')}
+{'recall': tensor(0.4545, device='cuda:0')}
+{'auc': tensor(0.3884, device='cuda:0')}
+Checkpoint saved to /workspace/experiments/fundus-unet/checkpoints/experiment_state.pth
+Val evaluation time: 24.35 s.
+  Epoch 126 step 1/12 (0.8s elapsed) | loss: 0.000243
+  Epoch 126 step 11/12 (2.6s elapsed) | loss: 0.000217
+  Epoch 126 step 12/12 (2.7s elapsed) | loss: 0.000122
+Epoch 126/200: 2.72 s. | train_loss: 0.000225 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 127 step 1/12 (0.4s elapsed) | loss: 0.000192
+  Epoch 127 step 11/12 (2.1s elapsed) | loss: 0.000144
+  Epoch 127 step 12/12 (2.2s elapsed) | loss: 0.000008
+Epoch 127/200: 2.23 s. | train_loss: 0.000470 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 128 step 1/12 (0.4s elapsed) | loss: 0.000220
+  Epoch 128 step 11/12 (2.2s elapsed) | loss: 0.000390
+  Epoch 128 step 12/12 (2.3s elapsed) | loss: 0.000276
+Epoch 128/200: 2.30 s. | train_loss: 0.000238 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 129 step 1/12 (0.4s elapsed) | loss: 0.000304
+  Epoch 129 step 11/12 (2.2s elapsed) | loss: 0.000126
+  Epoch 129 step 12/12 (2.3s elapsed) | loss: 0.000447
+Epoch 129/200: 2.33 s. | train_loss: 0.000253 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 130 step 1/12 (0.4s elapsed) | loss: 0.000092
+  Epoch 130 step 11/12 (2.3s elapsed) | loss: 0.000431
+  Epoch 130 step 12/12 (2.4s elapsed) | loss: 0.000081
+Epoch 130/200: 2.41 s. | train_loss: 0.000201 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 131 step 1/12 (0.4s elapsed) | loss: 0.000128
+  Epoch 131 step 11/12 (2.2s elapsed) | loss: 0.000193
+  Epoch 131 step 12/12 (2.3s elapsed) | loss: 0.000512
+Epoch 131/200: 2.27 s. | train_loss: 0.000383 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 132 step 1/12 (0.4s elapsed) | loss: 0.000077
+  Epoch 132 step 11/12 (2.1s elapsed) | loss: 0.001014
+  Epoch 132 step 12/12 (2.3s elapsed) | loss: 0.002121
+Epoch 132/200: 2.26 s. | train_loss: 0.000496 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 133 step 1/12 (0.4s elapsed) | loss: 0.000250
+  Epoch 133 step 11/12 (2.2s elapsed) | loss: 0.000107
+  Epoch 133 step 12/12 (2.3s elapsed) | loss: 0.000048
+Epoch 133/200: 2.35 s. | train_loss: 0.000221 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 134 step 1/12 (0.4s elapsed) | loss: 0.000230
+  Epoch 134 step 11/12 (2.1s elapsed) | loss: 0.000145
+  Epoch 134 step 12/12 (2.3s elapsed) | loss: 0.000120
+Epoch 134/200: 2.28 s. | train_loss: 0.000220 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 135 step 1/12 (0.4s elapsed) | loss: 0.000139
+  Epoch 135 step 11/12 (2.2s elapsed) | loss: 0.000184
+  Epoch 135 step 12/12 (2.4s elapsed) | loss: 0.000195
+Epoch 135/200: 2.39 s. | train_loss: 0.000368 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 136 step 1/12 (0.4s elapsed) | loss: 0.000181
+  Epoch 136 step 11/12 (2.1s elapsed) | loss: 0.000119
+  Epoch 136 step 12/12 (2.2s elapsed) | loss: 0.000180
+Epoch 136/200: 2.22 s. | train_loss: 0.000176 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 137 step 1/12 (0.4s elapsed) | loss: 0.000237
+  Epoch 137 step 11/12 (2.1s elapsed) | loss: 0.000439
+  Epoch 137 step 12/12 (2.3s elapsed) | loss: 0.000074
+Epoch 137/200: 2.35 s. | train_loss: 0.000335 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 138 step 1/12 (0.4s elapsed) | loss: 0.000137
+  Epoch 138 step 11/12 (2.2s elapsed) | loss: 0.000159
+  Epoch 138 step 12/12 (2.3s elapsed) | loss: 0.000207
+Epoch 138/200: 2.29 s. | train_loss: 0.000281 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 139 step 1/12 (0.4s elapsed) | loss: 0.000189
+  Epoch 139 step 11/12 (2.1s elapsed) | loss: 0.000342
+  Epoch 139 step 12/12 (2.3s elapsed) | loss: 0.000042
+Epoch 139/200: 2.30 s. | train_loss: 0.000186 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 140 step 1/12 (0.4s elapsed) | loss: 0.000162
+  Epoch 140 step 11/12 (2.1s elapsed) | loss: 0.000173
+  Epoch 140 step 12/12 (2.2s elapsed) | loss: 0.000016
+Epoch 140/200: 2.25 s. | train_loss: 0.000156 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 141 step 1/12 (0.4s elapsed) | loss: 0.000109
+  Epoch 141 step 11/12 (2.2s elapsed) | loss: 0.000183
+  Epoch 141 step 12/12 (2.3s elapsed) | loss: 0.000061
+Epoch 141/200: 2.31 s. | train_loss: 0.000169 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 142 step 1/12 (0.4s elapsed) | loss: 0.000133
+  Epoch 142 step 11/12 (2.2s elapsed) | loss: 0.000159
+  Epoch 142 step 12/12 (2.4s elapsed) | loss: 0.000120
+Epoch 142/200: 2.37 s. | train_loss: 0.000189 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 143 step 1/12 (0.4s elapsed) | loss: 0.000272
+  Epoch 143 step 11/12 (2.2s elapsed) | loss: 0.000298
+  Epoch 143 step 12/12 (2.3s elapsed) | loss: 0.000029
+Epoch 143/200: 2.33 s. | train_loss: 0.000167 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 144 step 1/12 (0.4s elapsed) | loss: 0.000131
+  Epoch 144 step 11/12 (2.1s elapsed) | loss: 0.000532
+  Epoch 144 step 12/12 (2.3s elapsed) | loss: 0.000349
+Epoch 144/200: 2.26 s. | train_loss: 0.000402 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 145 step 1/12 (0.4s elapsed) | loss: 0.000173
+  Epoch 145 step 11/12 (2.1s elapsed) | loss: 0.000141
+  Epoch 145 step 12/12 (2.2s elapsed) | loss: 0.000530
+Epoch 145/200: 2.24 s. | train_loss: 0.000289 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 146 step 1/12 (0.4s elapsed) | loss: 0.000478
+  Epoch 146 step 11/12 (2.1s elapsed) | loss: 0.002055
+  Epoch 146 step 12/12 (2.2s elapsed) | loss: 0.000165
+Epoch 146/200: 2.24 s. | train_loss: 0.000346 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 147 step 1/12 (0.4s elapsed) | loss: 0.000216
+  Epoch 147 step 11/12 (2.1s elapsed) | loss: 0.000231
+  Epoch 147 step 12/12 (2.3s elapsed) | loss: 0.000156
+Epoch 147/200: 2.33 s. | train_loss: 0.000209 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 148 step 1/12 (0.4s elapsed) | loss: 0.000588
+  Epoch 148 step 11/12 (2.1s elapsed) | loss: 0.000127
+  Epoch 148 step 12/12 (2.2s elapsed) | loss: 0.000032
+Epoch 148/200: 2.20 s. | train_loss: 0.000243 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 149 step 1/12 (0.4s elapsed) | loss: 0.000118
+  Epoch 149 step 11/12 (2.1s elapsed) | loss: 0.000572
+  Epoch 149 step 12/12 (2.3s elapsed) | loss: 0.000146
+Epoch 149/200: 2.31 s. | train_loss: 0.000206 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+  Epoch 150 step 1/12 (0.4s elapsed) | loss: 0.000204
+  Epoch 150 step 11/12 (2.2s elapsed) | loss: 0.000171
+  Epoch 150 step 12/12 (2.4s elapsed) | loss: 0.000049
+Epoch 150/200: 2.42 s. | train_loss: 0.000165 | mem_allocated=4.51GB mem_reserved=15.75GB mem_max=15.14GB
+Evaluating:   0%|          | 0/2 [00:00<?, ?it/s]Evaluating:  50%|█████     | 1/2 [00:00<00:00,  6.22it/s]Evaluating: 100%|██████████| 2/2 [00:08<00:00,  4.77s/it]Evaluating: 100%|██████████| 2/2 [00:11<00:00,  5.68s/it]
+Evaluating:   0%|          | 0/2 [00:00<?, ?it/s]Evaluating:  50%|█████     | 1/2 [00:00<00:00,  5.89it/s]
+  0%|          | 0/51 [00:00<?, ?it/s][A
+  4%|▍         | 2/51 [00:00<00:05,  8.70it/s][A
+  6%|▌         | 3/51 [00:00<00:06,  7.42it/s][A
+  8%|▊         | 4/51 [00:00<00:06,  6.88it/s][A
+ 10%|▉         | 5/51 [00:00<00:06,  6.62it/s][A
+ 12%|█▏        | 6/51 [00:00<00:06,  6.46it/s][A
+ 14%|█▎        | 7/51 [00:01<00:06,  6.37it/s][A
+ 16%|█▌        | 8/51 [00:01<00:06,  6.31it/s][A
+ 18%|█▊        | 9/51 [00:01<00:06,  6.27it/s][A
+ 20%|█▉        | 10/51 [00:01<00:06,  6.23it/s][A
+ 22%|██▏       | 11/51 [00:01<00:06,  6.21it/s][A
+ 24%|██▎       | 12/51 [00:01<00:06,  6.20it/s][A
+ 25%|██▌       | 13/51 [00:02<00:06,  6.19it/s][A
+ 27%|██▋       | 14/51 [00:02<00:05,  6.18it/s][A
+ 29%|██▉       | 15/51 [00:02<00:05,  6.18it/s][A
+ 31%|███▏      | 16/51 [00:02<00:05,  6.17it/s][A
+ 33%|███▎      | 17/51 [00:02<00:05,  6.16it/s][A
+ 35%|███▌      | 18/51 [00:02<00:05,  6.18it/s][A
+ 37%|███▋      | 19/51 [00:02<00:05,  6.19it/s][A
+ 39%|███▉      | 20/51 [00:03<00:05,  6.20it/s][A
+ 41%|████      | 21/51 [00:03<00:04,  6.20it/s][A
+ 43%|████▎     | 22/51 [00:03<00:04,  6.21it/s][A
+ 45%|████▌     | 23/51 [00:03<00:04,  6.20it/s][A
+ 47%|████▋     | 24/51 [00:03<00:04,  6.21it/s][A
+ 49%|████▉     | 25/51 [00:03<00:04,  6.21it/s][A
+ 51%|█████     | 26/51 [00:04<00:04,  6.21it/s][A
+ 53%|█████▎    | 27/51 [00:04<00:03,  6.21it/s][A
+ 55%|█████▍    | 28/51 [00:04<00:03,  6.21it/s][A
+ 57%|█████▋    | 29/51 [00:04<00:03,  6.19it/s][A
+ 59%|█████▉    | 30/51 [00:04<00:03,  6.20it/s][A
+ 61%|██████    | 31/51 [00:04<00:03,  6.20it/s][A
+ 63%|██████▎   | 32/51 [00:05<00:03,  6.20it/s][A
+ 65%|██████▍   | 33/51 [00:05<00:02,  6.20it/s][A
+ 67%|██████▋   | 34/51 [00:05<00:02,  6.20it/s][A
+ 69%|██████▊   | 35/51 [00:05<00:02,  6.18it/s][A
+ 71%|███████   | 36/51 [00:05<00:02,  6.18it/s][A
+ 73%|███████▎  | 37/51 [00:05<00:02,  6.19it/s][A
+ 75%|███████▍  | 38/51 [00:06<00:02,  6.20it/s][A
+ 76%|███████▋  | 39/51 [00:06<00:01,  6.19it/s][A
+ 78%|███████▊  | 40/51 [00:06<00:01,  6.18it/s][A
+ 80%|████████  | 41/51 [00:06<00:01,  6.17it/s][A
+ 82%|████████▏ | 42/51 [00:06<00:01,  6.17it/s][A
+ 84%|████████▍ | 43/51 [00:06<00:01,  6.17it/s][A
+ 86%|████████▋ | 44/51 [00:07<00:01,  6.18it/s][A
+ 88%|████████▊ | 45/51 [00:07<00:00,  6.17it/s][A
+ 90%|█████████ | 46/51 [00:07<00:00,  6.18it/s][A
+ 92%|█████████▏| 47/51 [00:07<00:00,  6.17it/s][A
+ 94%|█████████▍| 48/51 [00:07<00:00,  6.17it/s][A
+ 96%|█████████▌| 49/51 [00:07<00:00,  6.17it/s][A
+ 98%|█████████▊| 50/51 [00:07<00:00,  6.17it/s][A
+100%|██████████| 51/51 [00:08<00:00,  6.17it/s][A100%|██████████| 51/51 [00:08<00:00,  6.25it/s]
+Evaluating: 100%|██████████| 2/2 [00:08<00:00,  4.92s/it]
+  0%|          | 0/51 [00:00<?, ?it/s][A
+  4%|▍         | 2/51 [00:00<00:03, 12.97it/s][A
+  8%|▊         | 4/51 [00:00<00:03, 12.45it/s][A
+ 12%|█▏        | 6/51 [00:00<00:03, 12.07it/s][A
+ 16%|█▌        | 8/51 [00:00<00:03, 12.14it/s][A
+ 20%|█▉        | 10/51 [00:00<00:03, 12.15it/s][A
+ 24%|██▎       | 12/51 [00:00<00:03, 12.11it/s][A
+ 27%|██▋       | 14/51 [00:01<00:03, 12.12it/s][A
+ 31%|███▏      | 16/51 [00:01<00:02, 12.05it/s][A
+ 35%|███▌      | 18/51 [00:01<00:02, 12.07it/s][A
+ 39%|███▉      | 20/51 [00:01<00:02, 12.04it/s][A
+ 43%|████▎     | 22/51 [00:01<00:02, 12.30it/s][A
+ 47%|████▋     | 24/51 [00:01<00:02, 12.57it/s][A
+ 51%|█████     | 26/51 [00:02<00:01, 12.85it/s][A
+ 55%|█████▍    | 28/51 [00:02<00:01, 12.90it/s][A
+ 59%|█████▉    | 30/51 [00:02<00:01, 12.66it/s][A
+ 63%|██████▎   | 32/51 [00:02<00:01, 13.36it/s][A
+ 67%|██████▋   | 34/51 [00:02<00:01, 13.92it/s][A
+ 71%|███████   | 36/51 [00:02<00:01, 14.36it/s][A
+ 75%|███████▍  | 38/51 [00:02<00:00, 14.55it/s][A
+ 78%|███████▊  | 40/51 [00:03<00:00, 14.78it/s][A
+ 82%|████████▏ | 42/51 [00:03<00:00, 14.93it/s][A
+ 86%|████████▋ | 44/51 [00:03<00:00, 14.85it/s][A
+ 90%|█████████ | 46/51 [00:03<00:00, 15.02it/s][A
+ 94%|█████████▍| 48/51 [00:03<00:00, 15.04it/s][A
+ 98%|█████████▊| 50/51 [00:03<00:00, 15.11it/s][A100%|██████████| 51/51 [00:03<00:00, 13.41it/s]
+Evaluating: 100%|██████████| 2/2 [00:12<00:00,  6.13s/it]
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [0.3229423..1.0162038].
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-0.031339943..1.0164235].
+{'accuracy': tensor(0.5455, device='cuda:0')}
+{'f1': tensor(0.5833, device='cuda:0')}
+{'precision': tensor(0.5385, device='cuda:0')}
+{'recall': tensor(0.6364, device='cuda:0')}
+{'auc': tensor(0.3719, device='cuda:0')}
+Checkpoint saved to /workspace/experiments/fundus-unet/checkpoints/experiment_state.pth
+Best checkpoint saved to /workspace/experiments/fundus-unet/best_checkpoint/experiment_state.pth
+Val evaluation time: 24.34 s.
+  Epoch 151 step 1/12 (0.8s elapsed) | loss: 0.000203
+  Epoch 151 step 11/12 (2.5s elapsed) | loss: 0.000147
+  Epoch 151 step 12/12 (2.6s elapsed) | loss: 0.000072
+Epoch 151/200: 2.62 s. | train_loss: 0.000250 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 152 step 1/12 (0.4s elapsed) | loss: 0.000233
+  Epoch 152 step 11/12 (2.2s elapsed) | loss: 0.000146
+  Epoch 152 step 12/12 (2.4s elapsed) | loss: 0.000088
+Epoch 152/200: 2.40 s. | train_loss: 0.000297 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 153 step 1/12 (0.4s elapsed) | loss: 0.000292
+  Epoch 153 step 11/12 (2.2s elapsed) | loss: 0.000386
+  Epoch 153 step 12/12 (2.4s elapsed) | loss: 0.000081
+Epoch 153/200: 2.37 s. | train_loss: 0.000272 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 154 step 1/12 (0.4s elapsed) | loss: 0.000256
+  Epoch 154 step 11/12 (2.1s elapsed) | loss: 0.000165
+  Epoch 154 step 12/12 (2.2s elapsed) | loss: 0.000089
+Epoch 154/200: 2.24 s. | train_loss: 0.000285 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 155 step 1/12 (0.4s elapsed) | loss: 0.000546
+  Epoch 155 step 11/12 (2.2s elapsed) | loss: 0.000196
+  Epoch 155 step 12/12 (2.4s elapsed) | loss: 0.000340
+Epoch 155/200: 2.40 s. | train_loss: 0.000334 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 156 step 1/12 (0.4s elapsed) | loss: 0.000136
+  Epoch 156 step 11/12 (2.1s elapsed) | loss: 0.000121
+  Epoch 156 step 12/12 (2.2s elapsed) | loss: 0.000165
+Epoch 156/200: 2.20 s. | train_loss: 0.000190 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 157 step 1/12 (0.4s elapsed) | loss: 0.000287
+  Epoch 157 step 11/12 (2.1s elapsed) | loss: 0.000194
+  Epoch 157 step 12/12 (2.3s elapsed) | loss: 0.000080
+Epoch 157/200: 2.25 s. | train_loss: 0.000375 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 158 step 1/12 (0.4s elapsed) | loss: 0.000222
+  Epoch 158 step 11/12 (2.1s elapsed) | loss: 0.000225
+  Epoch 158 step 12/12 (2.3s elapsed) | loss: 0.000102
+Epoch 158/200: 2.27 s. | train_loss: 0.000169 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 159 step 1/12 (0.4s elapsed) | loss: 0.000089
+  Epoch 159 step 11/12 (2.2s elapsed) | loss: 0.000242
+  Epoch 159 step 12/12 (2.4s elapsed) | loss: 0.000205
+Epoch 159/200: 2.36 s. | train_loss: 0.000216 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 160 step 1/12 (0.4s elapsed) | loss: 0.000151
+  Epoch 160 step 11/12 (2.2s elapsed) | loss: 0.000125
+  Epoch 160 step 12/12 (2.4s elapsed) | loss: 0.000472
+Epoch 160/200: 2.36 s. | train_loss: 0.000254 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 161 step 1/12 (0.4s elapsed) | loss: 0.000402
+  Epoch 161 step 11/12 (2.1s elapsed) | loss: 0.000575
+  Epoch 161 step 12/12 (2.2s elapsed) | loss: 0.000306
+Epoch 161/200: 2.22 s. | train_loss: 0.000374 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 162 step 1/12 (0.4s elapsed) | loss: 0.000195
+  Epoch 162 step 11/12 (2.1s elapsed) | loss: 0.000160
+  Epoch 162 step 12/12 (2.3s elapsed) | loss: 0.000339
+Epoch 162/200: 2.33 s. | train_loss: 0.000213 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 163 step 1/12 (0.4s elapsed) | loss: 0.000141
+  Epoch 163 step 11/12 (2.1s elapsed) | loss: 0.000316
+  Epoch 163 step 12/12 (2.2s elapsed) | loss: 0.000058
+Epoch 163/200: 2.21 s. | train_loss: 0.000372 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 164 step 1/12 (0.4s elapsed) | loss: 0.000149
+  Epoch 164 step 11/12 (2.2s elapsed) | loss: 0.000121
+  Epoch 164 step 12/12 (2.4s elapsed) | loss: 0.000292
+Epoch 164/200: 2.39 s. | train_loss: 0.000264 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 165 step 1/12 (0.4s elapsed) | loss: 0.000142
+  Epoch 165 step 11/12 (2.2s elapsed) | loss: 0.000187
+  Epoch 165 step 12/12 (2.3s elapsed) | loss: 0.000053
+Epoch 165/200: 2.28 s. | train_loss: 0.000214 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 166 step 1/12 (0.4s elapsed) | loss: 0.000203
+  Epoch 166 step 11/12 (2.1s elapsed) | loss: 0.000150
+  Epoch 166 step 12/12 (2.3s elapsed) | loss: 0.000063
+Epoch 166/200: 2.27 s. | train_loss: 0.000268 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 167 step 1/12 (0.4s elapsed) | loss: 0.000282
+  Epoch 167 step 11/12 (2.1s elapsed) | loss: 0.000132
+  Epoch 167 step 12/12 (2.3s elapsed) | loss: 0.002865
+Epoch 167/200: 2.26 s. | train_loss: 0.000458 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 168 step 1/12 (0.4s elapsed) | loss: 0.000153
+  Epoch 168 step 11/12 (2.1s elapsed) | loss: 0.000140
+  Epoch 168 step 12/12 (2.3s elapsed) | loss: 0.000101
+Epoch 168/200: 2.27 s. | train_loss: 0.000202 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 169 step 1/12 (0.4s elapsed) | loss: 0.000209
+  Epoch 169 step 11/12 (2.1s elapsed) | loss: 0.000263
+  Epoch 169 step 12/12 (2.3s elapsed) | loss: 0.000109
+Epoch 169/200: 2.26 s. | train_loss: 0.000423 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 170 step 1/12 (0.4s elapsed) | loss: 0.000170
+  Epoch 170 step 11/12 (2.2s elapsed) | loss: 0.000174
+  Epoch 170 step 12/12 (2.3s elapsed) | loss: 0.000208
+Epoch 170/200: 2.34 s. | train_loss: 0.000337 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 171 step 1/12 (0.4s elapsed) | loss: 0.000140
+  Epoch 171 step 11/12 (2.2s elapsed) | loss: 0.000166
+  Epoch 171 step 12/12 (2.3s elapsed) | loss: 0.000057
+Epoch 171/200: 2.33 s. | train_loss: 0.000194 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 172 step 1/12 (0.4s elapsed) | loss: 0.000126
+  Epoch 172 step 11/12 (2.1s elapsed) | loss: 0.000158
+  Epoch 172 step 12/12 (2.3s elapsed) | loss: 0.000324
+Epoch 172/200: 2.34 s. | train_loss: 0.000244 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 173 step 1/12 (0.4s elapsed) | loss: 0.000167
+  Epoch 173 step 11/12 (2.2s elapsed) | loss: 0.000243
+  Epoch 173 step 12/12 (2.4s elapsed) | loss: 0.000228
+Epoch 173/200: 2.42 s. | train_loss: 0.000229 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 174 step 1/12 (0.4s elapsed) | loss: 0.000811
+  Epoch 174 step 11/12 (2.1s elapsed) | loss: 0.000262
+  Epoch 174 step 12/12 (2.2s elapsed) | loss: 0.000477
+Epoch 174/200: 2.22 s. | train_loss: 0.000471 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 175 step 1/12 (0.4s elapsed) | loss: 0.000308
+  Epoch 175 step 11/12 (2.1s elapsed) | loss: 0.000149
+  Epoch 175 step 12/12 (2.3s elapsed) | loss: 0.000355
+Epoch 175/200: 2.30 s. | train_loss: 0.000236 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+Evaluating:   0%|          | 0/2 [00:00<?, ?it/s]Evaluating:  50%|█████     | 1/2 [00:00<00:00,  6.07it/s]Evaluating: 100%|██████████| 2/2 [00:08<00:00,  4.78s/it]Evaluating: 100%|██████████| 2/2 [00:11<00:00,  5.89s/it]
+Evaluating:   0%|          | 0/2 [00:00<?, ?it/s]Evaluating:  50%|█████     | 1/2 [00:00<00:00,  5.90it/s]
+  0%|          | 0/51 [00:00<?, ?it/s][A
+  4%|▍         | 2/51 [00:00<00:05,  8.68it/s][A
+  6%|▌         | 3/51 [00:00<00:06,  7.43it/s][A
+  8%|▊         | 4/51 [00:00<00:06,  6.91it/s][A
+ 10%|▉         | 5/51 [00:00<00:06,  6.64it/s][A
+ 12%|█▏        | 6/51 [00:00<00:06,  6.48it/s][A
+ 14%|█▎        | 7/51 [00:01<00:06,  6.38it/s][A
+ 16%|█▌        | 8/51 [00:01<00:06,  6.33it/s][A
+ 18%|█▊        | 9/51 [00:01<00:06,  6.28it/s][A
+ 20%|█▉        | 10/51 [00:01<00:06,  6.26it/s][A
+ 22%|██▏       | 11/51 [00:01<00:06,  6.25it/s][A
+ 24%|██▎       | 12/51 [00:01<00:06,  6.23it/s][A
+ 25%|██▌       | 13/51 [00:02<00:06,  6.22it/s][A
+ 27%|██▋       | 14/51 [00:02<00:05,  6.22it/s][A
+ 29%|██▉       | 15/51 [00:02<00:05,  6.21it/s][A
+ 31%|███▏      | 16/51 [00:02<00:05,  6.19it/s][A
+ 33%|███▎      | 17/51 [00:02<00:05,  6.20it/s][A
+ 35%|███▌      | 18/51 [00:02<00:05,  6.20it/s][A
+ 37%|███▋      | 19/51 [00:02<00:05,  6.20it/s][A
+ 39%|███▉      | 20/51 [00:03<00:04,  6.21it/s][A
+ 41%|████      | 21/51 [00:03<00:04,  6.21it/s][A
+ 43%|████▎     | 22/51 [00:03<00:04,  6.19it/s][A
+ 45%|████▌     | 23/51 [00:03<00:04,  6.20it/s][A
+ 47%|████▋     | 24/51 [00:03<00:04,  6.21it/s][A
+ 49%|████▉     | 25/51 [00:03<00:04,  6.21it/s][A
+ 51%|█████     | 26/51 [00:04<00:04,  6.21it/s][A
+ 53%|█████▎    | 27/51 [00:04<00:03,  6.21it/s][A
+ 55%|█████▍    | 28/51 [00:04<00:03,  6.19it/s][A
+ 57%|█████▋    | 29/51 [00:04<00:03,  6.20it/s][A
+ 59%|█████▉    | 30/51 [00:04<00:03,  6.20it/s][A
+ 61%|██████    | 31/51 [00:04<00:03,  6.21it/s][A
+ 63%|██████▎   | 32/51 [00:05<00:03,  6.21it/s][A
+ 65%|██████▍   | 33/51 [00:05<00:02,  6.21it/s][A
+ 67%|██████▋   | 34/51 [00:05<00:02,  6.21it/s][A
+ 69%|██████▊   | 35/51 [00:05<00:02,  6.22it/s][A
+ 71%|███████   | 36/51 [00:05<00:02,  6.22it/s][A
+ 73%|███████▎  | 37/51 [00:05<00:02,  6.22it/s][A
+ 75%|███████▍  | 38/51 [00:06<00:02,  6.21it/s][A
+ 76%|███████▋  | 39/51 [00:06<00:01,  6.20it/s][A
+ 78%|███████▊  | 40/51 [00:06<00:01,  6.21it/s][A
+ 80%|████████  | 41/51 [00:06<00:01,  6.19it/s][A
+ 82%|████████▏ | 42/51 [00:06<00:01,  6.20it/s][A
+ 84%|████████▍ | 43/51 [00:06<00:01,  6.20it/s][A
+ 86%|████████▋ | 44/51 [00:07<00:01,  6.20it/s][A
+ 88%|████████▊ | 45/51 [00:07<00:00,  6.21it/s][A
+ 90%|█████████ | 46/51 [00:07<00:00,  6.21it/s][A
+ 92%|█████████▏| 47/51 [00:07<00:00,  6.20it/s][A
+ 94%|█████████▍| 48/51 [00:07<00:00,  6.21it/s][A
+ 96%|█████████▌| 49/51 [00:07<00:00,  6.21it/s][A
+ 98%|█████████▊| 50/51 [00:07<00:00,  6.22it/s][A
+100%|██████████| 51/51 [00:08<00:00,  6.22it/s][A100%|██████████| 51/51 [00:08<00:00,  6.27it/s]
+Evaluating: 100%|██████████| 2/2 [00:08<00:00,  4.91s/it]
+  0%|          | 0/51 [00:00<?, ?it/s][A
+  4%|▍         | 2/51 [00:00<00:03, 15.33it/s][A
+  8%|▊         | 4/51 [00:00<00:03, 15.67it/s][A
+ 12%|█▏        | 6/51 [00:00<00:02, 15.57it/s][A
+ 16%|█▌        | 8/51 [00:00<00:02, 15.30it/s][A
+ 20%|█▉        | 10/51 [00:00<00:02, 15.20it/s][A
+ 24%|██▎       | 12/51 [00:00<00:02, 15.24it/s][A
+ 27%|██▋       | 14/51 [00:00<00:02, 14.85it/s][A
+ 31%|███▏      | 16/51 [00:01<00:02, 15.18it/s][A
+ 35%|███▌      | 18/51 [00:01<00:02, 15.24it/s][A
+ 39%|███▉      | 20/51 [00:01<00:02, 15.19it/s][A
+ 43%|████▎     | 22/51 [00:01<00:01, 15.33it/s][A
+ 47%|████▋     | 24/51 [00:01<00:01, 15.14it/s][A
+ 51%|█████     | 26/51 [00:01<00:01, 15.30it/s][A
+ 55%|█████▍    | 28/51 [00:01<00:01, 15.19it/s][A
+ 59%|█████▉    | 30/51 [00:01<00:01, 15.21it/s][A
+ 63%|██████▎   | 32/51 [00:02<00:01, 15.22it/s][A
+ 67%|██████▋   | 34/51 [00:02<00:01, 14.88it/s][A
+ 71%|███████   | 36/51 [00:02<00:01, 14.96it/s][A
+ 75%|███████▍  | 38/51 [00:02<00:00, 14.84it/s][A
+ 78%|███████▊  | 40/51 [00:02<00:00, 14.64it/s][A
+ 82%|████████▏ | 42/51 [00:02<00:00, 14.98it/s][A
+ 86%|████████▋ | 44/51 [00:02<00:00, 14.92it/s][A
+ 90%|█████████ | 46/51 [00:03<00:00, 15.04it/s][A
+ 94%|█████████▍| 48/51 [00:03<00:00, 15.00it/s][A
+ 98%|█████████▊| 50/51 [00:03<00:00, 14.92it/s][A100%|██████████| 51/51 [00:03<00:00, 15.10it/s]
+Evaluating: 100%|██████████| 2/2 [00:11<00:00,  5.90s/it]
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [0.036494553..1.0082841].
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [0.32502642..1.0120378].
+{'accuracy': tensor(0.5000, device='cuda:0')}
+{'f1': tensor(0.4762, device='cuda:0')}
+{'precision': tensor(0.5000, device='cuda:0')}
+{'recall': tensor(0.4545, device='cuda:0')}
+{'auc': tensor(0.3967, device='cuda:0')}
+Checkpoint saved to /workspace/experiments/fundus-unet/checkpoints/experiment_state.pth
+Val evaluation time: 24.31 s.
+  Epoch 176 step 1/12 (0.8s elapsed) | loss: 0.000143
+  Epoch 176 step 11/12 (2.7s elapsed) | loss: 0.000126
+  Epoch 176 step 12/12 (2.8s elapsed) | loss: 0.000050
+Epoch 176/200: 2.83 s. | train_loss: 0.000182 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 177 step 1/12 (0.4s elapsed) | loss: 0.000100
+  Epoch 177 step 11/12 (2.3s elapsed) | loss: 0.000140
+  Epoch 177 step 12/12 (2.5s elapsed) | loss: 0.000007
+Epoch 177/200: 2.47 s. | train_loss: 0.000202 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 178 step 1/12 (0.4s elapsed) | loss: 0.001132
+  Epoch 178 step 11/12 (2.3s elapsed) | loss: 0.000341
+  Epoch 178 step 12/12 (2.4s elapsed) | loss: 0.000037
+Epoch 178/200: 2.40 s. | train_loss: 0.000431 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 179 step 1/12 (0.4s elapsed) | loss: 0.000149
+  Epoch 179 step 11/12 (2.2s elapsed) | loss: 0.000115
+  Epoch 179 step 12/12 (2.3s elapsed) | loss: 0.000349
+Epoch 179/200: 2.32 s. | train_loss: 0.000205 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 180 step 1/12 (0.4s elapsed) | loss: 0.000464
+  Epoch 180 step 11/12 (2.2s elapsed) | loss: 0.000300
+  Epoch 180 step 12/12 (2.4s elapsed) | loss: 0.000170
+Epoch 180/200: 2.39 s. | train_loss: 0.000214 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 181 step 1/12 (0.4s elapsed) | loss: 0.000230
+  Epoch 181 step 11/12 (2.2s elapsed) | loss: 0.000229
+  Epoch 181 step 12/12 (2.3s elapsed) | loss: 0.000478
+Epoch 181/200: 2.32 s. | train_loss: 0.000191 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 182 step 1/12 (0.4s elapsed) | loss: 0.000230
+  Epoch 182 step 11/12 (2.2s elapsed) | loss: 0.000209
+  Epoch 182 step 12/12 (2.3s elapsed) | loss: 0.000042
+Epoch 182/200: 2.35 s. | train_loss: 0.000229 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 183 step 1/12 (0.4s elapsed) | loss: 0.000095
+  Epoch 183 step 11/12 (2.3s elapsed) | loss: 0.000153
+  Epoch 183 step 12/12 (2.4s elapsed) | loss: 0.000207
+Epoch 183/200: 2.39 s. | train_loss: 0.000254 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 184 step 1/12 (0.4s elapsed) | loss: 0.000183
+  Epoch 184 step 11/12 (2.2s elapsed) | loss: 0.000425
+  Epoch 184 step 12/12 (2.5s elapsed) | loss: 0.000078
+Epoch 184/200: 2.45 s. | train_loss: 0.000171 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 185 step 1/12 (0.4s elapsed) | loss: 0.000162
+  Epoch 185 step 11/12 (2.2s elapsed) | loss: 0.000191
+  Epoch 185 step 12/12 (2.4s elapsed) | loss: 0.000221
+Epoch 185/200: 2.35 s. | train_loss: 0.000195 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 186 step 1/12 (0.4s elapsed) | loss: 0.000173
+  Epoch 186 step 11/12 (2.2s elapsed) | loss: 0.000141
+  Epoch 186 step 12/12 (2.3s elapsed) | loss: 0.000145
+Epoch 186/200: 2.34 s. | train_loss: 0.000388 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 187 step 1/12 (0.4s elapsed) | loss: 0.000568
+  Epoch 187 step 11/12 (2.2s elapsed) | loss: 0.000108
+  Epoch 187 step 12/12 (2.4s elapsed) | loss: 0.000266
+Epoch 187/200: 2.40 s. | train_loss: 0.000296 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 188 step 1/12 (0.4s elapsed) | loss: 0.000176
+  Epoch 188 step 11/12 (2.3s elapsed) | loss: 0.000576
+  Epoch 188 step 12/12 (2.5s elapsed) | loss: 0.001170
+Epoch 188/200: 2.45 s. | train_loss: 0.000564 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 189 step 1/12 (0.4s elapsed) | loss: 0.000234
+  Epoch 189 step 11/12 (2.3s elapsed) | loss: 0.000075
+  Epoch 189 step 12/12 (2.5s elapsed) | loss: 0.000323
+Epoch 189/200: 2.51 s. | train_loss: 0.000173 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 190 step 1/12 (0.4s elapsed) | loss: 0.000180
+  Epoch 190 step 11/12 (2.3s elapsed) | loss: 0.000115
+  Epoch 190 step 12/12 (2.5s elapsed) | loss: 0.000193
+Epoch 190/200: 2.49 s. | train_loss: 0.000257 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 191 step 1/12 (0.4s elapsed) | loss: 0.000174
+  Epoch 191 step 11/12 (2.3s elapsed) | loss: 0.000219
+  Epoch 191 step 12/12 (2.4s elapsed) | loss: 0.000099
+Epoch 191/200: 2.44 s. | train_loss: 0.000221 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 192 step 1/12 (0.4s elapsed) | loss: 0.000282
+  Epoch 192 step 11/12 (2.2s elapsed) | loss: 0.000248
+  Epoch 192 step 12/12 (2.3s elapsed) | loss: 0.000063
+Epoch 192/200: 2.31 s. | train_loss: 0.000260 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 193 step 1/12 (0.4s elapsed) | loss: 0.000157
+  Epoch 193 step 11/12 (2.1s elapsed) | loss: 0.000148
+  Epoch 193 step 12/12 (2.2s elapsed) | loss: 0.000264
+Epoch 193/200: 2.22 s. | train_loss: 0.000210 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 194 step 1/12 (0.4s elapsed) | loss: 0.000272
+  Epoch 194 step 11/12 (2.1s elapsed) | loss: 0.000138
+  Epoch 194 step 12/12 (2.3s elapsed) | loss: 0.000243
+Epoch 194/200: 2.26 s. | train_loss: 0.000293 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 195 step 1/12 (0.4s elapsed) | loss: 0.000295
+  Epoch 195 step 11/12 (2.2s elapsed) | loss: 0.000144
+  Epoch 195 step 12/12 (2.4s elapsed) | loss: 0.000127
+Epoch 195/200: 2.35 s. | train_loss: 0.000190 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 196 step 1/12 (0.4s elapsed) | loss: 0.000193
+  Epoch 196 step 11/12 (2.2s elapsed) | loss: 0.000109
+  Epoch 196 step 12/12 (2.4s elapsed) | loss: 0.000061
+Epoch 196/200: 2.38 s. | train_loss: 0.000264 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 197 step 1/12 (0.4s elapsed) | loss: 0.000151
+  Epoch 197 step 11/12 (2.2s elapsed) | loss: 0.000142
+  Epoch 197 step 12/12 (2.4s elapsed) | loss: 0.000090
+Epoch 197/200: 2.39 s. | train_loss: 0.000157 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 198 step 1/12 (0.4s elapsed) | loss: 0.000117
+  Epoch 198 step 11/12 (2.3s elapsed) | loss: 0.000146
+  Epoch 198 step 12/12 (2.4s elapsed) | loss: 0.000151
+Epoch 198/200: 2.39 s. | train_loss: 0.000156 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+  Epoch 199 step 1/12 (0.4s elapsed) | loss: 0.000245
+  Epoch 199 step 11/12 (2.1s elapsed) | loss: 0.000113
+  Epoch 199 step 12/12 (2.3s elapsed) | loss: 0.000203
+Epoch 199/200: 2.32 s. | train_loss: 0.000221 | mem_allocated=4.51GB mem_reserved=15.74GB mem_max=15.14GB
+Evaluating:   0%|          | 0/2 [00:00<?, ?it/s]Evaluating:  50%|█████     | 1/2 [00:00<00:00,  6.14it/s]Evaluating: 100%|██████████| 2/2 [00:08<00:00,  4.82s/it]Evaluating: 100%|██████████| 2/2 [00:11<00:00,  5.77s/it]
+Evaluating:   0%|          | 0/2 [00:00<?, ?it/s]Evaluating:  50%|█████     | 1/2 [00:00<00:00,  6.02it/s]
+  0%|          | 0/51 [00:00<?, ?it/s][A
+  4%|▍         | 2/51 [00:00<00:05,  8.69it/s][A
+  6%|▌         | 3/51 [00:00<00:06,  7.44it/s][A
+  8%|▊         | 4/51 [00:00<00:06,  6.90it/s][A
+ 10%|▉         | 5/51 [00:00<00:06,  6.62it/s][A
+ 12%|█▏        | 6/51 [00:00<00:06,  6.47it/s][A
+ 14%|█▎        | 7/51 [00:01<00:06,  6.37it/s][A
+ 16%|█▌        | 8/51 [00:01<00:06,  6.31it/s][A
+ 18%|█▊        | 9/51 [00:01<00:06,  6.28it/s][A
+ 20%|█▉        | 10/51 [00:01<00:06,  6.23it/s][A
+ 22%|██▏       | 11/51 [00:01<00:06,  6.21it/s][A
+ 24%|██▎       | 12/51 [00:01<00:06,  6.20it/s][A
+ 25%|██▌       | 13/51 [00:02<00:06,  6.17it/s][A
+ 27%|██▋       | 14/51 [00:02<00:05,  6.17it/s][A
+ 29%|██▉       | 15/51 [00:02<00:05,  6.18it/s][A
+ 31%|███▏      | 16/51 [00:02<00:05,  6.15it/s][A
+ 33%|███▎      | 17/51 [00:02<00:05,  6.15it/s][A
+ 35%|███▌      | 18/51 [00:02<00:05,  6.16it/s][A
+ 37%|███▋      | 19/51 [00:02<00:05,  6.14it/s][A
+ 39%|███▉      | 20/51 [00:03<00:05,  6.16it/s][A
+ 41%|████      | 21/51 [00:03<00:04,  6.18it/s][A
+ 43%|████▎     | 22/51 [00:03<00:04,  6.16it/s][A
+ 45%|████▌     | 23/51 [00:03<00:04,  6.17it/s][A
+ 47%|████▋     | 24/51 [00:03<00:04,  6.17it/s][A
+ 49%|████▉     | 25/51 [00:03<00:04,  6.17it/s][A
+ 51%|█████     | 26/51 [00:04<00:04,  6.18it/s][A
+ 53%|█████▎    | 27/51 [00:04<00:03,  6.19it/s][A
+ 55%|█████▍    | 28/51 [00:04<00:03,  6.20it/s][A
+ 57%|█████▋    | 29/51 [00:04<00:03,  6.18it/s][A
+ 59%|█████▉    | 30/51 [00:04<00:03,  6.17it/s][A
+ 61%|██████    | 31/51 [00:04<00:03,  6.18it/s][A
+ 63%|██████▎   | 32/51 [00:05<00:03,  6.17it/s][A
+ 65%|██████▍   | 33/51 [00:05<00:02,  6.19it/s][A
+ 67%|██████▋   | 34/51 [00:05<00:02,  6.18it/s][A
+ 69%|██████▊   | 35/51 [00:05<00:02,  6.18it/s][A
+ 71%|███████   | 36/51 [00:05<00:02,  6.16it/s][A
+ 73%|███████▎  | 37/51 [00:05<00:02,  6.16it/s][A
+ 75%|███████▍  | 38/51 [00:06<00:02,  6.14it/s][A
+ 76%|███████▋  | 39/51 [00:06<00:01,  6.15it/s][A
+ 78%|███████▊  | 40/51 [00:06<00:01,  6.16it/s][A
+ 80%|████████  | 41/51 [00:06<00:01,  6.14it/s][A
+ 82%|████████▏ | 42/51 [00:06<00:01,  6.14it/s][A
+ 84%|████████▍ | 43/51 [00:06<00:01,  6.15it/s][A
+ 86%|████████▋ | 44/51 [00:07<00:01,  6.14it/s][A
+ 88%|████████▊ | 45/51 [00:07<00:00,  6.16it/s][A
+ 90%|█████████ | 46/51 [00:07<00:00,  6.17it/s][A
+ 92%|█████████▏| 47/51 [00:07<00:00,  6.15it/s][A
+ 94%|█████████▍| 48/51 [00:07<00:00,  6.16it/s][A
+ 96%|█████████▌| 49/51 [00:07<00:00,  6.17it/s][A
+ 98%|█████████▊| 50/51 [00:08<00:00,  6.16it/s][A
+100%|██████████| 51/51 [00:08<00:00,  6.18it/s][A100%|██████████| 51/51 [00:08<00:00,  6.24it/s]
+Evaluating: 100%|██████████| 2/2 [00:08<00:00,  4.93s/it]
+  0%|          | 0/51 [00:00<?, ?it/s][A
+  4%|▍         | 2/51 [00:00<00:02, 19.44it/s][A
+  8%|▊         | 4/51 [00:00<00:02, 16.40it/s][A
+ 12%|█▏        | 6/51 [00:00<00:02, 15.90it/s][A
+ 16%|█▌        | 8/51 [00:00<00:02, 15.43it/s][A
+ 20%|█▉        | 10/51 [00:00<00:02, 15.49it/s][A
+ 24%|██▎       | 12/51 [00:00<00:02, 15.27it/s][A
+ 27%|██▋       | 14/51 [00:00<00:02, 15.28it/s][A
+ 31%|███▏      | 16/51 [00:01<00:02, 15.28it/s][A
+ 35%|███▌      | 18/51 [00:01<00:02, 15.24it/s][A
+ 39%|███▉      | 20/51 [00:01<00:02, 15.07it/s][A
+ 43%|████▎     | 22/51 [00:01<00:02, 14.08it/s][A
+ 47%|████▋     | 24/51 [00:01<00:01, 14.79it/s][A
+ 51%|█████     | 26/51 [00:01<00:01, 14.90it/s][A
+ 55%|█████▍    | 28/51 [00:01<00:01, 14.92it/s][A
+ 59%|█████▉    | 30/51 [00:01<00:01, 15.02it/s][A
+ 63%|██████▎   | 32/51 [00:02<00:01, 15.06it/s][A
+ 67%|██████▋   | 34/51 [00:02<00:01, 14.99it/s][A
+ 71%|███████   | 36/51 [00:02<00:00, 15.09it/s][A
+ 75%|███████▍  | 38/51 [00:02<00:00, 14.94it/s][A
+ 78%|███████▊  | 40/51 [00:02<00:00, 15.00it/s][A
+ 82%|████████▏ | 42/51 [00:02<00:00, 15.15it/s][A
+ 86%|████████▋ | 44/51 [00:02<00:00, 15.18it/s][A
+ 90%|█████████ | 46/51 [00:03<00:00, 15.20it/s][A
+ 94%|█████████▍| 48/51 [00:03<00:00, 15.27it/s][A
+ 98%|█████████▊| 50/51 [00:03<00:00, 15.28it/s][A100%|██████████| 51/51 [00:03<00:00, 15.18it/s]
+Evaluating: 100%|██████████| 2/2 [00:11<00:00,  5.91s/it]
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-0.07892251..1.0180964].
+{'accuracy': tensor(0.4091, device='cuda:0')}
+{'f1': tensor(0.4348, device='cuda:0')}
+{'precision': tensor(0.4167, device='cuda:0')}
+{'recall': tensor(0.4545, device='cuda:0')}
+{'auc': tensor(0.2562, device='cuda:0')}
+Checkpoint saved to /workspace/experiments/fundus-unet/checkpoints/experiment_state.pth
+Val evaluation time: 24.09 s.
