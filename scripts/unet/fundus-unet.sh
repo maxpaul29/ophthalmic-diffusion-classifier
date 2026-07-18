@@ -52,7 +52,7 @@ export RESUME=1
 export PRETRAINED_CHECKPOINT=""  # (str) ISIC checkpoint to finetune from (set to "" for scratch), /experiments/fundus-unet/drusen-unet/pretrain-mogon
 
 ###### Inference/Explain parameters ######
-export CHECKPOINT_FOLDER="$INFERENCE_CHECKPOINT_FOLDER/drusen-unet/pretrain-epoch-75"      # (str) Checkpoint folder for inference
+export CHECKPOINT_FOLDER="$INFERENCE_CHECKPOINT_FOLDER/drusen-unet/finetune-epoch-300"      # (str) Checkpoint folder for inference
 export FLASH_ATTENTION=false            # (bool) Whether to use the flash attention or not
 
 export CFG_W=4.5                        # (int) Classifier guidance scale
