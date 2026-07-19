@@ -1,6 +1,7 @@
 # Large data and checkpoints stay on the host — mounted as volumes at runtime
 checkpoints/
-best_checkpoint/
+checkpoint*/
+best_checkpoint*/
 dataset/data/
 
 # Generated outputs
