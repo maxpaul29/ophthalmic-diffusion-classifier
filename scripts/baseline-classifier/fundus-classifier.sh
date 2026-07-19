@@ -1,11 +1,12 @@
 ###### Shared parameters for training/inference/explain ######
 export EXPERIMENT_DIR="/experiments/fundus-classifier"
-export DATA_PATH="$DATA_ROOT/fundus/full-fundus"  # (str) Path to the data directory containing the dataset
+export DATA_PATH="$DATA_ROOT"           # (str) Path to the data directory; split CSV image_name paths are relative to this
 export SEED=42
 
 # Data parameters
-export IMAGE_SIZE=256                   # (int) Size of the input images, 224 for vit/swin and 256 for resnet/efficientnet          
+export IMAGE_SIZE=256                   # (int) Size of the input images, 224 for vit/swin and 256 for resnet/efficientnet
 export IMAGE_CHANNELS=3                 # (int) Number of channels in the input images
+export SPLIT_PREFIX="drusen"            # (str) Which split CSV set to load: "fundus" (Kaggle), "drusen" (ODD Phase-2 baseline)
 
 # Optimizer parameters
 export BATCH_SIZE=64                     # (int) Batch size for training
@@ -56,6 +57,7 @@ export CONFIG="{
   \"eval_period\": $EVAL_PERIOD,
   \"pretrained\": $PRETRAINED,
   \"backbone\": \"$BACKBONE\",
+  \"split_prefix\": \"$SPLIT_PREFIX\",
   \"checkpoint_folder\": \"$CHECKPOINT_FOLDER\"
 }"
 

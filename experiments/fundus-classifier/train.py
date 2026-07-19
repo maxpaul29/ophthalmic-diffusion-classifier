@@ -54,6 +54,7 @@ def main():
         batch_size=config.batch_size,
         num_workers=config.num_workers,
         image_size=(config.image_size, config.image_size),
+        split_prefix=config.split_prefix or "fundus"
     )
 
     train_loader = fundus.get_train_loader()

@@ -8,13 +8,13 @@ export COMET_API_KEY=""
 export COMET_EXPERIMENT_NAME=""         
 export USE_COMET=0
 
-export MODEL="unet"                           # "baseline", "unet", "dit", "sd"
-export FUNCTION="explain"                        # "train", "inference", "explain", "finetune" (only supported for funuds-unet)
+export MODEL="baseline"                           # "baseline", "unet", "dit", "sd"
+export FUNCTION="train"                        # "train", "inference", "explain", "finetune" (only supported for funuds-unet)
 export DATA="fundus"                            # "chexpert", "isic", "fundus"
 
 # For the baseline
-export BACKBONE="efficientnet"                   # (str) Backbone for the classifier ('resnet' or 'efficientnet', 'vit', 'swin')
-export VARIANT="efficientnet_b0"               # (str) Variant of the backbone ('resnet18', 'resnet50', 'efficientnet_b0', 'efficientnet_b4', 'swin_base_patch4_window7_224', 'vit_base_patch16_224', 'vit_small_patch16_224')
+export BACKBONE="resnet"                   # (str) Backbone for the classifier ('resnet' or 'efficientnet', 'vit', 'swin')
+export VARIANT="resnet50"               # (str) Variant of the backbone ('resnet18', 'resnet50', 'efficientnet_b0', 'efficientnet_b4', 'swin_base_patch4_window7_224', 'vit_base_patch16_224', 'vit_small_patch16_224')
 
 
 export SCRIPTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
