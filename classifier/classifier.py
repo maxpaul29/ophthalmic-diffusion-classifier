@@ -162,8 +162,15 @@ class Classifier(nn.Module):
 
             if metrics is not None:
                 preds = torch.argmax(logits, dim=1)
+                # Ranking metrics (e.g. AUC) need the continuous positive-class
+                # score, not the hard predicted class -- mirrors the branching
+                # in DiffusionClassifier.evaluate().
+                scores = torch.softmax(logits, dim=1)[:, 1]
                 for metric in metrics:
-                    metric.update((preds, batch))
+                    if getattr(metric, "requires_scores", False):
+                        metric.update((scores, batch))
+                    else:
+                        metric.update((preds, batch))
             if stop_idx is not None and idx == stop_idx:
                 break
 
