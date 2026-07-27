@@ -17,6 +17,11 @@ services:
       - SMTP_USER=${SMTP_USER:-}
       - SMTP_PASSWORD=${SMTP_PASSWORD:-}
       - NOTIFY_EMAIL_TO=${NOTIFY_EMAIL_TO:-}
+      # Only used when explicitly running scripts/entrypoint_cv_with_notify.sh
+      # (cross-validation) — harmless/unused for the normal single-run workflow.
+      # Set these in your .env file to avoid passing -e flags each time.
+      - K_FOLDS=${K_FOLDS:-5}
+      - PRETRAIN_CHECKPOINT=${PRETRAIN_CHECKPOINT:-}
     volumes:
       - .:/workspace
       - ${DATA_PATH:-./dataset/data}:/data
