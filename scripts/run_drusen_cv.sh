@@ -19,6 +19,13 @@
 
 set -e
 
+# Same Docker mountpoint paths as scripts/run.sh — this script calls run.sh as
+# a subprocess per fold (which sets these for itself), but needs them in its
+# own shell too, for the archiving step and the final aggregation call below.
+export PROJECT_ROOT="/workspace"
+export DATA_ROOT="/data"
+export INFERENCE_CHECKPOINT_FOLDER="/checkpoints/final-models"
+
 K_FOLDS="${K_FOLDS:-5}"
 PRETRAIN_CHECKPOINT="${PRETRAIN_CHECKPOINT:?Set PRETRAIN_CHECKPOINT to the Phase-1 Mogon pretrain checkpoint dir}"
 
