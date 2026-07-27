@@ -428,6 +428,58 @@ The Docker configuration was adapted accordingly.
 
 ---
 
+## 3.9 K-Fold Cross-Validation for Drusen Fine-Tuning
+
+Given the limited number of available Drusen cases (111 original images), a single fixed train/valid/test split was considered insufficient to provide a robust estimate of test performance. A k-fold cross-validation procedure was therefore introduced for the fine-tuning stage.
+
+### Dataset Splitting
+
+A dedicated split generation script was added:
+
+```text
+dataset/splits/create_drusen_cv_splits.py
+```
+
+The script partitions the original Drusen images into k folds at the group level, so that augmented variants of the same original image are never split across folds. For each fold, one part is used as the test set, one as the validation set, and the remaining folds are used for training (including their augmented variants). Class balance and evaluation restricted to original, non-augmented images are preserved as in the existing single-split logic.
+
+### Fold-Aware Configuration
+
+The fine-tuning configuration (`fundus-unet.sh`) was extended with a configurable `FOLD` parameter. When set, it overrides `SPLIT_PREFIX` (selecting `drusen-fold{FOLD}` instead of the fixed `drusen` split) and `CHECKPOINT_FOLDER` (pointing inference at the corresponding fold's archived checkpoint). The default, non-CV single-split workflow remains unchanged when `FOLD` is unset.
+
+### Run Orchestration
+
+To orchestrate the resulting k independent fine-tuning and inference runs, a new script was introduced:
+
+```text
+scripts/run_drusen_cv.sh
+```
+
+which, for each fold, runs fine-tuning followed by inference, and archives the fold's checkpoint out of the shared experiment folder before the next fold starts, so that subsequent folds do not overwrite previous results.
+
+`inference.py` was extended to additionally write the evaluation results to a JSON file alongside the checkpoint used for the run, so they can be collected programmatically. A new aggregation script was introduced:
+
+```text
+experiments/fundus-unet/aggregate_cv_results.py
+```
+
+which collects the per-fold test results and computes the mean and standard deviation across all folds, providing the final reported classification performance.
+
+### Unattended Execution
+
+Because cross-validation involves several consecutive fine-tuning runs and is intended to run unattended on the clinical workstation, a dedicated notification wrapper was added:
+
+```text
+scripts/entrypoint_cv_with_notify.sh
+```
+
+mirroring the existing `entrypoint_with_notify.sh` (log capture, hourly progress e-mails, final completion e-mail), but invoking `run_drusen_cv.sh` instead of a single `run.sh` call. It was kept as a separate script rather than a conditional branch inside `entrypoint_with_notify.sh`, so the default single-run workflow is left completely unaffected and cross-validation is only ever triggered by explicitly invoking this script. `docker-compose.yml` was extended with `K_FOLDS` and `PRETRAIN_CHECKPOINT` environment variables so these can be configured via `.env` instead of being passed on every invocation.
+
+### Bug Fix: Environment Variable Propagation in `run.sh`
+
+While integrating the orchestration script, it was discovered that `scripts/run.sh` unconditionally re-exported `MODEL`, `FUNCTION`, `DATA`, `BACKBONE`, and `VARIANT` to fixed literal values, silently discarding any values already exported by a calling script (such as `run_drusen_cv.sh` setting `MODEL=unet`). As a result, orchestrated runs unintentionally fell back to the baseline classifier configuration. These assignments were changed to `"${VAR:-default}"`, so a value pre-set by a calling script is respected, while direct, manual invocation of `run.sh` keeps its previous default behaviour.
+
+---
+
 # 4. Baseline Classifier
 
 A separate discriminative baseline pipeline was implemented to provide a comparison with the diffusion-based classifier.
@@ -455,7 +507,8 @@ both adapted from the scripts in `isic-classifier`, with modifications containin
 
 * dataloader adaption,
 * configurable dataset split prefixes,
-* AUC evaluation.
+* AUC evaluation,
+* fix of the AUC metric receiving hard predictions instead of continuous scores.
 
 A ResNet50-based baseline using ImageNet-pretrained weights was evaluated with this setting.
 
@@ -553,3 +606,5 @@ The following modifications distinguish the adapted implementation from the orig
 19. Introduction of a Docker-based execution environment using Python 3.11.11 for clinical fine-tuning.
 20. Introduction of a separate discriminative baseline pipeline for comparison with the diffusion-based classifier.
 21. Addition of a ResNet50-based baseline using ImageNet-pretrained weights.
+22. Introduction of a k-fold cross-validation procedure for the Drusen fine-tuning stage, including fold-aware dataset splitting, run orchestration, unattended execution with notifications, and result aggregation.
+23. Fix of environment-variable propagation in `run.sh` (`MODEL`, `FUNCTION`, `DATA`, `BACKBONE`, `VARIANT` were previously always reset to fixed defaults, breaking orchestrated runs that pre-set these values).
