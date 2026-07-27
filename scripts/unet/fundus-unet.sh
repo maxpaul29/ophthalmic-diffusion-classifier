@@ -48,8 +48,8 @@ export N_KEEP_PER_STAGE=[1]             # (list) Number of classes to keep per s
 export MAJORITY_VOTING=true            # (bool) Whether to perform majority voting or not
 
 ###### Training parameters ######
-export RESUME=1
-export PRETRAINED_CHECKPOINT=""  # (str) ISIC checkpoint to finetune from (set to "" for scratch), /experiments/fundus-unet/drusen-unet/pretrain-mogon
+export RESUME=0
+export PRETRAINED_CHECKPOINT="/experiments/fundus-unet/drusen-unet/pretrain-mogon"  # (str) checkpoint to finetune from (set to "" for scratch)
 
 ###### Inference/Explain parameters ######
 export CHECKPOINT_FOLDER="$INFERENCE_CHECKPOINT_FOLDER/drusen-unet/finetune-epoch-300"      # (str) Checkpoint folder for inference
