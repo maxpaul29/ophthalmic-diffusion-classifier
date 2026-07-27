@@ -16,6 +16,10 @@
 # Usage:
 #   K_FOLDS=5 PRETRAIN_CHECKPOINT=/checkpoints/final-models/drusen-unet/pretrain-mogon \
 #       bash scripts/run_drusen_cv.sh
+#
+# Set START_FOLD (default 0) to resume from a later fold, e.g. after an
+# earlier fold already finished and was archived, or a failure was fixed
+# manually — folds before START_FOLD are skipped entirely.
 
 set -e
 
@@ -27,6 +31,7 @@ export DATA_ROOT="/data"
 export INFERENCE_CHECKPOINT_FOLDER="/checkpoints/final-models"
 
 K_FOLDS="${K_FOLDS:-5}"
+START_FOLD="${START_FOLD:-0}"
 PRETRAIN_CHECKPOINT="${PRETRAIN_CHECKPOINT:?Set PRETRAIN_CHECKPOINT to the Phase-1 Mogon pretrain checkpoint dir}"
 
 export MODEL="unet"
@@ -37,7 +42,7 @@ export PRETRAINED_CHECKPOINT="$PRETRAIN_CHECKPOINT"
 EXPERIMENT_PATH="$PROJECT_ROOT/experiments/fundus-unet"
 CV_ARCHIVE_ROOT="$INFERENCE_CHECKPOINT_FOLDER/drusen-unet/cv"
 
-for ((i = 0; i < K_FOLDS; i++)); do
+for ((i = START_FOLD; i < K_FOLDS; i++)); do
     echo "=== Fold $i/$((K_FOLDS - 1)): Finetuning ==="
     export FOLD="$i"
     export FUNCTION="finetune"
@@ -51,8 +56,14 @@ for ((i = 0; i < K_FOLDS; i++)); do
     echo "=== Fold $i: Archiving checkpoint ==="
     FOLD_ARCHIVE_DIR="$CV_ARCHIVE_ROOT/fold${i}"
     mkdir -p "$FOLD_ARCHIVE_DIR"
-    mv "$EXPERIMENT_PATH/checkpoints" "$FOLD_ARCHIVE_DIR/checkpoints"
-    mv "$EXPERIMENT_PATH/best_checkpoint" "$FOLD_ARCHIVE_DIR/best_checkpoint"
+    # Remove any stale archive from a previous, interrupted attempt first —
+    # otherwise `mv` nests the new checkpoint inside the existing (non-empty)
+    # target directory instead of replacing it, and can fail outright across
+    # the /workspace <-> /checkpoints volume boundary (different Docker mounts,
+    # so mv falls back to copy+delete rather than an atomic rename).
+    rm -rf "$FOLD_ARCHIVE_DIR/checkpoints" "$FOLD_ARCHIVE_DIR/best_checkpoint"
+    mv -T "$EXPERIMENT_PATH/checkpoints" "$FOLD_ARCHIVE_DIR/checkpoints"
+    mv -T "$EXPERIMENT_PATH/best_checkpoint" "$FOLD_ARCHIVE_DIR/best_checkpoint"
 
     echo "=== Fold $i: Running inference on the held-out test split ==="
     export FUNCTION="inference"

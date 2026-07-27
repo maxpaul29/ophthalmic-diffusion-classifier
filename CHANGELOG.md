@@ -454,7 +454,7 @@ To orchestrate the resulting k independent fine-tuning and inference runs, a new
 scripts/run_drusen_cv.sh
 ```
 
-which, for each fold, runs fine-tuning followed by inference, and archives the fold's checkpoint out of the shared experiment folder before the next fold starts, so that subsequent folds do not overwrite previous results.
+which, for each fold, runs fine-tuning followed by inference, and archives the fold's checkpoint out of the shared experiment folder before the next fold starts, so that subsequent folds do not overwrite previous results. Because the experiment folder and the archive location reside on separate Docker volumes, archiving is implemented as an idempotent move (clearing any pre-existing target first) rather than a plain rename, so it can be safely re-run after an interrupted attempt. A `START_FOLD` parameter additionally allows resuming a cross-validation run from a specific fold, so already-completed and archived folds are not repeated.
 
 `inference.py` was extended to additionally write the evaluation results to a JSON file alongside the checkpoint used for the run, so they can be collected programmatically. A new aggregation script was introduced:
 
