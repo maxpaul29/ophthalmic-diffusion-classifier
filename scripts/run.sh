@@ -8,13 +8,16 @@ export COMET_API_KEY=""
 export COMET_EXPERIMENT_NAME=""         
 export USE_COMET=0
 
-export MODEL="baseline"                           # "baseline", "unet", "dit", "sd"
-export FUNCTION="train"                        # "train", "inference", "explain", "finetune" (only supported for funuds-unet)
-export DATA="fundus"                            # "chexpert", "isic", "fundus"
+# ${VAR:-default} so a value already exported by a calling script (e.g.
+# run_drusen_cv.sh setting MODEL/FUNCTION/DATA before invoking run.sh) is
+# respected instead of being unconditionally clobbered back to these defaults.
+export MODEL="${MODEL:-baseline}"                           # "baseline", "unet", "dit", "sd"
+export FUNCTION="${FUNCTION:-train}"                        # "train", "inference", "explain", "finetune" (only supported for funuds-unet)
+export DATA="${DATA:-fundus}"                            # "chexpert", "isic", "fundus"
 
 # For the baseline
-export BACKBONE="resnet"                   # (str) Backbone for the classifier ('resnet' or 'efficientnet', 'vit', 'swin')
-export VARIANT="resnet50"               # (str) Variant of the backbone ('resnet18', 'resnet50', 'efficientnet_b0', 'efficientnet_b4', 'swin_base_patch4_window7_224', 'vit_base_patch16_224', 'vit_small_patch16_224')
+export BACKBONE="${BACKBONE:-resnet}"                   # (str) Backbone for the classifier ('resnet' or 'efficientnet', 'vit', 'swin')
+export VARIANT="${VARIANT:-resnet50}"               # (str) Variant of the backbone ('resnet18', 'resnet50', 'efficientnet_b0', 'efficientnet_b4', 'swin_base_patch4_window7_224', 'vit_base_patch16_224', 'vit_small_patch16_224')
 
 
 export SCRIPTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
