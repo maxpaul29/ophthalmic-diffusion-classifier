@@ -10,6 +10,15 @@ export WAVELET_TRANSFORM=true           # (bool) Whether to use the wavelet tran
 export SPLIT_PREFIX="drusen"            # (str) Which split CSV set to load: "fundus" (Kaggle),
                                         #       "pretrain" (Phase-1 healthy-only), "drusen" (Phase-2)
 
+# Cross-validation: set FOLD (e.g. 0..k-1) to run a single CV fold instead of
+# the plain fixed drusen split. Overrides SPLIT_PREFIX/CHECKPOINT_FOLDER below
+# so each fold reads its own dataset/splits/drusen-fold{FOLD}-*.csv and writes
+# its checkpoints/inference results to its own subfolder. Leave FOLD unset for
+# the normal (non-CV) single-split workflow — nothing below changes then.
+if [[ -n "$FOLD" ]]; then
+    export SPLIT_PREFIX="drusen-fold${FOLD}"
+fi
+
 # Optimizer/EMA parameters
 export BATCH_SIZE=16                    # (int) Batch size for training
 if [[ "$FUNCTION" == "finetune" ]]; then
@@ -53,6 +62,9 @@ export PRETRAINED_CHECKPOINT="/experiments/fundus-unet/drusen-unet/pretrain-mogo
 
 ###### Inference/Explain parameters ######
 export CHECKPOINT_FOLDER="$INFERENCE_CHECKPOINT_FOLDER/drusen-unet/finetune-epoch-300"      # (str) Checkpoint folder for inference
+if [[ -n "$FOLD" ]]; then
+    export CHECKPOINT_FOLDER="$INFERENCE_CHECKPOINT_FOLDER/drusen-unet/cv/fold${FOLD}/best_checkpoint"
+fi
 export FLASH_ATTENTION=false            # (bool) Whether to use the flash attention or not
 
 export CFG_W=4.5                        # (int) Classifier guidance scale

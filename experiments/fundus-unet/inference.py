@@ -189,7 +189,19 @@ def main():
                         checkpoint_folder=config.checkpoint_folder,
                     )
 
-    print([{k: round(v.item(), 4) for k, v in d.items()} for d in metric_output])
+    results = [{k: round(v.item(), 4) for k, v in d.items()} for d in metric_output]
+    print(results)
+
+    # Also write the results as JSON next to the checkpoint used for this run,
+    # so a cross-validation orchestrator (aggregate_cv_results.py) can read
+    # each fold's metrics back in without parsing console output.
+    merged = {}
+    for d in results:
+        merged.update(d)
+    result_path = os.path.join(config.checkpoint_folder, "inference_result.json")
+    with open(result_path, "w") as f:
+        json.dump(merged, f, indent=2)
+    print(f"Saved: {result_path}")
 
     # Empty cache
     torch.cuda.empty_cache()
