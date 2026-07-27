@@ -1,3 +1,22 @@
+# **Ophthalmic Diffusion Classifier**  
+**Author**: Maximilian Paul
+**Institution**: Johannes Gutenberg University Mainz
+
+This repository is based on the official implementation of:
+
+**Conditional Diffusion Models are Medical Image Classifiers that Provide Explainability and Uncertainty for Free** (MIDL 2025)
+
+by Gian Favero\*, Parham Saremi\*, Emily Kaczmarek, Brennan Nichyporuk and Tal Arbel.
+
+This project extends the original framework for glaucoma classification on fundus images and is being developed as part of a Bachelor's thesis investigating generative AI models for ophthalmic disease classification. 
+
+All modifications are documented in [CHANGELOG.md](CHANGELOG.md).
+
+Original Repository: 
+https://github.com/faverogian/med-diffusion-classifier
+
+The original README from Favero et al. is preserved below.
+
 # **Medical Diffusion Classifier: Official PyTorch Implementation**  
 
 **Venue**: MIDL 2025  
