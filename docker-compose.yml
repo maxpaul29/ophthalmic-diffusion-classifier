@@ -22,6 +22,7 @@ services:
       # Set these in your .env file to avoid passing -e flags each time.
       - K_FOLDS=${K_FOLDS:-5}
       - PRETRAIN_CHECKPOINT=${PRETRAIN_CHECKPOINT:-}
+      - START_FOLD=${START_FOLD:-0}
     volumes:
       - .:/workspace
       - ${DATA_PATH:-./dataset/data}:/data
