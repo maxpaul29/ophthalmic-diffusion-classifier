@@ -55,6 +55,7 @@ export N_STAGES=1                       # (int) Number of stages for the classif
 export EVALUATION_PER_STAGE="${EVALUATION_PER_STAGE:-[51]}" # (list) Number of samples to evaluate per stage
 export N_KEEP_PER_STAGE=[1]             # (list) Number of classes to keep per stage (Must end with 1)
 export MAJORITY_VOTING=true            # (bool) Whether to perform majority voting or not
+export UNCERTAINTY_ESTIMATION="${UNCERTAINTY_ESTIMATION:-false}"  # (bool) inference.py only: also record per-sample Bernoulli-variance uncertainty (Favero et al.) for uncertainty-filtering analysis
 
 ###### Training parameters ######
 export RESUME=0
@@ -112,6 +113,7 @@ export CONFIG="{
   \"evaluation_per_stage\": $EVALUATION_PER_STAGE,
   \"n_keep_per_stage\": $N_KEEP_PER_STAGE,
   \"majority_voting\": $MAJORITY_VOTING,
+  \"uncertainty_estimation\": $UNCERTAINTY_ESTIMATION,
   \"flash_attention\": $FLASH_ATTENTION,
   \"from_t\": $FROM_T
 }"

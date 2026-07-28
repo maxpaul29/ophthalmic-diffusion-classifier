@@ -177,8 +177,13 @@ def main():
 
     metrics = [Accuracy("accuracy"), F1("f1"), Precision("precision"), Recall("recall"), AUC("auc")]
 
+    # Collect per-sample uncertainty (Favero et al. Bernoulli-variance estimate)
+    # only for the plain single-split run, controlled via the CONFIG's optional
+    # "uncertainty_estimation" flag (absent/false -> no behaviour change, no cost).
+    collect_uncertainty = bool(config.uncertainty_estimation)
+
     # Train the model
-    metric_output, _, _ = diffusion_classifier.inference(
+    metric_output, _, _, predictions = diffusion_classifier.inference(
                         train_dataloader=train_loader,
                         val_dataloader=test_loader,
                         optimizer=optimizer,
@@ -187,6 +192,7 @@ def main():
                         plot_function=None,
                         classification=config.classification,
                         checkpoint_folder=config.checkpoint_folder,
+                        collect_uncertainty=collect_uncertainty,
                     )
 
     results = [{k: round(v.item(), 4) for k, v in d.items()} for d in metric_output]
@@ -202,6 +208,12 @@ def main():
     with open(result_path, "w") as f:
         json.dump(merged, f, indent=2)
     print(f"Saved: {result_path}")
+
+    if collect_uncertainty:
+        predictions_path = os.path.join(config.checkpoint_folder, "uncertainty_predictions.json")
+        with open(predictions_path, "w") as f:
+            json.dump(predictions, f, indent=2)
+        print(f"Saved: {predictions_path}")
 
     # Empty cache
     torch.cuda.empty_cache()

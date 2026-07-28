@@ -516,7 +516,7 @@ class DiffusionClassifier(nn.Module):
                 training_images_path = os.path.join(self.config.experiment_path, "training_images/")
 
                 # TODO: cleanup and consider multiple metrics
-                val_samples, batches, _ = self.evaluate(
+                val_samples, batches, _, _ = self.evaluate(
                                             val_dataloader,
                                             stop_idx=self.config.evaluation_batches,
                                             metrics=None,
@@ -530,7 +530,7 @@ class DiffusionClassifier(nn.Module):
                 # existing 2-class training/finetuning runs below).
                 avg_val_loss = None
                 if metrics is not None:
-                    _, _, metrics = self.evaluate(
+                    _, _, metrics, _ = self.evaluate(
                                         val_dataloader,
                                         stop_idx=self.config.evaluation_batches,
                                         metrics=metrics,
@@ -619,12 +619,13 @@ class DiffusionClassifier(nn.Module):
 
     @torch.no_grad()
     def evaluate(
-        self, 
-        val_dataloader, 
+        self,
+        val_dataloader,
         stop_idx=None,
         metrics=None,
         classification=False,
-        from_t=1
+        from_t=1,
+        collect_uncertainty=False
     ):
         """
         A function to evaluate the model.
@@ -635,10 +636,14 @@ class DiffusionClassifier(nn.Module):
         metrics (list): A list of metrics to evaluate.
         classification (bool): Whether to perform classification.
         from_t (int): The timepoint to start sampling from (default is 1).
+        collect_uncertainty (bool): If True (requires classification=True), also
+            record per-sample true label, predicted class and Bernoulli-variance
+            uncertainty (see classify()) for later uncertainty-filtering analysis.
         """
-        
+
         val_samples = []
         batches = []
+        predictions = []
 
         # Make a progress bar
         progress_bar = tqdm(val_dataloader, desc="Evaluating")
@@ -649,9 +654,22 @@ class DiffusionClassifier(nn.Module):
 
             x = batch["images"]
             p = batch["prompt"] if "prompt" in batch.keys() else None
-            
+
             if classification:
-                sample, scores = self.classify(x, p, majority=self.config.majority_voting, return_scores=True)
+                if collect_uncertainty:
+                    sample, scores, uncertainty = self.classify(
+                        x, p, majority=self.config.majority_voting,
+                        return_scores=True, return_uncertainty=True
+                    )
+                    for true_label, pred_label, u in zip(p.tolist(), sample.tolist(), uncertainty.tolist()):
+                        predictions.append({
+                            "true": int(true_label),
+                            "pred": int(pred_label),
+                            "correct": int(true_label) == int(pred_label),
+                            "uncertainty": float(u),
+                        })
+                else:
+                    sample, scores = self.classify(x, p, majority=self.config.majority_voting, return_scores=True)
             else:
                 sample = self.sample(x, p, from_t)
                 scores = None
@@ -673,7 +691,7 @@ class DiffusionClassifier(nn.Module):
 
         progress_bar.close()
 
-        return val_samples, batches, metrics
+        return val_samples, batches, metrics, predictions
     
     # TODO - fix parameters because some of them are just config.something
     @torch.no_grad()
@@ -687,7 +705,8 @@ class DiffusionClassifier(nn.Module):
         plot_function=None,
         classification=False,
         from_t=1,
-        checkpoint_folder="checkpoints"
+        checkpoint_folder="checkpoints",
+        collect_uncertainty=False
     ):
         """
         A function to perform inference.
@@ -702,6 +721,8 @@ class DiffusionClassifier(nn.Module):
         classification (bool): Whether to perform classification.
         from_t (int): The timepoint to start sampling from (default is 1).
         checkpoint_folder (str): The folder to load the checkpoint from. Default is "checkpoints" which will use the checkpoints folder in the experiment folder. Otherwise should provide absolute path.
+        collect_uncertainty (bool): If True, also record per-sample uncertainty
+            (see evaluate()/classify()) for uncertainty-filtering analysis.
         """
 
         # Make directory for saving images
@@ -733,12 +754,13 @@ class DiffusionClassifier(nn.Module):
         if self.flash_attention:
             self.ema.half()
         model.eval()
-        val_samples, batches, metrics = self.evaluate(
-                                                    val_dataloader, 
+        val_samples, batches, metrics, predictions = self.evaluate(
+                                                    val_dataloader,
                                                     metrics=metrics,
                                                     stop_idx=self.config.evaluation_batches,
                                                     classification=classification,
-                                                    from_t=from_t
+                                                    from_t=from_t,
+                                                    collect_uncertainty=collect_uncertainty
                                                 )
         
         metric_output = []
@@ -757,10 +779,10 @@ class DiffusionClassifier(nn.Module):
                 process_idx=accelerator.state.process_index
             )
 
-        return (metric_output, val_samples, batches) if metrics is not None else (val_samples, batches)
+        return (metric_output, val_samples, batches, predictions) if metrics is not None else (val_samples, batches, predictions)
     
     @torch.no_grad()
-    def classify(self, x, text=None, majority=True, return_scores=False):
+    def classify(self, x, text=None, majority=True, return_scores=False, return_uncertainty=False):
         """
         A function to perform classification.
 
@@ -772,10 +794,20 @@ class DiffusionClassifier(nn.Module):
             positive-class probability per sample (shape (BS,)), derived from
             the softmax over the negative mean reconstruction errors
             (p(c_i|x), Eq. 3 of the paper). Used for ranking metrics (e.g. AUC).
+        return_uncertainty (bool): If True (requires majority=True), additionally
+            return an uncertainty estimate per sample (shape (BS,)), following
+            the Bernoulli-based uncertainty quantification of Favero et al.:
+            each of the N (eps, lambda) evaluations casts one vote for a class,
+            forming a Bernoulli distribution over the winning class with
+            parameter p = winning_votes / N. The returned uncertainty is the
+            variance of that Bernoulli distribution, p * (1 - p), which is 0
+            for a unanimous vote and maximal (0.25) for an evenly split vote.
 
         Returns:
         classes (torch.Tensor): The predicted classes.
         scores (torch.Tensor): (only if return_scores) p(c=1|x), shape (BS,).
+        uncertainty (torch.Tensor): (only if return_uncertainty) Bernoulli
+            variance of the winning-class vote share, shape (BS,).
         """
         assert self.encoder_type is not None, "Encoder must be provided for classification."
         assert len(self.config.evaluation_per_stage) == self.config.n_stages, "Number of evaluations per stage must match the number of stages."
@@ -849,6 +881,8 @@ class DiffusionClassifier(nn.Module):
                 _, keep_indices = torch.topk(votes, num_keep, dim=1, largest=True)
                 classes = keep_indices # of shape (BS, num_keep): The indices of the classes to keep
 
+        outputs = [classes[:, 0]]
+
         if return_scores:
             # p(c_i|x) per Eq. 3: softmax over the negative mean reconstruction
             # error per class (averaged over all evaluations). Pruned classes
@@ -856,9 +890,19 @@ class DiffusionClassifier(nn.Module):
             mean_errors = errors[:, :, :stage_end].mean(dim=2)  # (BS, classes)
             probs = torch.softmax(-mean_errors, dim=1)          # (BS, classes)
             scores = probs[:, 1]                                # positive-class prob
-            return classes[:, 0], scores
+            outputs.append(scores)
 
-        return classes[:, 0]
+        if return_uncertainty:
+            assert majority, "return_uncertainty requires majority=True (votes are only tallied in that branch)."
+            # Bernoulli variance p*(1-p) of the winning-class vote share over
+            # the N evaluations of the final stage (Favero et al., uncertainty
+            # quantification): 0 for a unanimous vote, 0.25 for an evenly split one.
+            winning_votes = votes.max(dim=1).values  # (BS,)
+            p = winning_votes / stage_end
+            uncertainty = p * (1 - p)
+            outputs.append(uncertainty)
+
+        return outputs[0] if len(outputs) == 1 else tuple(outputs)
     
     def save_checkpoint(self, accelerator: Accelerator, epoch, experiment, checkpoint_tracker=None):
         """
