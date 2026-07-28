@@ -480,6 +480,24 @@ While integrating the orchestration script, it was discovered that `scripts/run.
 
 ---
 
+## 3.10 Uncertainty Quantification for Drusen Classification
+
+Favero et al. note that the diffusion classifier inherently produces an uncertainty estimate for each prediction, since majority voting already draws N per-sample votes from the (ε, λ) evaluations required for classification (Eq. (4)). This uncertainty was not previously exposed by the codebase and was added to evaluate whether filtering out uncertain predictions improves accuracy on the remaining Drusen test data, reproducing the corresponding analysis from the paper.
+
+`DiffusionClassifier.classify()` (`diffusion/diffusion_classifier.py`) was extended with a `return_uncertainty` option. When enabled, it additionally returns, per sample, the Bernoulli variance `p * (1 - p)` of the winning class's vote share over the N evaluations already tallied for majority voting — 0 for a unanimous vote, 0.25 for an evenly split one. `evaluate()` and `inference()` were extended with a matching `collect_uncertainty` option that records, per test sample, the true label, predicted class, correctness, and this uncertainty value; all other call sites were updated for the resulting additional return value, with no change in behaviour when the option is left disabled.
+
+This is exposed as a `UNCERTAINTY_ESTIMATION` flag in `scripts/unet/fundus-unet.sh` (default `false`) and, when enabled, `inference.py` additionally writes a `uncertainty_predictions.json` file alongside the checkpoint's evaluation results. A new plotting script was added:
+
+```text
+experiments/fundus-unet/plot_uncertainty_filtering.py
+```
+
+which sorts test samples by decreasing uncertainty, progressively removes the most uncertain ones, and recomputes accuracy on the remaining data at each step, reproducing the "removed data vs. accuracy" plot of Favero et al.
+
+This analysis is currently only used on the clinical PC branch's plain single-split (80/10/10) Drusen classification run, not on the cross-validation folds, since it is intended as a qualitative check of whether the model's confidence is meaningful rather than as part of the reported cross-validated performance.
+
+---
+
 # 4. Baseline Classifier
 
 A separate discriminative baseline pipeline was implemented to provide a comparison with the diffusion-based classifier.
@@ -608,3 +626,4 @@ The following modifications distinguish the adapted implementation from the orig
 21. Addition of a ResNet50-based baseline using ImageNet-pretrained weights.
 22. Introduction of a k-fold cross-validation procedure for the Drusen fine-tuning stage, including fold-aware dataset splitting, run orchestration, unattended execution with notifications, and result aggregation.
 23. Fix of environment-variable propagation in `run.sh` (`MODEL`, `FUNCTION`, `DATA`, `BACKBONE`, `VARIANT` were previously always reset to fixed defaults, breaking orchestrated runs that pre-set these values).
+24. Addition of per-sample uncertainty quantification for the Drusen classifier, based on the Bernoulli variance of the majority-voting vote share, together with an uncertainty-based data-filtering analysis and plot.
