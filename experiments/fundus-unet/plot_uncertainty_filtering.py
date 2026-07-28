@@ -72,8 +72,8 @@ def main():
     ax.set_ylabel("Accuracy on remaining data", fontsize=12)
     ax.set_title("Drusen Classification — Accuracy vs. Uncertainty-Based Filtering",
                  fontsize=13, fontweight="bold")
-    ax.set_xlim(0, 100)
-    ax.set_ylim(0.0, 1.0)
+    ax.set_xlim(0, 102)
+    ax.set_ylim(0.0, 1.02)
     ax.grid(True, linestyle="--", alpha=0.5)
 
     fig.tight_layout()
