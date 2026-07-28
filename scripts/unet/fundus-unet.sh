@@ -52,7 +52,7 @@ export ENCODER_TYPE="nn"                # (str) Type of encoder for the end-to-e
 export CLASSES=2                        # (int) Number of classes in the dataset
 export CLASSIFICATION=true             # (bool) Whether to perform classification or not
 export N_STAGES=1                       # (int) Number of stages for the classification
-export EVALUATION_PER_STAGE=[51]        # (list) Number of samples to evaluate per stage
+export EVALUATION_PER_STAGE="${EVALUATION_PER_STAGE:-[51]}" # (list) Number of samples to evaluate per stage
 export N_KEEP_PER_STAGE=[1]             # (list) Number of classes to keep per stage (Must end with 1)
 export MAJORITY_VOTING=true            # (bool) Whether to perform majority voting or not
 
