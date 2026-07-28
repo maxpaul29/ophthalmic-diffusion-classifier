@@ -21,8 +21,12 @@ from pathlib import Path
 def main():
     parser = argparse.ArgumentParser(description="Aggregate k-fold CV inference results.")
     parser.add_argument("--cv-root", required=True,
-                        help="Directory containing fold{i}/best_checkpoint/inference_result.json for each fold.")
+                        help="Directory containing fold{i}/<checkpoint-subdir>/inference_result.json for each fold.")
     parser.add_argument("--k-folds", type=int, required=True, help="Number of folds.")
+    parser.add_argument("--checkpoint-subdir", default="best_checkpoint",
+                        help="Name of the archived checkpoint subdirectory within each fold{i}/ "
+                             "(default: best_checkpoint, i.e. the diffusion UNet's naming; use "
+                             "best_checkpoint_<variant> for the baseline classifier).")
     args = parser.parse_args()
 
     cv_root = Path(args.cv_root)
@@ -30,7 +34,7 @@ def main():
     per_fold = []
 
     for i in range(args.k_folds):
-        result_path = cv_root / f"fold{i}" / "best_checkpoint" / "inference_result.json"
+        result_path = cv_root / f"fold{i}" / args.checkpoint_subdir / "inference_result.json"
         if not result_path.exists():
             raise FileNotFoundError(f"Missing result for fold {i}: {result_path}")
         with open(result_path) as f:

@@ -8,6 +8,15 @@ export IMAGE_SIZE=256                   # (int) Size of the input images, 224 fo
 export IMAGE_CHANNELS=3                 # (int) Number of channels in the input images
 export SPLIT_PREFIX="drusen"            # (str) Which split CSV set to load: "fundus" (Kaggle), "drusen" (ODD Phase-2 baseline)
 
+# Cross-validation: set FOLD (e.g. 0..k-1) to run a single CV fold instead of
+# the plain fixed drusen split. Overrides SPLIT_PREFIX/CHECKPOINT_FOLDER below
+# so each fold reads its own dataset/splits/drusen-fold{FOLD}-*.csv and writes
+# its checkpoint/inference results to its own subfolder. Leave FOLD unset for
+# the normal (non-CV) single-split workflow — nothing below changes then.
+if [[ -n "$FOLD" ]]; then
+    export SPLIT_PREFIX="drusen-fold${FOLD}"
+fi
+
 # Optimizer parameters
 export BATCH_SIZE=64                     # (int) Batch size for training
 export NUM_EPOCHS=100                   # (int) Number of epochs to train for
@@ -29,6 +38,9 @@ export RESUME=0                 # (int) Resume training from the last checkpoint
 
 ###### Inference parameters ######
 export CHECKPOINT_FOLDER="$INFERENCE_CHECKPOINT_FOLDER/fundus-classifier/best_checkpoint_$VARIANT"           # (str) Checkpoint folder: empty if loading default based on variant
+if [[ -n "$FOLD" ]]; then
+    export CHECKPOINT_FOLDER="$INFERENCE_CHECKPOINT_FOLDER/fundus-classifier/cv/fold${FOLD}/best_checkpoint_$VARIANT"
+fi
 
 export CONFIG="{
   \"resume\": $RESUME,
