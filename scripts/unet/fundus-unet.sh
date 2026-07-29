@@ -59,12 +59,22 @@ export UNCERTAINTY_ESTIMATION="${UNCERTAINTY_ESTIMATION:-false}"  # (bool) infer
 
 ###### Training parameters ######
 export RESUME=0
-export PRETRAINED_CHECKPOINT="/checkpoints/final-models/drusen-unet/pretrain-mogon"  # (str) checkpoint to finetune from (set to "" for scratch)
+# "${VAR-default}" (no colon) rather than "${VAR:-default}", so that a calling
+# script explicitly pre-setting PRETRAINED_CHECKPOINT="" (train-from-scratch,
+# e.g. run_drusen_scratch_cv.sh) is respected instead of being clobbered back
+# to the pretrained default — "${VAR:-default}" would treat empty the same as
+# unset and override it.
+export PRETRAINED_CHECKPOINT="${PRETRAINED_CHECKPOINT-/checkpoints/final-models/drusen-unet/pretrain-mogon}"  # (str) checkpoint to finetune from (set to "" for scratch)
 
 ###### Inference/Explain parameters ######
-export CHECKPOINT_FOLDER="$INFERENCE_CHECKPOINT_FOLDER/drusen-unet/finetune-epoch-300"      # (str) Checkpoint folder for inference
+# Archive directory name under $INFERENCE_CHECKPOINT_FOLDER, so a parallel
+# train-from-scratch CV run (run_drusen_scratch_cv.sh, DRUSEN_MODEL_DIR set to
+# "drusen-unet-scratch") does not read/write the same checkpoint paths as the
+# pretrained-finetuning CV run (run_drusen_cv.sh).
+export DRUSEN_MODEL_DIR="${DRUSEN_MODEL_DIR:-drusen-unet}"
+export CHECKPOINT_FOLDER="$INFERENCE_CHECKPOINT_FOLDER/$DRUSEN_MODEL_DIR/finetune-epoch-300"      # (str) Checkpoint folder for inference
 if [[ -n "$FOLD" ]]; then
-    export CHECKPOINT_FOLDER="$INFERENCE_CHECKPOINT_FOLDER/drusen-unet/cv/fold${FOLD}/best_checkpoint"
+    export CHECKPOINT_FOLDER="$INFERENCE_CHECKPOINT_FOLDER/$DRUSEN_MODEL_DIR/cv/fold${FOLD}/best_checkpoint"
 fi
 export FLASH_ATTENTION=false            # (bool) Whether to use the flash attention or not
 

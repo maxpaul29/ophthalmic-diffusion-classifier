@@ -498,6 +498,22 @@ This analysis is currently only used on the clinical PC branch's plain single-sp
 
 ---
 
+## 3.11 Cross-Validation for Training from Scratch and Unified CV Invocation
+
+To assess whether Mogon Phase-1 pretraining meaningfully improves Drusen classification performance, a cross-validated training-from-scratch baseline was added, so it can be compared to the pretrained-and-finetuned CV results (Section 3.9) on the same folds rather than on a single split.
+
+A dedicated orchestration script was introduced:
+
+```text
+scripts/run_drusen_scratch_cv.sh
+```
+
+which mirrors `run_drusen_cv.sh`, but calls `train.py` instead of `finetune.py` for each fold, without a pretrained checkpoint, and archives its checkpoints under a separate `drusen-unet-scratch` location so the two CV runs never share or overwrite each other's checkpoints. `scripts/unet/fundus-unet.sh` was extended with a `DRUSEN_MODEL_DIR` variable to control this archive location. While integrating this, it was discovered that `PRETRAINED_CHECKPOINT` was unconditionally re-exported to its default value in `fundus-unet.sh`, silently discarding an explicitly empty value set by a calling script; the assignment was changed from `"${VAR:-default}"` to `"${VAR-default}"`, which only substitutes the default when the variable is entirely unset.
+
+To invoke the resulting three cross-validation variants (pretrained finetuning, training from scratch, baseline classifier) consistently, `scripts/run.sh` was extended with a `CROSS_VALIDATION` flag. When set to `1`, it dispatches to the matching orchestration script based on the selected `MODEL`/`FUNCTION` instead of running the normal single-run workflow; `CROSS_VALIDATION=0` (default) leaves the existing behaviour completely unchanged.
+
+---
+
 # 4. Baseline Classifier
 
 A separate discriminative baseline pipeline was implemented to provide a comparison with the diffusion-based classifier.
@@ -529,6 +545,26 @@ both adapted from the scripts in `isic-classifier`, with modifications containin
 * fix of the AUC metric receiving hard predictions instead of continuous scores.
 
 A ResNet50-based baseline using ImageNet-pretrained weights was evaluated with this setting.
+
+## 4.1 K-Fold Cross-Validation for the Baseline Classifier
+
+To allow a like-for-like comparison with the diffusion classifier's cross-validated performance (Section 3.9), the k-fold cross-validation procedure was extended to the baseline classifier, reusing the same fold splits.
+
+Unlike the diffusion classifier, the baseline has no separate pretraining and fine-tuning stages: each fold trains directly from ImageNet-pretrained weights, so no shared pretrain checkpoint needs to be passed between folds.
+
+`scripts/baseline-classifier/fundus-classifier.sh` was extended with the same `FOLD`-aware override of `SPLIT_PREFIX` and `CHECKPOINT_FOLDER` introduced for the diffusion classifier. `experiments/fundus-classifier/inference.py` was extended to additionally write its evaluation results to a JSON file alongside the checkpoint used for the run, matching the diffusion classifier's inference output.
+
+A dedicated orchestration script was introduced:
+
+```text
+scripts/run_baseline_cv.sh
+```
+
+which, for each fold, trains the baseline from scratch and runs inference on the held-out test split, archiving the fold's checkpoint out of the shared experiment folder before the next fold starts, using the same idempotent-move pattern as `run_drusen_cv.sh`. Since the baseline's checkpoint directories are named after the selected backbone variant (`checkpoint_<variant>` / `best_checkpoint_<variant>`) rather than the diffusion classifier's fixed `checkpoints` / `best_checkpoint`, the existing aggregation script was extended with a `--checkpoint-subdir` option so it can locate and aggregate either classifier's fold results:
+
+```text
+experiments/fundus-unet/aggregate_cv_results.py
+```
 
 ---
 
@@ -627,3 +663,5 @@ The following modifications distinguish the adapted implementation from the orig
 22. Introduction of a k-fold cross-validation procedure for the Drusen fine-tuning stage, including fold-aware dataset splitting, run orchestration, unattended execution with notifications, and result aggregation.
 23. Fix of environment-variable propagation in `run.sh` (`MODEL`, `FUNCTION`, `DATA`, `BACKBONE`, `VARIANT` were previously always reset to fixed defaults, breaking orchestrated runs that pre-set these values).
 24. Addition of per-sample uncertainty quantification for the Drusen classifier, based on the Bernoulli variance of the majority-voting vote share, together with an uncertainty-based data-filtering analysis and plot.
+25. Extension of the k-fold cross-validation procedure to the ResNet50 baseline classifier, reusing the diffusion classifier's fold splits and a generalized result-aggregation script.
+26. Addition of a cross-validated training-from-scratch comparison for the Drusen classifier, and a unified `CROSS_VALIDATION` flag in `run.sh` to invoke any of the three cross-validation variants (pretrained finetuning, from scratch, baseline).

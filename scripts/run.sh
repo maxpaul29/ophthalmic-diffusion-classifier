@@ -22,6 +22,30 @@ export VARIANT="${VARIANT:-resnet50}"               # (str) Variant of the backb
 
 export SCRIPTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+# Cross-validation: set CROSS_VALIDATION=1 to run the k-fold CV orchestration
+# script matching the selected MODEL/FUNCTION instead of the normal single-run
+# workflow below. CROSS_VALIDATION=0 (default) leaves everything unchanged.
+export CROSS_VALIDATION="${CROSS_VALIDATION:-0}"
+if [[ "$CROSS_VALIDATION" == "1" ]]; then
+    if [[ "$MODEL" == "baseline" && "$DATA" == "fundus" ]]; then
+        bash "$SCRIPTS_DIR/run_baseline_cv.sh"
+        exit $?
+    elif [[ "$MODEL" == "unet" && "$DATA" == "fundus" && "$FUNCTION" == "finetune" ]]; then
+        export PRETRAIN_CHECKPOINT="${PRETRAIN_CHECKPOINT:-$PRETRAINED_CHECKPOINT}"
+        export PRETRAIN_CHECKPOINT="${PRETRAIN_CHECKPOINT:-/checkpoints/final-models/drusen-unet/pretrain-mogon}"
+        bash "$SCRIPTS_DIR/run_drusen_cv.sh"
+        exit $?
+    elif [[ "$MODEL" == "unet" && "$DATA" == "fundus" && "$FUNCTION" == "train" ]]; then
+        bash "$SCRIPTS_DIR/run_drusen_scratch_cv.sh"
+        exit $?
+    else
+        echo "Error: CROSS_VALIDATION=1 is only supported for MODEL=baseline (DATA=fundus)," \
+             "or MODEL=unet DATA=fundus with FUNCTION=finetune (pretrained) or FUNCTION=train (from scratch)." \
+             "Got MODEL=$MODEL DATA=$DATA FUNCTION=$FUNCTION."
+        exit 1
+    fi
+fi
+
 # Baseline classifier
 if [[ "$MODEL" == "baseline" ]]; then
     if [[ "$FUNCTION" == "train" || "$FUNCTION" == "inference" ]]; then
