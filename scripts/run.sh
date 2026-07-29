@@ -11,7 +11,7 @@ export USE_COMET=0
 # ${VAR:-default} so a value already exported by a calling script (e.g.
 # run_drusen_cv.sh setting MODEL/FUNCTION/DATA before invoking run.sh) is
 # respected instead of being unconditionally clobbered back to these defaults.
-export MODEL="${MODEL:-baseline}"                           # "baseline", "unet", "dit", "sd"
+export MODEL="${MODEL:-unet}"                           # "baseline", "unet", "dit", "sd"
 export FUNCTION="${FUNCTION:-train}"                        # "train", "inference", "explain", "finetune" (only supported for funuds-unet)
 export DATA="${DATA:-fundus}"                            # "chexpert", "isic", "fundus"
 
@@ -25,7 +25,7 @@ export SCRIPTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # Cross-validation: set CROSS_VALIDATION=1 to run the k-fold CV orchestration
 # script matching the selected MODEL/FUNCTION instead of the normal single-run
 # workflow below. CROSS_VALIDATION=0 (default) leaves everything unchanged.
-export CROSS_VALIDATION="${CROSS_VALIDATION:-0}"
+export CROSS_VALIDATION="${CROSS_VALIDATION:-1}"
 if [[ "$CROSS_VALIDATION" == "1" ]]; then
     # The orchestration scripts below call "bash scripts/run.sh" once per fold
     # for the actual train/inference run. Reset CROSS_VALIDATION=0 first, so
