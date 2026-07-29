@@ -27,6 +27,12 @@ export SCRIPTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # workflow below. CROSS_VALIDATION=0 (default) leaves everything unchanged.
 export CROSS_VALIDATION="${CROSS_VALIDATION:-0}"
 if [[ "$CROSS_VALIDATION" == "1" ]]; then
+    # The orchestration scripts below call "bash scripts/run.sh" once per fold
+    # for the actual train/inference run. Reset CROSS_VALIDATION=0 first, so
+    # that inherited-environment re-entry into run.sh takes the normal
+    # single-run path instead of re-triggering this dispatch (which would
+    # otherwise restart the whole CV script from fold 0 on every fold, forever).
+    export CROSS_VALIDATION=0
     if [[ "$MODEL" == "baseline" && "$DATA" == "fundus" ]]; then
         bash "$SCRIPTS_DIR/run_baseline_cv.sh"
         exit $?
