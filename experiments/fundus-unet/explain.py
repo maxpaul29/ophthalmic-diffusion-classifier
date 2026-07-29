@@ -117,13 +117,18 @@ def fundus_plotter(output_dir: str, batches: list, samples: list, epoch: int, pr
             axs[2].axis('off')
             axs[2].set_title("Difference")
 
-            cbar = fig.colorbar(diff_im, ax=axs[2], fraction=0.046, pad=0.04)
+            # ax=axs (all three subplots), not just axs[2], so matplotlib
+            # shrinks all three panels equally to make room for the colorbar
+            # instead of only shrinking the "Difference" panel.
+            cbar = fig.colorbar(diff_im, ax=axs, fraction=0.046, pad=0.04)
             cbar.set_label("Absolute intensity change\n(blue = none, red = strong)", fontsize=7)
             cbar.ax.tick_params(labelsize=6)
                 
             # Set top row title
+            # (no plt.tight_layout() here: the colorbar above already sizes
+            # the three panels via fig.colorbar(..., ax=axs), and tight_layout
+            # is not compatible with colorbar-adjusted axes)
             fig.suptitle(f"Patient status: {original_activity}, CF: {activity}", fontsize=16)
-            plt.tight_layout()
 
             # Make path for patient
             patient_path = os.path.join(output_dir, f"{activity}")
