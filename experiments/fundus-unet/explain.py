@@ -39,13 +39,6 @@ class TrainingConfig:
     def __getattr__(self, name):
         return self.config.get(name)
     
-# Fixed color-scale bound for the difference plot (absolute grayscale
-# intensity difference, range [0, 1]), so the "how strong is the change"
-# color coding is comparable across images/patients rather than being
-# rescaled per-image to each image's own min/max.
-DIFFERENCE_VMAX = 0.3
-
-
 def fundus_plotter(output_dir: str, batches: list, samples: list, epoch: int, process_idx: int):
     """
     Plot Fundus samples and save them to the output_dir
@@ -110,16 +103,10 @@ def fundus_plotter(output_dir: str, batches: list, samples: list, epoch: int, pr
             axs[1].axis('off')
             axs[1].set_title("Counterfactual")
 
-            # Plot the difference with 'jet' colormap (ensure difference is 2D).
-            # vmin/vmax are fixed (not per-image auto-scaled) so the color
-            # coding means the same thing across different images/patients.
-            diff_im = axs[2].imshow(difference, cmap='jet', vmin=0.0, vmax=DIFFERENCE_VMAX)
+            # Plot the difference with 'jet' colormap (ensure difference is 2D)
+            axs[2].imshow(difference, cmap='jet')  # Apply 'jet' colormap to 2D data
             axs[2].axis('off')
             axs[2].set_title("Difference")
-
-            cbar = fig.colorbar(diff_im, ax=axs[2], fraction=0.046, pad=0.04)
-            cbar.set_label("Absolute intensity change\n(blue = none, red = strong)", fontsize=7)
-            cbar.ax.tick_params(labelsize=6)
                 
             # Set top row title
             fig.suptitle(f"Patient status: {original_activity}, CF: {activity}", fontsize=16)
