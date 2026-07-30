@@ -50,7 +50,7 @@ them directly via split_prefix=f"drusen-fold{i}" (no code changes needed there
 — split_prefix is already a free-form string).
 
 Usage:
-    python dataset/splits/create_drusen_cv_splits.py \
+    python dataset/splits/create_splits_scriptscreate_splits_scripts/create_drusen_cv_splits.py \
         --data-path   /data \
         --drusen-dir  /data/clinic/drusen_augmented \
         --healthy-dir /data/clinic/healthy \
@@ -75,8 +75,24 @@ AUG_SUFFIX = re.compile(r"_aug\d+$")
 _PATIENT_PATTERNS = [
     re.compile(r"^(\d+)_[LR]_\d{4}-\d{2}-\d{2}"),  # e.g. 51087925_L_2025-03-18
     re.compile(r"^(\d+)[LR]\d+"),                   # e.g. 12103L1, 3906L1_1, 10083R6
+    re.compile(r"^(\d+)_[LR]_\d+"),                 # e.g. 6141989_R_1, 6141989_R_2 (no date)
     re.compile(r"^IM-(\d+)-(\d+)-\d+"),              # e.g. IM-0001-10000-0002Diet
 ]
+
+# Explicit overrides for confirmed same-patient filename groups that do not
+# follow any regular, rule-derivable naming pattern above (found by manual
+# inspection of the clinical export), e.g. IM-scans where the same patient
+# was exported under two different leading sequence numbers. Keyed by the
+# original (aug-suffix-stripped) id; all ids in the same group get the same
+# patient key regardless of what _PATIENT_PATTERNS would infer.
+_MANUAL_PATIENT_GROUPS = [
+    {"IM-0004-10000-0001", "IM-0005-10000-0001"},
+]
+_MANUAL_PATIENT_KEY = {}
+for _group in _MANUAL_PATIENT_GROUPS:
+    _shared_key = "P:manual:" + "|".join(sorted(_group))
+    for _member in _group:
+        _MANUAL_PATIENT_KEY[_member] = _shared_key
 
 
 def list_images(directory):
@@ -101,6 +117,9 @@ def patient_key(original_id_str):
     any name that doesn't match a known pattern, so unrecognized names are
     never incorrectly merged with one another.
     """
+    for manual_id, shared_key in _MANUAL_PATIENT_KEY.items():
+        if original_id_str == manual_id or original_id_str.startswith(manual_id + "_"):
+            return shared_key
     for pattern in _PATIENT_PATTERNS:
         match = pattern.match(original_id_str)
         if match:
