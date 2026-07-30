@@ -1,4 +1,4 @@
-"""
+r"""
 Build train/valid/test CSV splits for the Optic Disc Drusen (ODD) classifier
 WITHOUT data augmentation.
 
@@ -6,10 +6,13 @@ Combines two sources:
   - positive class (target=1): Drusen crops   (raw clinical images, no augmentation)
   - negative class (target=0): clinical healthy crops
 
-Every image is treated as an independent sample — there are no augmented
-variants, so no group-level splitting or originals-only filtering is needed
-(that logic lives in create_drusen_aug_split.py). Each source pool is split
-independently into train/valid/test by fraction.
+There are no augmented variants, so no originals-only filtering is needed
+(that logic lives in create_drusen_aug_split.py). Images ARE still grouped by
+patient before splitting (same patient_key() logic as create_drusen_cv_splits.py
+and create_drusen_aug_split.py): the same patient frequently contributes
+several images (left/right eye, repeat visits), which must all end up in the
+same split — otherwise the model could see one of a patient's images during
+training and be evaluated on another image of that same patient at test time.
 
 Class balance (50:50) is enforced per split by sub-sampling the majority
 (healthy) class, matching the paper's balanced-training setup. Use --no-balance
@@ -55,6 +58,8 @@ import random
 from pathlib import Path
 
 import pandas as pd
+
+from create_drusen_cv_splits import patient_key
 
 IMG_EXTENSIONS = {".png", ".jpg", ".jpeg", ".tif", ".tiff", ".bmp"}
 
@@ -122,11 +127,22 @@ def main():
     if args.n_healthy is not None and args.n_healthy < len(healthy_files):
         healthy_files = rng.sample(healthy_files, args.n_healthy)
 
-    def split3(files):
-        return split_train_valid_test(files, args.valid_frac, args.test_frac, args.seed)
+    def split_by_patient(files):
+        """Group files by patient, split at the patient level, then expand back to files."""
+        patient_to_files = {}
+        for f in files:
+            patient_to_files.setdefault(patient_key(f.stem), []).append(f)
+        patient_ids = sorted(patient_to_files.keys())
+        train_pids, valid_pids, test_pids = split_train_valid_test(
+            patient_ids, args.valid_frac, args.test_frac, args.seed
+        )
+        train = [f for pid in train_pids for f in patient_to_files[pid]]
+        valid = [f for pid in valid_pids for f in patient_to_files[pid]]
+        test = [f for pid in test_pids for f in patient_to_files[pid]]
+        return train, valid, test
 
-    d_train, d_valid, d_test = split3(drusen_files)
-    h_train, h_valid, h_test = split3(healthy_files)
+    d_train, d_valid, d_test = split_by_patient(drusen_files)
+    h_train, h_valid, h_test = split_by_patient(healthy_files)
 
     # ── Balance each split 50:50 by sub-sampling healthy to the Drusen count ────
     def balance(healthy, n_drusen):

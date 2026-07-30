@@ -5,7 +5,7 @@ Combines two sources:
   - positive class (target=1): augmented Drusen crops   (from augment_drusen.py)
   - negative class (target=0): clinical healthy crops
 
-Two safeguards make the resulting splits scientifically sound:
+Three safeguards make the resulting splits scientifically sound:
 
 1. No augmentation leakage across splits.
    All augmented variants of one original Drusen image share a group id
@@ -16,6 +16,19 @@ Two safeguards make the resulting splits scientifically sound:
    The validation and test splits keep ONLY the untouched originals
    (`_aug00`, written as variant 0 by augment_drusen.py). Augmented variants are
    used for training only — the model is never scored on synthetic images.
+
+3. No patient leakage across splits.
+   Grouping by individual original image alone is not enough: the same
+   patient frequently contributes several original images (left/right eye,
+   repeat visits, or even two crops of the same photo) that would otherwise
+   be treated as independent samples and could be scattered across train and
+   test — letting the model see, e.g., a patient's left eye during training
+   and be evaluated on that same patient's right eye. `patient_key()` (see
+   dataset/splits/create_splits_scripts/create_drusen_cv_splits.py, same
+   logic) derives a patient identifier from the filename, and the
+   train/valid/test split happens at the patient level, so every original
+   image of one patient always ends up in the same split. Applied to both
+   Drusen and healthy images.
 
 Class balance (50:50) is enforced per split by sub-sampling the majority
 (healthy) class, matching the paper's balanced-training setup.
@@ -38,6 +51,8 @@ import re
 from pathlib import Path
 
 import pandas as pd
+
+from create_drusen_cv_splits import patient_key
 
 IMG_EXTENSIONS = {".png", ".jpg", ".jpeg", ".tif", ".tiff", ".bmp"}
 AUG_SUFFIX = re.compile(r"_aug\d+$")
@@ -127,9 +142,21 @@ def main():
     if args.n_healthy is not None and args.n_healthy < len(healthy_files):
         healthy_files = rng.sample(healthy_files, args.n_healthy)
 
-    train_ids, valid_ids, test_ids = split_train_valid_test(
-        group_ids, args.valid_frac, args.test_frac, args.seed
+    # ── Group original ids further by patient to prevent patient leakage ───────
+    # (safeguard 3): the train/valid/test split happens over patients, then
+    # expanded back to their constituent original ids, so all original images
+    # of one patient always end up in the same split.
+    patient_to_gids = {}
+    for gid in group_ids:
+        patient_to_gids.setdefault(patient_key(gid), []).append(gid)
+    patient_ids = sorted(patient_to_gids.keys())
+
+    train_pids, valid_pids, test_pids = split_train_valid_test(
+        patient_ids, args.valid_frac, args.test_frac, args.seed
     )
+    train_ids = [gid for pid in train_pids for gid in patient_to_gids[pid]]
+    valid_ids = [gid for pid in valid_pids for gid in patient_to_gids[pid]]
+    test_ids = [gid for pid in test_pids for gid in patient_to_gids[pid]]
 
     def drusen_split(ids, originals_only):
         files = []
@@ -144,10 +171,17 @@ def main():
     drusen_valid = drusen_split(valid_ids, originals_only=True)   # originals only
     drusen_test = drusen_split(test_ids, originals_only=True)     # originals only
 
-    # ── Split healthy images (each is independent, no grouping needed) ──────────
-    h_train, h_valid, h_test = split_train_valid_test(
-        healthy_files, args.valid_frac, args.test_frac, args.seed
+    # ── Split healthy images by patient, same as Drusen above ───────────────────
+    healthy_patient_to_files = {}
+    for f in healthy_files:
+        healthy_patient_to_files.setdefault(patient_key(original_id(f)), []).append(f)
+    healthy_patient_ids = sorted(healthy_patient_to_files.keys())
+    h_train_pids, h_valid_pids, h_test_pids = split_train_valid_test(
+        healthy_patient_ids, args.valid_frac, args.test_frac, args.seed
     )
+    h_train = [f for pid in h_train_pids for f in healthy_patient_to_files[pid]]
+    h_valid = [f for pid in h_valid_pids for f in healthy_patient_to_files[pid]]
+    h_test = [f for pid in h_test_pids for f in healthy_patient_to_files[pid]]
 
     # ── Balance each split 50:50 by sub-sampling healthy to the Drusen count ────
     def balance(healthy, n_drusen):
