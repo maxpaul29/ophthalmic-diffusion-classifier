@@ -9,7 +9,7 @@ original Drusen eyes into k folds and produces k independent splits, so every
 real case is tested exactly once across the whole procedure — the final result
 is the mean +/- std over the k folds' test metrics, not a single point value.
 
-Same two safeguards as create_drusen_aug_split.py, applied per fold:
+Three safeguards, applied per fold:
 
 1. No augmentation leakage across splits.
    All augmented variants of one original Drusen image share a group id (the
@@ -20,6 +20,21 @@ Same two safeguards as create_drusen_aug_split.py, applied per fold:
 2. Honest evaluation.
    Each fold's validation and test splits keep ONLY the untouched originals
    (`_aug00`). Augmented variants are used for training only.
+
+3. No patient leakage across splits.
+   Grouping by individual original image alone is not enough: the same
+   patient frequently contributes several original images (left/right eye,
+   repeat visits, or even two crops of the same photo, e.g. `3906L1_1` /
+   `3906L1_2`) that would otherwise be treated as independent samples and
+   scattered across different folds — letting the model see, e.g., a
+   patient's left eye during training and be evaluated on that same
+   patient's right eye at test time. `patient_key()` derives a patient
+   identifier from the filename (leading numeric ID, or the study/sequence
+   number for `IM-...` scans) and the k-way partition happens at the patient
+   level, so every original image of one patient always ends up in the same
+   split. This is applied to both Drusen and healthy images. Filenames that
+   don't match a known naming pattern are conservatively treated as their own
+   single-image "patient" (never merged with anything else).
 
 For fold i (i = 0..k-1):
   - test  = original groups in fold i (originals only)
@@ -54,6 +69,15 @@ import pandas as pd
 IMG_EXTENSIONS = {".png", ".jpg", ".jpeg", ".tif", ".tiff", ".bmp"}
 AUG_SUFFIX = re.compile(r"_aug\d+$")
 
+# Naming patterns observed in the clinical Drusen/healthy export, used to
+# derive a patient identifier from an original (aug-suffix-stripped) filename.
+# Order matters: more specific patterns are tried first.
+_PATIENT_PATTERNS = [
+    re.compile(r"^(\d+)_[LR]_\d{4}-\d{2}-\d{2}"),  # e.g. 51087925_L_2025-03-18
+    re.compile(r"^(\d+)[LR]\d+"),                   # e.g. 12103L1, 3906L1_1, 10083R6
+    re.compile(r"^IM-(\d+)-(\d+)-\d+"),              # e.g. IM-0001-10000-0002Diet
+]
+
 
 def list_images(directory):
     return [
@@ -65,6 +89,23 @@ def list_images(directory):
 def original_id(path):
     """Group id for an augmented file: filename with the `_augNN` suffix removed."""
     return AUG_SUFFIX.sub("", path.stem)
+
+
+def patient_key(original_id_str):
+    """
+    Derive a patient identifier from an original (aug-stripped) filename, so
+    all original images belonging to one patient can be grouped together
+    before the k-way fold partition (see safeguard 3 above).
+
+    Falls back to the input string itself (i.e. a single-image "patient") for
+    any name that doesn't match a known pattern, so unrecognized names are
+    never incorrectly merged with one another.
+    """
+    for pattern in _PATIENT_PATTERNS:
+        match = pattern.match(original_id_str)
+        if match:
+            return "P:" + "-".join(match.groups())
+    return "P:" + original_id_str
 
 
 def is_original_variant(path):
@@ -126,8 +167,27 @@ def main():
     if len(group_ids) < args.k_folds:
         raise ValueError(f"Only {len(group_ids)} original Drusen eyes, cannot make {args.k_folds} folds.")
 
-    drusen_folds = make_folds(group_ids, args.k_folds, args.seed)
-    healthy_folds = make_folds(healthy_files, args.k_folds, args.seed)
+    # ── Group original ids further by patient to prevent patient leakage ───────
+    # (safeguard 3): the k-way partition is done over patients, then expanded
+    # back to their constituent original ids, so all original images (and,
+    # after collect(), all their augmented variants) of one patient always end
+    # up in the same fold.
+    patient_to_gids = {}
+    for gid in group_ids:
+        patient_to_gids.setdefault(patient_key(gid), []).append(gid)
+    patient_ids = sorted(patient_to_gids.keys())
+    if len(patient_ids) < args.k_folds:
+        raise ValueError(f"Only {len(patient_ids)} distinct Drusen patients, cannot make {args.k_folds} folds.")
+
+    patient_folds = make_folds(patient_ids, args.k_folds, args.seed)
+    drusen_folds = [[gid for pid in fold for gid in patient_to_gids[pid]] for fold in patient_folds]
+
+    healthy_patient_to_files = {}
+    for f in healthy_files:
+        healthy_patient_to_files.setdefault(patient_key(original_id(f)), []).append(f)
+    healthy_patient_ids = sorted(healthy_patient_to_files.keys())
+    healthy_patient_folds = make_folds(healthy_patient_ids, args.k_folds, args.seed)
+    healthy_folds = [[f for pid in fold for f in healthy_patient_to_files[pid]] for fold in healthy_patient_folds]
 
     def collect(group_id_list, originals_only):
         files = []
