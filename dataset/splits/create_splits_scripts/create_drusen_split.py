@@ -20,17 +20,17 @@ Output CSVs use the same `image_name,target` format as create_fundus_split.py,
 with paths relative to --data-path so dataset/fundus.py can load them directly.
 
 Usage:
-    python dataset/splits/create_drusen_split.py \
+    python dataset/splits/create_splits_scripts/create_drusen_split.py \
         --data-path   /data \
         --drusen-dir  /data/clinic/drusen \
         --healthy-dir /data/clinic/healthy \
         --output-dir  dataset/splits
 
     # Drusen Split for Finetuning (Windows):
-    python .\dataset\splits\create_drusen_split.py --data-path "C:\Users\Max Paul\Documents\OpticDiscDrusen\AlleBilderQuality" --drusen-dir "C:\Users\Max Paul\Documents\OpticDiscDrusen\AlleBilderQuality\Drusen\usable" --healthy-dir "C:\Users\Max Paul\Documents\OpticDiscDrusen\AlleBilderQuality\keineDrusen\usable" --output-dir "dataset/splits"
+    python .\dataset\splits\create_splits_scripts\create_drusen_split.py --data-path "C:\Users\Max Paul\Documents\OpticDiscDrusen\AlleBilderQuality" --drusen-dir "C:\Users\Max Paul\Documents\OpticDiscDrusen\AlleBilderQuality\Drusen\usable" --healthy-dir "C:\Users\Max Paul\Documents\OpticDiscDrusen\AlleBilderQuality\keineDrusen\usable" --output-dir "dataset/splits"
 
     # With custom parameters:
-    python dataset/splits/create_drusen_split.py \
+    python dataset/splits/create_splits_scripts/create_drusen_split.py \
         --data-path /data \
         --drusen-dir /data/clinic/drusen \
         --healthy-dir /data/clinic/healthy \
@@ -42,7 +42,7 @@ Usage:
         --n-healthy 1000
 
     # Without class balancing (keep natural ratio):
-    python dataset/splits/create_drusen_split.py \
+    python dataset/splits/create_splits_scripts/create_drusen_split.py \
         --data-path /data \
         --drusen-dir /data/clinic/drusen \
         --healthy-dir /data/clinic/healthy \

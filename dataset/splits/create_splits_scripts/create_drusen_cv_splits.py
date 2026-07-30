@@ -35,7 +35,7 @@ them directly via split_prefix=f"drusen-fold{i}" (no code changes needed there
 — split_prefix is already a free-form string).
 
 Usage:
-    python dataset/splits/create_drusen_cv_splits.py \
+    python dataset/splits/create_splits_scripts/create_drusen_cv_splits.py \
         --data-path   /data \
         --drusen-dir  /data/clinic/drusen_augmented \
         --healthy-dir /data/clinic/healthy \

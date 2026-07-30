@@ -21,7 +21,7 @@ Output: pretrain-train.csv, pretrain-valid.csv, pretrain-test.csv
 splits. Load them via dataset/fundus.py with split_prefix="pretrain".
 
 Usage:
-    python dataset/splits/create_pretrain_split.py \
+    python dataset/splits/create_splits_scripts/create_pretrain_split.py \
         --data-path   /data \
         --healthy-dir /data/clinic/healthy \
         --exclude-splits dataset/splits/drusen-train.csv \
