@@ -2,15 +2,6 @@
 checkpoints/
 checkpoint*/
 best_checkpoint*/
-dataset/data/
-
-# Generated outputs
-experiments/*/plots/
-#experiments/*/inference_images/
-#experiments/*/training_images/
-
-# Old Training Data
-experiments/fundus-unet/old-training
 
 # Python cache
 __pycache__/

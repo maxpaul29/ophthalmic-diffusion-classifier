@@ -17,12 +17,9 @@ services:
       - SMTP_USER=${SMTP_USER:-}
       - SMTP_PASSWORD=${SMTP_PASSWORD:-}
       - NOTIFY_EMAIL_TO=${NOTIFY_EMAIL_TO:-}
-      # Only used when explicitly running scripts/entrypoint_cv_with_notify.sh
-      # (cross-validation) — harmless/unused for the normal single-run workflow.
-      # Set these in your .env file to avoid passing -e flags each time.
-      - K_FOLDS=${K_FOLDS:-5}
-      - PRETRAIN_CHECKPOINT=${PRETRAIN_CHECKPOINT:-}
-      - START_FOLD=${START_FOLD:-0}
+      # What to run (MODEL/FUNCTION/DATA/CROSS_VALIDATION/K_FOLDS/...) is not
+      # configured here. Edit the corresponding default values directly in
+      # scripts/run.sh and scripts/unet/fundus-unet.sh instead — see docker.md.
     volumes:
       - .:/workspace
       - ${DATA_PATH:-./dataset/data}:/data

@@ -58,7 +58,7 @@ export MAJORITY_VOTING=true            # (bool) Whether to perform majority voti
 export UNCERTAINTY_ESTIMATION="${UNCERTAINTY_ESTIMATION:-false}"  # (bool) inference.py only: also record per-sample Bernoulli-variance uncertainty (Favero et al.) for uncertainty-filtering analysis
 
 ###### Training parameters ######
-export RESUME=0
+export RESUME="${RESUME:-0}"            # (int) 1 to resume finetune.py from an existing checkpoint instead of starting fresh (requires PRETRAINED_CHECKPOINT="")
 # "${VAR-default}" (no colon) rather than "${VAR:-default}", so that a calling
 # script explicitly pre-setting PRETRAINED_CHECKPOINT="" (train-from-scratch,
 # e.g. run_drusen_scratch_cv.sh) is respected instead of being clobbered back

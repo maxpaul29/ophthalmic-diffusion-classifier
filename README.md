@@ -1,21 +1,134 @@
-# **Ophthalmic Diffusion Classifier**  
-**Author**: Maximilian Paul
-**Institution**: Johannes Gutenberg University Mainz
+# Ophthalmic Diffusion Classifier
 
-This repository is based on the official implementation of:
+**Author:** Maximilian Paul
+**Institution:** Johannes Gutenberg University Mainz
+**Context:** Bachelor's thesis — *Exploring Generative AI Models for Ophthalmic Disease Classification*
 
-**Conditional Diffusion Models are Medical Image Classifiers that Provide Explainability and Uncertainty for Free** (MIDL 2025)
+This repository extends the official implementation of
 
-by Gian Favero\*, Parham Saremi\*, Emily Kaczmarek, Brennan Nichyporuk and Tal Arbel.
+> **Conditional Diffusion Models are Medical Image Classifiers that Provide Explainability and Uncertainty for Free** (MIDL 2025)
+> Gian Favero\*, Parham Saremi\*, Emily Kaczmarek, Brennan Nichyporuk, Tal Arbel
+> Original repository: https://github.com/faverogian/med-diffusion-classifier
 
-This project extends the original framework for glaucoma classification on fundus images and is being developed as part of a Bachelor's thesis investigating generative AI models for ophthalmic disease classification. 
+for **Optic Disc Drusen (ODD) classification on fundus images**, using a conditional diffusion model as a classifier (via reconstruction error, following the original framework) and comparing it against a discriminative ResNet50 baseline.
 
-All modifications are documented in [CHANGELOG.md](CHANGELOG.md).
+The original Favero et al. README is preserved unmodified at the bottom of this file. Everything above it is specific to this thesis.
 
-Original Repository: 
-https://github.com/faverogian/med-diffusion-classifier
+---
 
-The original README from Favero et al. is preserved below.
+## What this project adds
+
+Starting from the original two-dataset (CheXpert/ISIC) framework, this thesis:
+
+- **Adapts the pipeline to fundus images** and introduces a two-stage training strategy: large-scale unconditioned pretraining on public fundus images, followed by fine-tuning on a private, clinically-sourced Optic Disc Drusen dataset.
+- **Compares fine-tuning against training from scratch** directly on the Drusen data, to assess whether the pretraining stage is actually beneficial for this task.
+- **Adds a ResNet50 discriminative baseline** for a like-for-like comparison with the diffusion classifier.
+- **Introduces k-fold cross-validation** for all three of the above (finetuned, from-scratch, baseline), since the private Drusen dataset is small — a single train/valid/test split would not give a robust performance estimate.
+- **Adds an uncertainty quantification analysis**: the diffusion classifier's Monte Carlo majority vote is used to derive a per-sample uncertainty estimate, and accuracy is reported as a function of how much of the most uncertain data is filtered out — reproducing an analysis from Favero et al. on this new task.
+- **Adds an AUC metric** and continuous-score support throughout the classification pipeline.
+- **Provides a fully Dockerized, reproducible execution environment** for the clinical workstation, including unattended (detached) execution with e-mail progress notifications.
+- **Splits the work across two Git branches** for two different compute environments (see below), since large-scale pretraining and clinical fine-tuning happened on different infrastructure with different constraints.
+
+Every one of these changes is documented in detail — see [Documentation map](#documentation-map) below for where.
+
+---
+
+## Repository & branch structure
+
+The thesis workflow spans two environments, tracked as two branches:
+
+```text
+              Original Favero et al. Framework
+                            │
+                            ▼
+                Common Fundus Adaptations
+                            │
+               ┌────────────┴────────────┐
+               ▼                         ▼
+        `drusen-mogon` branch      `drusen` branch
+        MOGON HPC, SLURM           Clinical PC, Docker
+        Large-scale unconditioned  Fine-tuning / from-scratch
+        fundus pretraining         training on Drusen data,
+               │                   cross-validation, baseline,
+               │                   uncertainty analysis
+               └────────── checkpoint ─────┘
+```
+
+These are **not** two independent copies of the framework — they are two consecutive stages of one pipeline, kept on separate branches because they use different Python versions, dependencies, and execution environments (no Docker on the HPC side; SLURM job scripts instead of `docker compose`). See [CHANGELOG.md, Section 5](CHANGELOG.md#5-branch-relationship) for the full rationale.
+
+**If you are trying to reproduce the thesis results, you want the `drusen` branch** — it contains everything needed to fine-tune the (already-pretrained) diffusion model, train it from scratch for comparison, train the baseline, run cross-validation for all three, and reproduce the uncertainty analysis, all via Docker.
+
+---
+
+## Documentation map
+
+Rather than duplicating information, each concern has exactly one authoritative document:
+
+| Document | Covers |
+|---|---|
+| **README.md** (this file) | High-level overview, what the project does, where to find everything else |
+| [**DOCKER.md**](DOCKER.md) | Complete setup, configuration, and command reference for running anything in this repo (training, fine-tuning, inference, explanation, all cross-validation variants) via Docker on the clinical PC |
+| [**CHANGELOG.md**](CHANGELOG.md) | Exhaustive, line-by-line record of every modification relative to the original Favero et al. framework, organized by branch/topic — the primary reference for *what was changed and why* |
+| [**dataset/splits/SPLITS.md**](dataset/splits/SPLITS.md) | What each dataset split CSV contains, how it was generated, and which script produced it |
+| [**results/RESULTS.md**](results/RESULTS.md) | Layout of the `results/` directory: logs, plots, and metrics for every experiment (baseline, fine-tuned, from-scratch, single-run and cross-validated) |
+
+**If you only read one other document, read `DOCKER.md`** — it is the practical entry point for actually running anything.
+
+---
+
+## Quick start
+
+Everything runs in Docker on the clinical PC (`drusen` branch). Full details, prerequisites, and the complete command reference are in [DOCKER.md](DOCKER.md); in short:
+
+```bash
+docker compose build      # once
+docker compose up -d      # runs whatever is currently configured in scripts/run.sh
+docker compose logs -f    # follow progress
+```
+
+**What runs is configured by editing two files directly** — `scripts/run.sh` (model/task/cross-validation selection) and `scripts/unet/fundus-unet.sh` (diffusion-classifier-specific settings). This keeps configuration in exactly one place per concern. A few examples (see [DOCKER.md, Section 5](DOCKER.md#5-what-each-configuration-runs) for the complete list, including cross-validation, resuming, and advanced options):
+
+| Goal | Set in `scripts/run.sh` |
+|---|---|
+| Fine-tune the diffusion classifier (single run) | `MODEL=unet`, `FUNCTION=finetune`, `CROSS_VALIDATION=0` |
+| Train the diffusion classifier from scratch (single run) | `MODEL=unet`, `FUNCTION=train`, `CROSS_VALIDATION=0` |
+| Train the ResNet50 baseline (single run) | `MODEL=baseline`, `FUNCTION=train`, `CROSS_VALIDATION=0` |
+| 5-fold cross-validation for any of the above | as above, plus `CROSS_VALIDATION=1` |
+| Generate counterfactual explanations | `MODEL=unet`, `FUNCTION=explain`, `CROSS_VALIDATION=0` |
+
+---
+
+## Reproducibility
+
+- **Environment**: pinned via Docker (`Dockerfile`, `docker-compose.yml`) — Python 3.11.11, CUDA 12.4, all dependencies in `requirements.txt`. No manual environment setup is needed on the clinical PC; see [DOCKER.md](DOCKER.md).
+- **Data & checkpoints stay local**: mounted as Docker volumes, never copied into the image — see [DOCKER.md, Section 6](DOCKER.md#6-notes).
+- **Deterministic splits**: all dataset splits (single-split and 5-fold cross-validation) are generated by versioned scripts in `dataset/splits/`, documented in [SPLITS.md](dataset/splits/SPLITS.md) — re-running a split script with the same input reproduces the same CSVs.
+- **Cross-validation everywhere it matters**: fine-tuning, from-scratch training, and the baseline are all evaluated via the same 5-fold procedure, reported as mean ± standard deviation rather than a single train/valid/test split, given the small size of the private Drusen dataset (111 original images).
+
+---
+
+## License
+
+This project is licensed under the MIT License (see [LICENSE](LICENSE)), inherited from the original Favero et al. repository.
+
+## Citation
+
+If you use this code, please cite the original paper this work builds on:
+
+```bibtex
+@misc{favero2025conditionaldiffusionmodelsmedical,
+      title={Conditional Diffusion Models are Medical Image Classifiers that Provide Explainability and Uncertainty for Free},
+      author={Gian Mario Favero and Parham Saremi and Emily Kaczmarek and Brennan Nichyporuk and Tal Arbel},
+      year={2025},
+      eprint={2502.03687},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2502.03687},
+}
+```
+
+---
+The original Favero et al. README is preserved unmodified below.
 
 # **Medical Diffusion Classifier: Official PyTorch Implementation**  
 

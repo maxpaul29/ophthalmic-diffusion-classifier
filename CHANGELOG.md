@@ -5,7 +5,7 @@ All modifications relative to the upstream repository [faverogian/med-diffusion-
 The implementation was developed and executed in two separate computational environments:
 
 1. **MOGON HPC environment** – used primarily for large-scale pretraining on publicly available fundus images.
-2. **Clinical PC environment** – used for fine-tuning the pretrained model on the clinical Drusen dataset.
+2. **Clinical PC environment** – used for fine-tuning the pretrained model on the clinical Drusen dataset and the training from scratch run, directly on Drusen set.
 
 The two environments are maintained in separate Git branches (`drusen-mogon` and `drusen`) because they use different Python versions, dependency configurations, and execution environments. The changes are therefore documented separately where they are specific to one environment.
 
@@ -271,7 +271,7 @@ The number of training epochs, evaluation frequency and evaluation batches were 
 
 # 3. Clinical PC Branch
 
-The Clinical PC branch contains the modifications required for fine-tuning the pretrained diffusion model on the clinical optic disc drusen dataset.
+The Clinical PC branch contains the modifications required for fine-tuning the pretrained diffusion model on the clinical optic disc drusen dataset and for a compared training from scratch run.
 
 The Clinical PC environment differs from the MOGON environment in terms of:
 
@@ -313,7 +313,7 @@ The Docker environment defines:
 * the training environment,
 * the execution configuration.
 
-This ensures that the Drusen fine-tuning experiments can be reproduced independently of the host system configuration.
+This ensures that the Drusen fine-tuning and from-scratch experiments can be reproduced independently of the host system configuration.
 
 ---
 
@@ -321,13 +321,13 @@ This ensures that the Drusen fine-tuning experiments can be reproduced independe
 
 The Clinical PC branch introduces the dataset preparation pipeline for optic disc drusen.
 
-Dedicated scripts were created into `datasets/` and `datasets/splits` for:
+Dedicated scripts were created into `dataset/` and `dataset/splits` for:
 
 * Drusen-specific data augmentation,
 * dataset splitting,
 * generating dataset splits without augmentation.
 
-The resulting dataset configuration is used for the subsequent fine-tuning experiments.
+The resulting dataset configuration is used for the subsequent fine-tuning and from-scratch experiments. In `dataset/splits/SPLITS.md` an a bit more detailed documentation of the availbale datasplits is been created. The final complete usage and metadata for the datasets and their splits, can be found in the thesis.
 
 ---
 
@@ -350,9 +350,15 @@ The Clinical PC branch is therefore dependent on the pretrained checkpoint gener
 
 ---
 
-## 3.5 Drusen Fine-Tuning Dataset
+## 3.5 From-Scratch Training Strategy
 
-For fine-tuning, a balanced dataset containing:
+To compare the Two-Stage Training Strategy with a training from scratch directly on the drusen data, without any pretraining strategy, also this experiment is done. Therefore all modifications and changes (listed here) as for the two-stage training strategy are the same. Just the training is started without any pretrained weights and a few training hyperparameter adaptions, shown concretely in the thesis. This is controlled via `FUNCTION=train`, which runs the existing `train.py` entrypoint (previously used for MOGON Phase-1 pretraining) directly on the Drusen dataset instead of `finetune.py`.
+
+---
+
+## 3.6 Drusen Fine-Tuning and From-Scratch Dataset
+
+For fine-tuning and the from-scratch run a balanced dataset containing:
 
 * 890 healthy and 890 Drusen fundus images for training,
 * 11 healthy and 11 Drusen fundus images for validation,
@@ -369,13 +375,13 @@ splits/drusen-test.csv
 
 The dataset split is selected using the configurable `split_prefix` mechanism introduced in the common fundus pipeline.
 
-The number of training epochs, evaluation frequency, batch size and gradient accumulation were adjusted to match the experiment and to reduce computational costs.
+The number of training epochs, evaluation frequency, batch size and gradient accumulation were adjusted to match the experiments and to reduce computational costs.
 
 ---
 
-## 3.6 Fine-Tuning Configuration
+## 3.7 Fine-Tuning and Training from Scratch Configuration
 
-The fine-tuning configuration was adapted to the smaller clinical dataset and available GPU memory.
+The fine-tuning and Training from Scratch configuration was adapted to the smaller clinical dataset and available GPU memory.
 
 The configuration uses:
 
@@ -386,7 +392,7 @@ GRADIENT_ACCUMULATION_STEPS = 8
 
 This results in an effective batch size of approximately 128, with a small adaption in `diffusion_classifier.py` to accumulate also over the EMA.
 
-The fine-tuning environment was additionally configured to use FlashAttention where supported, which was loaded in the docker file.
+Fine-tuning and from-scratch training otherwise use their own, respective learning rate and epoch budget (`1e-5`/400 epochs for fine-tuning, `1e-4`/500 epochs for training from scratch), matching each script's original intended use (continuing a pretrained model vs. training one from scratch). A comparison between the two therefore reflects each approach's own standard training recipe rather than an isolated ablation of the initialization alone.
 
 Also, a few lines were added in `diffusion_classifier.py` to empty cuda cache, and reduce memory usage.
 
@@ -394,21 +400,19 @@ To run `explain.py`a further fix was nessesary, to adapt the numbers of iteratio
 
 ---
 
-## 3.7 Checkpoint Selection for Drusen Classification
+## 3.8 Checkpoint Selection for Drusen Classification
 
 The checkpoint selection strategy was adapted for the Drusen classification task.
 
-During the initial fine-tuning experiments, recall was used as the best-checkpoint selection metric.
-
-The selection criterion was subsequently changed to the F1-score to provide a more balanced consideration of precision and recall for the drusen experiment. This is also in line with the used metric by Favero et al.
+The selection criterion was set to the F1-score to provide a balanced consideration of precision and recall for the drusen experiment. This is also in line with the used metric by Favero et al.
 
 Drusen-specific checkpoint naming and checkpoint folder creation was introduced to distinguish the resulting models from other fundus experiments.
 
 ---
 
-## 3.8 Clinical PC Training Monitoring
+## 3.9 Clinical PC Training Monitoring
 
-Because fine-tuning was performed on a local clinical workstation, additional notification and monitoring functionality was introduced.
+Because the training was performed on a local clinical workstation, additional notification and monitoring functionality was introduced.
 
 This includes:
 
@@ -428,7 +432,7 @@ The Docker configuration was adapted accordingly.
 
 ---
 
-## 3.9 K-Fold Cross-Validation for Drusen Fine-Tuning
+## 3.10 K-Fold Cross-Validation for Drusen Fine-Tuning
 
 Given the limited number of available Drusen cases (111 original images), a single fixed train/valid/test split was considered insufficient to provide a robust estimate of test performance. A k-fold cross-validation procedure was therefore introduced for the fine-tuning stage.
 
@@ -451,7 +455,7 @@ The fine-tuning configuration (`fundus-unet.sh`) was extended with a configurabl
 To orchestrate the resulting k independent fine-tuning and inference runs, a new script was introduced:
 
 ```text
-scripts/run_drusen_cv.sh
+scripts/cross-validation/run_drusen_cv.sh
 ```
 
 which, for each fold, runs fine-tuning followed by inference, and archives the fold's checkpoint out of the shared experiment folder before the next fold starts, so that subsequent folds do not overwrite previous results. Because the experiment folder and the archive location reside on separate Docker volumes, archiving is implemented as an idempotent move (clearing any pre-existing target first) rather than a plain rename, so it can be safely re-run after an interrupted attempt. A `START_FOLD` parameter additionally allows resuming a cross-validation run from a specific fold, so already-completed and archived folds are not repeated.
@@ -466,51 +470,47 @@ which collects the per-fold test results and computes the mean and standard devi
 
 ### Unattended Execution
 
-Because cross-validation involves several consecutive fine-tuning runs and is intended to run unattended on the clinical workstation, a dedicated notification wrapper was added:
+Cross-validation runs unattended on the clinical workstation through the same notification wrapper as the normal single run:
 
 ```text
-scripts/entrypoint_cv_with_notify.sh
+scripts/entrypoint_with_notify.sh
 ```
 
-mirroring the existing `entrypoint_with_notify.sh` (log capture, hourly progress e-mails, final completion e-mail), but invoking `run_drusen_cv.sh` instead of a single `run.sh` call. It was kept as a separate script rather than a conditional branch inside `entrypoint_with_notify.sh`, so the default single-run workflow is left completely unaffected and cross-validation is only ever triggered by explicitly invoking this script. `docker-compose.yml` was extended with `K_FOLDS` and `PRETRAIN_CHECKPOINT` environment variables so these can be configured via `.env` instead of being passed on every invocation.
+No separate cross-validation entrypoint exists: cross-validation is triggered directly through `scripts/run.sh` itself, so the wrapper's existing log capture, hourly progress e-mails, and final completion e-mail apply to a cross-validation run exactly as they do to a normal single run, without any dedicated script.
 
-### Bug Fix: Environment Variable Propagation in `run.sh`
-
-While integrating the orchestration script, it was discovered that `scripts/run.sh` unconditionally re-exported `MODEL`, `FUNCTION`, `DATA`, `BACKBONE`, and `VARIANT` to fixed literal values, silently discarding any values already exported by a calling script (such as `run_drusen_cv.sh` setting `MODEL=unet`). As a result, orchestrated runs unintentionally fell back to the baseline classifier configuration. These assignments were changed to `"${VAR:-default}"`, so a value pre-set by a calling script is respected, while direct, manual invocation of `run.sh` keeps its previous default behaviour.
+Every parameter needed to select and run a fold is declared as an overridable default (`"${VAR:-default}"`) rather than a fixed value, consistently across `scripts/run.sh`, `scripts/unet/fundus-unet.sh`, and the cross-validation orchestration scripts in `scripts/cross-validation/`. This includes, among others, `MODEL`, `FUNCTION`, `DATA`, `BACKBONE`/`VARIANT` (baseline classifier), `CROSS_VALIDATION`, `K_FOLDS`, `START_FOLD`, `PRETRAIN_CHECKPOINT` (pretrained finetuning CV), and `FOLD`/`DRUSEN_MODEL_DIR` (set internally per fold by the orchestration scripts). Deliberately, none of this is exposed through `docker-compose.yml` or `.env`: what a container run does is configured in exactly one place per concern — the corresponding default value is edited directly in `scripts/run.sh` (model/function/CV selection) or `scripts/unet/fundus-unet.sh` (UNet-specific settings) — rather than being spread across the compose file, `.env`, and ad-hoc `-e` flags. `docker-compose.yml`'s `environment:` section is reserved for host-specific configuration that is not an experiment choice: the mounted data/checkpoint paths and the e-mail notification credentials.
 
 ---
 
-## 3.10 Uncertainty Quantification for Drusen Classification
+## 3.11 Cross-Validation for Training from Scratch and Unified CV Invocation
 
-Favero et al. note that the diffusion classifier inherently produces an uncertainty estimate for each prediction, since majority voting already draws N per-sample votes from the (ε, λ) evaluations required for classification (Eq. (4)). This uncertainty was not previously exposed by the codebase and was added to evaluate whether filtering out uncertain predictions improves accuracy on the remaining Drusen test data, reproducing the corresponding analysis from the paper.
+To assess whether Mogon Phase-1 pretraining meaningfully improves Drusen classification performance, a cross-validated training-from-scratch baseline was added, so it can be compared to the pretrained-and-finetuned CV results on the same folds rather than on a single split.
+
+A dedicated orchestration script was introduced:
+
+```text
+scripts/cross-validation/run_drusen_scratch_cv.sh
+```
+
+which mirrors `run_drusen_cv.sh`, but calls `train.py` instead of `finetune.py` for each fold, without a pretrained checkpoint, and archives its checkpoints under a separate `drusen-unet-scratch` location so the two CV runs never share or overwrite each other's checkpoints. `scripts/unet/fundus-unet.sh` was extended with a `DRUSEN_MODEL_DIR` variable to control this archive location. While integrating this, it was discovered that `PRETRAINED_CHECKPOINT` was unconditionally re-exported to its default value in `fundus-unet.sh`, silently discarding an explicitly empty value set by a calling script; the assignment was changed from `"${VAR:-default}"` to `"${VAR-default}"`, which only substitutes the default when the variable is entirely unset.
+
+To invoke the resulting three cross-validation variants (pretrained finetuning, training from scratch, baseline classifier) consistently, `scripts/run.sh` was extended with a `CROSS_VALIDATION` flag. When set to `1`, it dispatches to the matching orchestration script based on the selected `MODEL`/`FUNCTION` instead of running the normal single-run workflow; `CROSS_VALIDATION=0` (default) leaves the existing behaviour completely unchanged. Since each orchestration script itself calls `run.sh` again once per fold to perform the actual train/inference run, `CROSS_VALIDATION` is explicitly reset to `0` before dispatching, so this inherited-environment re-entry takes the normal single-run path instead of re-triggering the same orchestration script from fold 0 indefinitely.
+
+---
+
+## 3.12 Uncertainty Quantification for Drusen Classification
+
+Favero et al. note that the diffusion classifier inherently produces an uncertainty estimate for each prediction. This uncertainty was not previously exposed by the codebase and was added to evaluate whether filtering out uncertain predictions improves accuracy on the remaining Drusen test data, reproducing the corresponding analysis from the paper.
 
 `DiffusionClassifier.classify()` (`diffusion/diffusion_classifier.py`) was extended with a `return_uncertainty` option. When enabled, it additionally returns, per sample, the Bernoulli variance `p * (1 - p)` of the winning class's vote share over the N evaluations already tallied for majority voting — 0 for a unanimous vote, 0.25 for an evenly split one. `evaluate()` and `inference()` were extended with a matching `collect_uncertainty` option that records, per test sample, the true label, predicted class, correctness, and this uncertainty value; all other call sites were updated for the resulting additional return value, with no change in behaviour when the option is left disabled.
 
 This is exposed as a `UNCERTAINTY_ESTIMATION` flag in `scripts/unet/fundus-unet.sh` (default `false`) and, when enabled, `inference.py` additionally writes a `uncertainty_predictions.json` file alongside the checkpoint's evaluation results. A new plotting script was added:
 
 ```text
-experiments/fundus-unet/plot_uncertainty_filtering.py
+results/plot-scripts/plot_uncertainty_filtering.py
 ```
 
 which sorts test samples by decreasing uncertainty, progressively removes the most uncertain ones, and recomputes accuracy on the remaining data at each step, reproducing the "removed data vs. accuracy" plot of Favero et al.
-
-This analysis is currently only used on the clinical PC branch's plain single-split (80/10/10) Drusen classification run, not on the cross-validation folds, since it is intended as a qualitative check of whether the model's confidence is meaningful rather than as part of the reported cross-validated performance.
-
----
-
-## 3.11 Cross-Validation for Training from Scratch and Unified CV Invocation
-
-To assess whether Mogon Phase-1 pretraining meaningfully improves Drusen classification performance, a cross-validated training-from-scratch baseline was added, so it can be compared to the pretrained-and-finetuned CV results (Section 3.9) on the same folds rather than on a single split.
-
-A dedicated orchestration script was introduced:
-
-```text
-scripts/run_drusen_scratch_cv.sh
-```
-
-which mirrors `run_drusen_cv.sh`, but calls `train.py` instead of `finetune.py` for each fold, without a pretrained checkpoint, and archives its checkpoints under a separate `drusen-unet-scratch` location so the two CV runs never share or overwrite each other's checkpoints. `scripts/unet/fundus-unet.sh` was extended with a `DRUSEN_MODEL_DIR` variable to control this archive location. While integrating this, it was discovered that `PRETRAINED_CHECKPOINT` was unconditionally re-exported to its default value in `fundus-unet.sh`, silently discarding an explicitly empty value set by a calling script; the assignment was changed from `"${VAR:-default}"` to `"${VAR-default}"`, which only substitutes the default when the variable is entirely unset.
-
-To invoke the resulting three cross-validation variants (pretrained finetuning, training from scratch, baseline classifier) consistently, `scripts/run.sh` was extended with a `CROSS_VALIDATION` flag. When set to `1`, it dispatches to the matching orchestration script based on the selected `MODEL`/`FUNCTION` instead of running the normal single-run workflow; `CROSS_VALIDATION=0` (default) leaves the existing behaviour completely unchanged. Since each orchestration script itself calls `run.sh` again once per fold to perform the actual train/inference run, `CROSS_VALIDATION` is explicitly reset to `0` before dispatching, so this inherited-environment re-entry takes the normal single-run path instead of re-triggering the same orchestration script from fold 0 indefinitely.
 
 ---
 
@@ -548,7 +548,7 @@ A ResNet50-based baseline using ImageNet-pretrained weights was evaluated with t
 
 ## 4.1 K-Fold Cross-Validation for the Baseline Classifier
 
-To allow a like-for-like comparison with the diffusion classifier's cross-validated performance (Section 3.9), the k-fold cross-validation procedure was extended to the baseline classifier, reusing the same fold splits.
+To allow a like-for-like comparison with the diffusion classifier's cross-validated performance, the k-fold cross-validation procedure was extended to the baseline classifier, reusing the same fold splits.
 
 Unlike the diffusion classifier, the baseline has no separate pretraining and fine-tuning stages: each fold trains directly from ImageNet-pretrained weights, so no shared pretrain checkpoint needs to be passed between folds.
 
@@ -557,7 +557,7 @@ Unlike the diffusion classifier, the baseline has no separate pretraining and fi
 A dedicated orchestration script was introduced:
 
 ```text
-scripts/run_baseline_cv.sh
+scripts/cross-validation/run_baseline_cv.sh
 ```
 
 which, for each fold, trains the baseline from scratch and runs inference on the held-out test split, archiving the fold's checkpoint out of the shared experiment folder before the next fold starts, using the same idempotent-move pattern as `run_drusen_cv.sh`. Since the baseline's checkpoint directories are named after the selected backbone variant (`checkpoint_<variant>` / `best_checkpoint_<variant>`) rather than the diffusion classifier's fixed `checkpoints` / `best_checkpoint`, the existing aggregation script was extended with a `--checkpoint-subdir` option so it can locate and aggregate either classifier's fold results:
@@ -665,3 +665,5 @@ The following modifications distinguish the adapted implementation from the orig
 24. Addition of per-sample uncertainty quantification for the Drusen classifier, based on the Bernoulli variance of the majority-voting vote share, together with an uncertainty-based data-filtering analysis and plot.
 25. Extension of the k-fold cross-validation procedure to the ResNet50 baseline classifier, reusing the diffusion classifier's fold splits and a generalized result-aggregation script.
 26. Addition of a cross-validated training-from-scratch comparison for the Drusen classifier, and a unified `CROSS_VALIDATION` flag in `run.sh` to invoke any of the three cross-validation variants (pretrained finetuning, from scratch, baseline).
+27. Introduction of a training-from-scratch strategy for the Drusen classifier as a direct comparison to the two-stage pretrained-and-finetuned approach, reusing the same dataset splits and pipeline.
+28. Documentation of the differing learning rate and epoch budget between fine-tuning and training from scratch, so comparisons between the two reflect each approach's own standard recipe rather than an isolated ablation of the initialization alone.

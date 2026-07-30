@@ -1,16 +1,18 @@
 export PROJECT_ROOT="/workspace"                  # Path to diffusion-classifier repository
-export DATA_ROOT="/data"                    # Path to the data directory containing chexpert and mel_isic_balanced  
+export DATA_ROOT="/data"                    # Path to the data directory containing chexpert and mel_isic_balanced
 export INFERENCE_CHECKPOINT_FOLDER="/checkpoints/final-models"  # Checkpoint folder for inference
 
-export COMET_PROJECT_NAME="diffusion-classifier"  
+export COMET_PROJECT_NAME="diffusion-classifier"
 export COMET_WORKSPACE=""
 export COMET_API_KEY=""
-export COMET_EXPERIMENT_NAME=""         
+export COMET_EXPERIMENT_NAME=""
 export USE_COMET=0
 
 # ${VAR:-default} so a value already exported by a calling script (e.g.
-# run_drusen_cv.sh setting MODEL/FUNCTION/DATA before invoking run.sh) is
-# respected instead of being unconditionally clobbered back to these defaults.
+# a cross-validation script below setting MODEL/FUNCTION/FOLD before
+# re-invoking this same run.sh once per fold) is respected instead of being
+# unconditionally clobbered back to these defaults. Edit the default value
+# directly (the part after ":-") to change what a container run does.
 export MODEL="${MODEL:-unet}"                           # "baseline", "unet", "dit", "sd"
 export FUNCTION="${FUNCTION:-train}"                        # "train", "inference", "explain", "finetune" (only supported for funuds-unet)
 export DATA="${DATA:-fundus}"                            # "chexpert", "isic", "fundus"
@@ -22,9 +24,10 @@ export VARIANT="${VARIANT:-resnet50}"               # (str) Variant of the backb
 
 export SCRIPTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Cross-validation: set CROSS_VALIDATION=1 to run the k-fold CV orchestration
-# script matching the selected MODEL/FUNCTION instead of the normal single-run
-# workflow below. CROSS_VALIDATION=0 (default) leaves everything unchanged.
+# Cross-validation: set CROSS_VALIDATION=1 above to run the k-fold CV
+# orchestration script matching the selected MODEL/FUNCTION instead of the
+# normal single-run workflow below. CROSS_VALIDATION=0 leaves everything
+# unchanged.
 export CROSS_VALIDATION="${CROSS_VALIDATION:-1}"
 if [[ "$CROSS_VALIDATION" == "1" ]]; then
     # The orchestration scripts below call "bash scripts/run.sh" once per fold
@@ -33,16 +36,17 @@ if [[ "$CROSS_VALIDATION" == "1" ]]; then
     # single-run path instead of re-triggering this dispatch (which would
     # otherwise restart the whole CV script from fold 0 on every fold, forever).
     export CROSS_VALIDATION=0
+    export K_FOLDS="${K_FOLDS:-5}"
+    export START_FOLD="${START_FOLD:-0}"
     if [[ "$MODEL" == "baseline" && "$DATA" == "fundus" ]]; then
-        bash "$SCRIPTS_DIR/run_baseline_cv.sh"
+        bash "$SCRIPTS_DIR/cross-validation/run_baseline_cv.sh"
         exit $?
     elif [[ "$MODEL" == "unet" && "$DATA" == "fundus" && "$FUNCTION" == "finetune" ]]; then
-        export PRETRAIN_CHECKPOINT="${PRETRAIN_CHECKPOINT:-$PRETRAINED_CHECKPOINT}"
         export PRETRAIN_CHECKPOINT="${PRETRAIN_CHECKPOINT:-/checkpoints/final-models/drusen-unet/pretrain-mogon}"
-        bash "$SCRIPTS_DIR/run_drusen_cv.sh"
+        bash "$SCRIPTS_DIR/cross-validation/run_drusen_cv.sh"
         exit $?
     elif [[ "$MODEL" == "unet" && "$DATA" == "fundus" && "$FUNCTION" == "train" ]]; then
-        bash "$SCRIPTS_DIR/run_drusen_scratch_cv.sh"
+        bash "$SCRIPTS_DIR/cross-validation/run_drusen_scratch_cv.sh"
         exit $?
     else
         echo "Error: CROSS_VALIDATION=1 is only supported for MODEL=baseline (DATA=fundus)," \

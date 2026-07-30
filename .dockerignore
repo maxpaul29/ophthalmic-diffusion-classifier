@@ -1,11 +1,8 @@
 # Large data and checkpoints stay on the host — mounted as volumes at runtime
 checkpoints/
-dataset/data/
 
-# Generated outputs
-experiments/*/plots/
-experiments/*/inference_images/
-experiments/*/training_images/
+# Generated output images
+**/*.png
 
 # Python cache
 __pycache__/

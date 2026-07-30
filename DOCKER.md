@@ -1,131 +1,207 @@
 # Docker Setup
 
-Dieser Guide beschreibt wie man das Projekt in einem Docker Container startet — z.B. auf einem Windows-PC mit NVIDIA GPU.
-
-## Voraussetzungen
-
-Folgendes muss einmalig auf dem Host installiert sein (ggf. IT fragen):
-
-| Software | Zweck |
-|---|---|
-| [Docker Desktop](https://www.docker.com/products/docker-desktop/) | Container-Runtime (Windows: WSL2-Backend aktivieren) |
-| NVIDIA GPU Treiber ≥ 525 | GPU-Zugriff aus dem Container |
-| [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) | Ermöglicht `--gpus all` in Docker |
-
-Setup prüfen:
-```bash
-docker run --gpus all --rm nvidia/cuda:12.4.0-base-ubuntu22.04 nvidia-smi
-```
-Die eigene GPU sollte in der Ausgabe erscheinen.
+This guide describes how to install, start, and configure the project in a Docker container — e.g. on a Windows PC with an NVIDIA GPU (the clinical workstation used for the Drusen experiments).
 
 ---
 
-## Schnellstart mit Docker Compose
+## 1. Prerequisites
 
-### 1. Image bauen (einmalig, ~5–10 Minuten)
+The following must be installed once on the host:
+
+| Software | Purpose |
+|---|---|
+| [Docker Desktop](https://www.docker.com/products/docker-desktop/) | Container runtime (Windows: enable the WSL2 backend) |
+| NVIDIA GPU driver ≥ 525 | GPU access from inside the container |
+| [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) | Enables `--gpus all` / `runtime: nvidia` in Docker |
+
+Verify the setup:
+```bash
+docker run --gpus all --rm nvidia/cuda:12.4.0-base-ubuntu22.04 nvidia-smi
+```
+Your GPU should show up in the output.
+
+---
+
+## 2. Installation
+
+### 2.1 Build the image (once, ~5–10 minutes)
 ```bash
 docker compose build
 ```
+The image is based on `pytorch/pytorch:2.6.0-cuda12.4-cudnn9-runtime` (Python 3.11, CUDA 12.4) and is roughly 8 GB. Rebuilding is only necessary when `requirements.txt` or `Dockerfile` change — code changes take effect immediately because the project directory is mounted live, not baked into the image.
 
-### 2. Daten- und Checkpoint-Pfad setzen
+### 2.2 Set the data and checkpoint paths
 
-Daten und Checkpoints liegen typischerweise auf einer externen Festplatte, nicht im Projektordner. Beide werden per Volume in den Container eingehängt — `DATA_PATH` auf `/data`, `CHECKPOINT_PATH` auf `/checkpoints`.
+Data and checkpoints typically live on an external drive, not inside the project folder. Both are mounted as volumes into the container — `DATA_PATH` → `/data`, `CHECKPOINT_PATH` → `/checkpoints`.
 
-**Linux / macOS** — in der Shell oder in einer `.env`-Datei im Projektroot:
-```bash
-export DATA_PATH=/pfad/zu/den/fundus-bildern
-export CHECKPOINT_PATH=/pfad/zur/externen/platte/checkpoints
+Create a `.env` file in the project root (loaded automatically by Docker Compose):
+```
+DATA_PATH=/path/to/the/fundus-data
+CHECKPOINT_PATH=/path/to/the/external-drive/checkpoints
 ```
 
-**Windows (PowerShell):**
-```powershell
-$env:DATA_PATH = "D:\fundus-data"
-$env:CHECKPOINT_PATH = "E:\checkpoints"
+If `CHECKPOINT_PATH`/`DATA_PATH` are not set, Docker Compose falls back to `./checkpoints` / `./dataset/data` inside the project folder.
+
+Inside the container, these are always mounted at the fixed paths `/data` and `/checkpoints` — the scripts already point at these container-internal paths; you never need to edit them yourself.
+
+### 2.3 Set up e-mail notifications (optional)
+
+By default the container runs through `scripts/entrypoint_with_notify.sh`: it captures the full training log to `training.log`, sends an hourly e-mail with the complete log while the run is still in progress, and sends a final summary e-mail once it finishes (success or failure), via `scripts/notification/notify_email.py`.
+
+To send via GMX with an app password:
+1. In your GMX account: **Settings → Security → App passwords** → create a new app password (do not use your normal login password).
+2. Add to the `.env` file in the project root:
+```
+SMTP_USER=yourname@gmx.de
+SMTP_PASSWORD=the-app-password
+NOTIFY_EMAIL_TO=yourname@gmx.de
+```
+`SMTP_HOST`/`SMTP_PORT` don't need to be set for GMX (default: `mail.gmx.net:587`).
+
+If `SMTP_USER`/`SMTP_PASSWORD` are left unset, the notification step is skipped without failing the run — training proceeds normally, just without e-mails.
+
+`.env` is only used for these two things — host paths (Section 2.2) and mail credentials. **What to actually run is not configured via `.env` or `-e` flags** — see Section 3.
+
+---
+
+## 3. Configuring what to run
+
+There are exactly **two files** to edit, and no `-e` flags or `.env` entries are needed for any of this:
+
+```text
+scripts/run.sh              # what to run: MODEL, FUNCTION, DATA, CROSS_VALIDATION, BACKBONE/VARIANT, K_FOLDS, START_FOLD, PRETRAIN_CHECKPOINT
+scripts/unet/fundus-unet.sh # unet-specific details: PRETRAINED_CHECKPOINT, EVALUATION_PER_STAGE, UNCERTAINTY_ESTIMATION or other training configurations
 ```
 
-Alternativ eine `.env`-Datei im Projektroot anlegen (wird von Docker Compose automatisch geladen):
-```
-DATA_PATH=/pfad/zu/den/fundus-bildern
-CHECKPOINT_PATH=/pfad/zur/externen/platte/checkpoints
-```
+Each variable is declared where it is used, in the form `export VAR="${VAR:-default}"` (or `${VAR-default}` for `PRETRAINED_CHECKPOINT`, see below) — to change what a run does, edit the default value after the `:-` directly at that line, then start the container (Section 4). The relevant lines:
 
-Wird `CHECKPOINT_PATH` nicht gesetzt, fällt Docker Compose auf `./checkpoints` im Projektordner zurück.
+- In `scripts/run.sh`, near the top: `MODEL`, `FUNCTION`, `DATA`, `BACKBONE`, `VARIANT`.
+- In `scripts/run.sh`, inside the `CROSS_VALIDATION=1` block: `K_FOLDS`, `START_FOLD`, `PRETRAIN_CHECKPOINT` (the latter only used for `FUNCTION=finetune`).
+- In `scripts/unet/fundus-unet.sh`, under "Classification parameters" / "Training parameters": `EVALUATION_PER_STAGE`, `UNCERTAINTY_ESTIMATION`, `PRETRAINED_CHECKPOINT` (used for a **single**, non-CV `finetune` run — this is a different variable from `PRETRAIN_CHECKPOINT` above, see the note below).
 
-In `scripts/run.sh` müssen die Pfade dann auf die Mountpunkte **im Container** zeigen, nicht auf die Host-Pfade:
-```bash
-export PROJECT_ROOT="/workspace"
-export DATA_ROOT="/data"
-export INFERENCE_CHECKPOINT_FOLDER="/checkpoints/final-models"
-```
+Section 5 lists every supported combination as a concrete edit + command.
 
-### 3. E-Mail-Benachrichtigung einrichten (optional, aber empfohlen fürs Abmelden)
+### Why `${VAR:-default}` and not a plain value?
 
-Der Container läuft standardmäßig über `scripts/entrypoint_with_notify.sh`: es mitschreibt den kompletten Trainingslog nach `training.log` und schickt danach — egal ob Erfolg oder Fehler — eine E-Mail mit einer Zusammenfassung (Loss-Werte, Checkpoint-Meldungen, Fehler/Traceback falls vorhanden).
+The cross-validation orchestration scripts (`scripts/cross-validation/*.sh`) work by calling `bash scripts/run.sh` again once per fold, first exporting that fold's `MODEL`/`FUNCTION`/`FOLD`. The `${VAR:-default}` form means a value already present in the environment (i.e. set by the orchestration script for the current fold) is respected instead of being overwritten by the default — so editing the default is safe and does not break cross-validation. You will not normally need to set these via the environment yourself; editing the file directly is the intended workflow.
 
-Für den Versand über GMX mit App-Passwort:
-1. In deinem GMX-Konto: **Einstellungen → Sicherheit → App-Passwörter** → neues App-Passwort erstellen (nicht dein normales Login-Passwort verwenden).
-2. In der `.env`-Datei im Projektroot ergänzen:
-```
-SMTP_USER=deinname@gmx.de
-SMTP_PASSWORD=das-app-passwort
-NOTIFY_EMAIL_TO=deinname@gmx.de
-```
-`SMTP_HOST`/`SMTP_PORT` müssen für GMX nicht gesetzt werden (Standard: `mail.gmx.net:587`).
+### One things to know before you edit
 
-Sind `SMTP_USER`/`SMTP_PASSWORD` nicht gesetzt, wird die Benachrichtigung übersprungen — das Training läuft trotzdem normal, nur ohne Mail.
+**`PRETRAINED_CHECKPOINT` (in `fundus-unet.sh`) is not defaulted for a single `finetune` run.** Unlike the cross-validation dispatch in `run.sh` (which fills in the Mogon pretrain checkpoint into `PRETRAIN_CHECKPOINT` automatically), a plain single `MODEL=unet FUNCTION=finetune CROSS_VALIDATION=0` run needs `PRETRAINED_CHECKPOINT` set to `/checkpoints/final-models/drusen-unet/pretrain-mogon` (or your own checkpoint path) in `fundus-unet.sh` yourself — `finetune.py` refuses to start otherwise (it requires either `RESUME=1` or a non-empty `PRETRAINED_CHECKPOINT`, by design, since training from scratch is meant to use `FUNCTION=train` instead).
 
-### 4. Training starten — detached, überlebt Abmelden
+---
 
-Damit das Training weiterläuft, nachdem du dich vom Klinik-PC abgemeldet hast, **detached** starten (`-d`), nicht mit `docker compose run` (das ist an dein Terminal gebunden):
+## 4. Starting the container
+
+Once `scripts/run.sh` is configured (Section 3):
+
+### 4.1 Detached, survives logging off
+
+To keep training running after logging off the clinical PC, start **detached** (`-d`), not with `docker compose run` (which is bound to your terminal):
 
 ```bash
 docker compose up -d
 ```
 
-Logs jederzeit live mitverfolgen (auch nach erneutem Einloggen):
+Follow logs live at any time (also after logging back in):
 ```bash
 docker compose logs -f
 ```
 
-Container-Status prüfen:
+Check container status:
 ```bash
 docker compose ps
 ```
 
-**Wichtig:** Abmelden ist unproblematisch, solange Docker Desktop weiterläuft (Docker Desktop läuft als Windows-Dienst/WSL2-Hintergrundprozess, unabhängig von deiner angemeldeten Sitzung). Der PC darf aber nicht **heruntergefahren** oder in den **Ruhezustand** versetzt werden — das stoppt auch die WSL2-VM und damit den Container.
-
-### 5. Interaktive Shell
+Stop it:
 ```bash
-docker compose run odc bash
+docker compose down
 ```
-(nutzt weiterhin die normale, attached `run`-Variante ohne den Notify-Wrapper — praktisch zum Debuggen)
+
+**Important:** logging off is fine as long as Docker Desktop keeps running (it runs as a Windows service / WSL2 background process, independent of your logged-in session). The PC must **not** be shut down or put to **sleep/hibernate** — that also stops the WSL2 VM and therefore the container.
+
+### 4.2 Interactive shell (debugging, manual commands)
+
+```bash
+docker compose run --rm odc bash
+```
+This opens a shell *inside* the container with the same volume mounts (`/workspace`, `/data`, `/checkpoints`), without the notify wrapper — useful for debugging, or for running manual recovery commands. Inside, running `bash scripts/run.sh` executes whatever is currently configured in the file. Exit with `exit`; `--rm` cleans the container up automatically (your data stays on the mounted volumes).
 
 ---
 
-## Hinweise
+## 5. What each configuration runs
 
-- **Kein Datenverlust.** Checkpoints werden direkt auf die eingehängte externe Festplatte geschrieben (`CHECKPOINT_PATH` → `/checkpoints`) und bleiben nach dem Containerstopp erhalten. Plots landen im Projektverzeichnis (`/workspace`).
-- **Patientendaten bleiben lokal.** Datenpfad und Checkpoint-Pfad werden nur als Volumes eingehängt — keine Dateien werden ins Image kopiert oder übertragen.
-- **Image neu bauen** ist nur nötig wenn sich `requirements.txt` oder `Dockerfile` ändern. Codeänderungen sind sofort wirksam da das Projektverzeichnis live eingehängt ist.
-- Das Image ist ~8 GB groß.
+Every row below is an edit to `scripts/run.sh`'s `USER CONFIGURATION` block, followed by `docker compose up -d` (or `docker compose run --rm odc bash scripts/run.sh` for an attached one-off run).
+
+### 5.1 Baseline classifier (ResNet50)
+
+| Goal | Set in `scripts/run.sh` |
+|---|---|
+| Train a single run | `MODEL=baseline`, `FUNCTION=train`, `CROSS_VALIDATION=0` |
+| Inference on an existing checkpoint | `MODEL=baseline`, `FUNCTION=inference`, `CROSS_VALIDATION=0` |
+| 5-fold cross-validation (train + evaluate every fold, then aggregate mean ± std) | `MODEL=baseline`, `CROSS_VALIDATION=1` |
+
+### 5.2 Diffusion classifier (UNet) — pretrained finetuning
+
+| Goal | Set in `scripts/run.sh` |
+|---|---|
+| Finetune a single run from the Mogon Phase-1 checkpoint | `MODEL=unet`, `FUNCTION=finetune`, `CROSS_VALIDATION=0`, `PRETRAINED_CHECKPOINT=/checkpoints/final-models/drusen-unet/pretrain-mogon` |
+| Inference on an existing (finetuned) checkpoint | `MODEL=unet`, `FUNCTION=inference`, `CROSS_VALIDATION=0` |
+| Explanation / counterfactual visualization | `MODEL=unet`, `FUNCTION=explain`, `CROSS_VALIDATION=0` |
+| 5-fold cross-validation (finetune + evaluate every fold from the Mogon checkpoint, then aggregate) | `MODEL=unet`, `FUNCTION=finetune`, `CROSS_VALIDATION=1` (optionally change `PRETRAIN_CHECKPOINT`) |
+
+### 5.3 Diffusion classifier (UNet) — training from scratch
+
+| Goal | Set in `scripts/run.sh` |
+|---|---|
+| Train a single run from scratch (no pretrained weights) | `MODEL=unet`, `FUNCTION=train`, `CROSS_VALIDATION=0` |
+| 5-fold cross-validation, training from scratch on every fold, then aggregating | `MODEL=unet`, `FUNCTION=train`, `CROSS_VALIDATION=1` — this is also the **file's shipped default**, i.e. what runs if you don't change anything (see the warning in Section 3) |
+
+### 5.4 Resuming or reconfiguring a cross-validation run
+
+For any of the three CV variants above, additionally set in `scripts/run.sh`:
+- `START_FOLD=<i>` — resume from a specific fold (e.g. after fixing an interrupted fold 2: `START_FOLD=2`), skipping already-completed and archived folds.
+- `K_FOLDS=<n>` — run fewer/more folds than the default 5.
+
+### 5.5 Advanced UNet options (single runs)
+
+Set the same way, at the top of `scripts/unet/fundus-unet.sh`:
+
+| Variable | Effect |
+|---|---|
+| `EVALUATION_PER_STAGE` | Number of Monte Carlo majority-voting samples per classification (default `[51]`) |
+| `UNCERTAINTY_ESTIMATION=true` | Also record per-sample uncertainty during `inference.py` (writes `uncertainty_predictions.json` next to the checkpoint) |
+
+(`FOLD` and `DRUSEN_MODEL_DIR`, further down in the same file, are set automatically by the cross-validation scripts for you — you don't need to touch them for anything in this section.)
+
+### 5.6 Other datasets/models inherited from the original framework
+
+`MODEL=dit`, `MODEL=sd`, and `DATA=isic`/`DATA=chexpert` are inherited from the upstream Favero et al. framework and follow the same `MODEL`/`FUNCTION`/`DATA` pattern. They are not part of the Drusen experiments this thesis is built around and are not covered further here.
 
 ---
 
-## Referenz: Manueller `docker run`
+## 6. Notes
 
-Falls Docker Compose nicht verfügbar ist:
+- **No data loss.** Checkpoints are written directly to the mounted external drive (`CHECKPOINT_PATH` → `/checkpoints`) and persist after the container stops. Plots/results are written into the project directory (`/workspace`), which is also mounted live.
+- **Patient data stays local.** The data and checkpoint paths are only mounted as volumes — no files are copied into the image or transmitted anywhere.
+- **`Input/output error` during checkpoint archiving** (seen mid-cross-validation) is a host storage fault, not a bug in the scripts — check `df -h` on the host and whether `CHECKPOINT_PATH` points at a drive/network share that stayed connected throughout the run.
+- Rebuilding the image (`docker compose build`) is only needed after changing `requirements.txt` or `Dockerfile`.
+
+---
+
+## Appendix: Manual `docker run` reference
+
+If Docker Compose is unavailable, the equivalent manual invocation (runs whatever is currently configured in `scripts/run.sh`, see Section 3):
 
 **Linux / macOS:**
 ```bash
 docker run --gpus all --rm \
   -v "$(pwd):/workspace" \
-  -v "/pfad/zu/daten:/data" \
-  -v "/pfad/zu/checkpoints:/checkpoints" \
-  -e DATA_PATH=/data \
-  -e CHECKPOINT_PATH=/checkpoints \
+  -v "/path/to/data:/data" \
+  -v "/path/to/checkpoints:/checkpoints" \
   -e PROJECT_ROOT=/workspace \
   ophthalmic-diffusion-classifier \
-  bash scripts/run.sh train
+  bash scripts/run.sh
 ```
 
 **Windows (PowerShell):**
@@ -134,9 +210,7 @@ docker run --gpus all --rm `
   -v "${PWD}:/workspace" `
   -v "D:\fundus-data:/data" `
   -v "E:\checkpoints:/checkpoints" `
-  -e DATA_PATH=/data `
-  -e CHECKPOINT_PATH=/checkpoints `
   -e PROJECT_ROOT=/workspace `
   ophthalmic-diffusion-classifier `
-  bash scripts/run.sh train
+  bash scripts/run.sh
 ```

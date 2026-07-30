@@ -4,7 +4,7 @@
 # complete log is sent while training is still running (so a locked/sleeping PC
 # doesn't leave you without any progress visibility), and a final email with a
 # summary is sent once the run finishes (success or failure), via
-# scripts/notify_email.py.
+# scripts/notification/notify_email.py.
 #
 # `pipefail` makes $? after the pipeline reflect run.sh's real exit code (not
 # tee's), since tee itself essentially never fails.
@@ -19,7 +19,7 @@ HOURLY_INTERVAL_SECONDS=3600
 (
     while true; do
         sleep "$HOURLY_INTERVAL_SECONDS"
-        python3 scripts/notify_email.py --exit-code 0 --log "$LOG_PATH" \
+        python3 scripts/notification/notify_email.py --exit-code 0 --log "$LOG_PATH" \
             --label "IN PROGRESS (hourly update)" --full
     done
 ) &
@@ -31,6 +31,6 @@ EXIT_CODE=$?
 
 kill "$HOURLY_PID" 2>/dev/null
 
-python3 scripts/notify_email.py --exit-code "$EXIT_CODE" --log "$LOG_PATH"
+python3 scripts/notification/notify_email.py --exit-code "$EXIT_CODE" --log "$LOG_PATH"
 
 exit "$EXIT_CODE"
