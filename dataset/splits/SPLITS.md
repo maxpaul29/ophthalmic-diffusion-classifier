@@ -11,23 +11,24 @@
 Scripts that produce these CSVs
 - **create_splits_scripts/create_drusen_aug_split.py**
 	- Builds balanced Drusen train/valid/test CSVs when augmented Drusen variants are available.
-	- Splits by original-eye group to prevent augmentation leakage (all augmented variants of an eye stay together).
+	- Splits by original-eye group to prevent augmentation leakage (all augmented variants of an eye stay together), and further by patient (see `patient_key()`), so a patient's images never end up split across train/valid/test.
 	- Validation and test keep only untouched originals (`_aug00`); augmented variants are used for training only.
 	- Enforces 50:50 class balance by sub-sampling healthy images (configurable).
 
 - **create_splits_scripts/create_drusen_cv_splits.py**
-	- Produces k-fold cross-validation splits for Drusen (grouped by original eye).
+	- Produces k-fold cross-validation splits for Drusen (grouped by original eye, and by patient — see `patient_key()`).
 	- Each fold: `test` = fold i originals, `valid` = fold (i+1) originals, `train` = remaining folds (augmented variants allowed in train).
 	- Balances healthy vs. drusen per split and writes `drusen-fold{i}-{train,valid,test}.csv` files.
 	- Use this to report robust CV metrics rather than a single holdout.
 
 - **create_splits_scripts/create_drusen_split.py**
 	- Creates train/valid/test CSVs for Drusen WITHOUT augmentation.
-	- Splits each source pool independently and (optionally) enforces 50:50 balancing by sub-sampling.
+	- Splits by patient (see `patient_key()` in `create_drusen_cv_splits.py`) and (optionally) enforces 50:50 balancing by sub-sampling.
 
 - **create_splits_scripts/create_pretrain_split.py**
 	- Builds healthy-only pretraining splits (`pretrain-train/valid/test`) for Phase 1 pretraining on clinical environment with private healthy data.
 	- Excludes any healthy images that appear in the Phase-2 Drusen splits (train, valid AND test) to guarantee no image overlap between pretraining and finetuning/evaluation.
+	- Splits the remaining pool by patient (see `patient_key()` in `create_drusen_cv_splits.py`).
 	- Use this after running the Drusen split generation so exclusion lists match.
     - Finally in experiments don't used because of hardware constraints
 

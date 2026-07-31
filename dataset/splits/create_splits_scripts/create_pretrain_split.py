@@ -13,6 +13,10 @@ CSVs (train, valid AND test). That full separation is trivial to argue in the
 thesis: the pretraining set and the finetuning/evaluation set share no images at
 all, so there is no possibility of leakage between phases.
 
+The remaining healthy pool is then split by patient (same patient_key() as the
+Drusen splits, from create_drusen_cv_splits.py), so a patient contributing
+several healthy images never ends up split across train/valid/test here either.
+
 Run this AFTER create_drusen_split.py (or create_drusen_aug_split.py), using the
 same --data-path so relative image paths match for the exclusion.
 
@@ -36,6 +40,8 @@ import random
 from pathlib import Path
 
 import pandas as pd
+
+from create_drusen_cv_splits import patient_key
 
 IMG_EXTENSIONS = {".png", ".jpg", ".jpeg", ".tif", ".tiff", ".bmp"}
 
@@ -110,8 +116,19 @@ def main():
     if args.n_healthy is not None and args.n_healthy < len(kept):
         kept = rng.sample(kept, args.n_healthy)
 
-    # Split into train/valid/test (all label=0)
-    train, valid, test = split_train_valid_test(kept, args.valid_frac, args.test_frac, args.seed)
+    # Split by patient (same patient_key() as the Drusen splits), so a
+    # patient with several healthy images never ends up split across
+    # train/valid/test here either.
+    patient_to_files = {}
+    for f in kept:
+        patient_to_files.setdefault(patient_key(f.stem), []).append(f)
+    patient_ids = sorted(patient_to_files.keys())
+    train_pids, valid_pids, test_pids = split_train_valid_test(
+        patient_ids, args.valid_frac, args.test_frac, args.seed
+    )
+    train = [f for pid in train_pids for f in patient_to_files[pid]]
+    valid = [f for pid in valid_pids for f in patient_to_files[pid]]
+    test = [f for pid in test_pids for f in patient_to_files[pid]]
 
     def to_df(files):
         rows = [(rel(f, args.data_path), 0) for f in files]
