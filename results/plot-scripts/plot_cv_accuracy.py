@@ -55,7 +55,7 @@ def main():
     ax.set_xlabel("Epoch", fontsize=12)
     ax.set_ylabel("Accuracy", fontsize=12)
     ax.set_title("Drusen Cross-Validation — Accuracy per Fold", fontsize=13, fontweight="bold")
-    ax.set_ylim(0.0, 1.0)
+    ax.set_ylim(0.0, 1.02)
     ax.xaxis.set_major_locator(mticker.MaxNLocator(integer=True))
     ax.grid(True, linestyle="--", alpha=0.5)
     ax.legend(fontsize=10, loc="lower right")
