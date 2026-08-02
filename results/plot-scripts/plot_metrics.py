@@ -60,6 +60,14 @@ YLIMITS = {
 }
 
 
+def adjusted_ylim(name, values):
+    ymin, ymax = YLIMITS.get(name, (None, None))
+    if ymin is None or ymax is None:
+        return ymin, ymax
+    margin = max(0.02, (ymax - ymin) * 0.02)
+    return ymin, ymax + margin
+
+
 def epoch_axis(n_values):
     return [FIRST_EVAL_EPOCH + i * EVAL_INTERVAL for i in range(n_values)]
 
@@ -80,7 +88,7 @@ def plot_individual(metrics, output_dir):
         ax.set_xlabel("Epoch", fontsize=12)
         ax.set_ylabel(name.capitalize(), fontsize=12)
         ax.set_title(f"{name.capitalize()} over Training", fontsize=13, fontweight="bold")
-        ax.set_ylim(*YLIMITS.get(name, (None, None)))
+        ax.set_ylim(*adjusted_ylim(name, values))
         ax.xaxis.set_major_locator(mticker.MaxNLocator(integer=True))
         ax.grid(True, linestyle="--", alpha=0.5)
         ax.legend(fontsize=10)
@@ -109,7 +117,7 @@ def plot_combined(metrics, output_dir):
     ax.set_xlabel("Epoch", fontsize=12)
     ax.set_ylabel("Score", fontsize=12)
     ax.set_title("Validation Metrics over Training", fontsize=13, fontweight="bold")
-    ax.set_ylim(0.0, 1.0)
+    ax.set_ylim(0.0, 1.02)
     ax.xaxis.set_major_locator(mticker.MaxNLocator(integer=True))
     ax.grid(True, linestyle="--", alpha=0.5)
     ax.legend(fontsize=10, loc="lower right")
@@ -141,7 +149,7 @@ def plot_grid(metrics, output_dir):
         ax_flat.set_title(name.capitalize(), fontsize=11, fontweight="bold")
         ax_flat.set_xlabel("Epoch", fontsize=10)
         ax_flat.set_ylabel("Score", fontsize=10)
-        ax_flat.set_ylim(*YLIMITS.get(name, (None, None)))
+        ax_flat.set_ylim(*adjusted_ylim(name, values))
         ax_flat.xaxis.set_major_locator(mticker.MaxNLocator(integer=True))
         ax_flat.grid(True, linestyle="--", alpha=0.5)
 
