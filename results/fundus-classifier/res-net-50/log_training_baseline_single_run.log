@@ -1,1074 +1,0 @@
-The following values were not passed to `accelerate launch` and had defaults used instead:
-	`--dynamo_backend` was set to a value of `'no'`
-To avoid this warning pass in values for each of the problematic parameters or run `accelerate config`.
-{
-  "resume": 0,
-  "project_root": "/workspace",
-  "experiment_dir": "/experiments/fundus-classifier",
-  "data_path": "/data",
-  "image_size": 256,
-  "image_channels": 3,
-  "batch_size": 64,
-  "num_epochs": 100,
-  "gradient_accumulation_steps": 1,
-  "learning_rate": 0.0001,
-  "weight_decay": 0.001,
-  "lr_warmup_steps": 20,
-  "evaluation_batches": 80,
-  "mixed_precision": "fp16",
-  "num_workers": 24,
-  "classes": 2,
-  "seed": 42,
-  "use_comet": 0,
-  "comet_project_name": "diffusion-classifier",
-  "comet_workspace": "",
-  "comet_experiment_name": "",
-  "comet_api_key": "",
-  "variant": "resnet50",
-  "eval_period": 1,
-  "pretrained": true,
-  "backbone": "resnet",
-  "split_prefix": "drusen",
-  "checkpoint_folder": "/checkpoints/final-models/fundus-classifier/best_checkpoint_resnet50"
-}
-Dataset length: 1780
-Label column name: target
-shape: (2, 2)
-┌────────┬───────┐
-│ target ┆ count │
-│ ---    ┆ ---   │
-│ i64    ┆ u32   │
-╞════════╪═══════╡
-│ 0      ┆ 890   │
-│ 1      ┆ 890   │
-└────────┴───────┘
-Dataset length: 22
-Label column name: target
-shape: (2, 2)
-┌────────┬───────┐
-│ target ┆ count │
-│ ---    ┆ ---   │
-│ i64    ┆ u32   │
-╞════════╪═══════╡
-│ 0      ┆ 11    │
-│ 1      ┆ 11    │
-└────────┴───────┘
-Dataset length: 22
-Label column name: target
-shape: (2, 2)
-┌────────┬───────┐
-│ target ┆ count │
-│ ---    ┆ ---   │
-│ i64    ┆ u32   │
-╞════════╪═══════╡
-│ 0      ┆ 11    │
-│ 1      ┆ 11    │
-└────────┴───────┘
-Downloading: "https://download.pytorch.org/models/resnet50-11ad3fa6.pth" to /root/.cache/torch/hub/checkpoints/resnet50-11ad3fa6.pth
-  0%|          | 0.00/97.8M [00:00<?, ?B/s]  1%|          | 1.00M/97.8M [00:00<00:09, 10.3MB/s]  2%|▏         | 2.38M/97.8M [00:00<00:08, 12.5MB/s]  4%|▍         | 3.75M/97.8M [00:00<00:07, 13.2MB/s]  5%|▌         | 5.12M/97.8M [00:00<00:07, 13.4MB/s]  7%|▋         | 6.50M/97.8M [00:00<00:07, 13.6MB/s]  8%|▊         | 7.88M/97.8M [00:00<00:06, 13.7MB/s]  9%|▉         | 9.25M/97.8M [00:00<00:06, 13.6MB/s] 11%|█         | 10.6M/97.8M [00:00<00:06, 13.6MB/s] 12%|█▏        | 12.0M/97.8M [00:00<00:06, 13.5MB/s] 14%|█▎        | 13.4M/97.8M [00:01<00:06, 13.4MB/s] 15%|█▌        | 14.8M/97.8M [00:01<00:06, 13.6MB/s] 16%|█▋        | 16.1M/97.8M [00:01<00:06, 13.5MB/s] 18%|█▊        | 17.5M/97.8M [00:01<00:06, 13.4MB/s] 19%|█▉        | 18.9M/97.8M [00:01<00:06, 13.5MB/s] 21%|██        | 20.2M/97.8M [00:01<00:06, 13.3MB/s] 22%|██▏       | 21.6M/97.8M [00:01<00:06, 13.1MB/s] 24%|██▎       | 23.0M/97.8M [00:01<00:05, 13.1MB/s] 25%|██▍       | 24.2M/97.8M [00:01<00:05, 13.0MB/s] 26%|██▌       | 25.5M/97.8M [00:02<00:05, 12.9MB/s] 27%|██▋       | 26.8M/97.8M [00:02<00:05, 13.0MB/s] 29%|██▉       | 28.1M/97.8M [00:02<00:05, 13.1MB/s] 30%|███       | 29.5M/97.8M [00:02<00:05, 13.2MB/s] 32%|███▏      | 30.9M/97.8M [00:02<00:05, 13.3MB/s] 33%|███▎      | 32.2M/97.8M [00:02<00:05, 13.2MB/s] 34%|███▍      | 33.6M/97.8M [00:02<00:05, 13.4MB/s] 36%|███▌      | 35.0M/97.8M [00:02<00:04, 13.3MB/s] 37%|███▋      | 36.4M/97.8M [00:02<00:04, 13.4MB/s] 39%|███▊      | 37.8M/97.8M [00:02<00:04, 13.4MB/s] 40%|████      | 39.1M/97.8M [00:03<00:04, 13.5MB/s] 41%|████▏     | 40.5M/97.8M [00:03<00:04, 13.4MB/s] 43%|████▎     | 41.9M/97.8M [00:03<00:04, 13.6MB/s] 44%|████▍     | 43.2M/97.8M [00:03<00:04, 13.5MB/s] 46%|████▌     | 44.6M/97.8M [00:03<00:04, 13.5MB/s] 47%|████▋     | 46.0M/97.8M [00:03<00:04, 13.3MB/s] 48%|████▊     | 47.4M/97.8M [00:03<00:04, 13.2MB/s] 50%|████▉     | 48.8M/97.8M [00:03<00:03, 13.0MB/s] 51%|█████▏    | 50.1M/97.8M [00:03<00:03, 13.1MB/s] 53%|█████▎    | 51.5M/97.8M [00:04<00:03, 13.3MB/s] 54%|█████▍    | 53.0M/97.8M [00:04<00:03, 13.7MB/s] 56%|█████▌    | 54.4M/97.8M [00:04<00:03, 13.7MB/s] 57%|█████▋    | 55.8M/97.8M [00:04<00:03, 13.5MB/s] 59%|█████▉    | 57.6M/97.8M [00:04<00:02, 14.9MB/s] 60%|██████    | 59.1M/97.8M [00:04<00:02, 14.3MB/s] 62%|██████▏   | 60.5M/97.8M [00:04<00:02, 14.1MB/s] 63%|██████▎   | 61.9M/97.8M [00:04<00:02, 13.8MB/s] 65%|██████▍   | 63.2M/97.8M [00:04<00:02, 13.6MB/s] 66%|██████▌   | 64.6M/97.8M [00:05<00:02, 13.4MB/s] 67%|██████▋   | 66.0M/97.8M [00:05<00:02, 13.5MB/s] 69%|██████▉   | 67.4M/97.8M [00:05<00:02, 13.7MB/s] 70%|███████   | 68.8M/97.8M [00:05<00:02, 13.5MB/s] 72%|███████▏  | 70.1M/97.8M [00:05<00:02, 13.3MB/s] 73%|███████▎  | 71.5M/97.8M [00:05<00:02, 13.4MB/s] 75%|███████▍  | 72.9M/97.8M [00:05<00:01, 13.4MB/s] 76%|███████▌  | 74.2M/97.8M [00:05<00:01, 13.4MB/s] 77%|███████▋  | 75.6M/97.8M [00:05<00:01, 13.4MB/s] 79%|███████▊  | 77.0M/97.8M [00:06<00:01, 13.3MB/s] 80%|████████  | 78.4M/97.8M [00:06<00:01, 13.4MB/s] 82%|████████▏ | 79.8M/97.8M [00:06<00:01, 13.5MB/s] 83%|████████▎ | 81.1M/97.8M [00:06<00:01, 13.6MB/s] 84%|████████▍ | 82.5M/97.8M [00:06<00:01, 13.4MB/s] 86%|████████▌ | 83.9M/97.8M [00:06<00:01, 13.4MB/s] 87%|████████▋ | 85.2M/97.8M [00:06<00:00, 13.4MB/s] 89%|████████▊ | 86.6M/97.8M [00:06<00:00, 13.4MB/s] 90%|████████▉ | 88.0M/97.8M [00:06<00:00, 13.4MB/s] 91%|█████████▏| 89.4M/97.8M [00:06<00:00, 13.5MB/s] 93%|█████████▎| 90.8M/97.8M [00:07<00:00, 13.5MB/s] 94%|█████████▍| 92.1M/97.8M [00:07<00:00, 13.3MB/s] 96%|█████████▌| 93.5M/97.8M [00:07<00:00, 13.4MB/s] 97%|█████████▋| 94.9M/97.8M [00:07<00:00, 13.3MB/s] 98%|█████████▊| 96.2M/97.8M [00:07<00:00, 13.5MB/s]100%|█████████▉| 97.6M/97.8M [00:07<00:00, 13.3MB/s]100%|██████████| 97.8M/97.8M [00:07<00:00, 13.4MB/s]
-Config:
-{'config': {'resume': 0, 'project_root': '/workspace', 'experiment_dir': '/experiments/fundus-classifier', 'data_path': '/data', 'image_size': 256, 'image_channels': 3, 'batch_size': 64, 'num_epochs': 100, 'gradient_accumulation_steps': 1, 'learning_rate': 0.0001, 'weight_decay': 0.001, 'lr_warmup_steps': 20, 'evaluation_batches': 80, 'mixed_precision': 'fp16', 'num_workers': 24, 'classes': 2, 'seed': 42, 'use_comet': 0, 'comet_project_name': 'diffusion-classifier', 'comet_workspace': '', 'comet_experiment_name': '', 'comet_api_key': '', 'variant': 'resnet50', 'eval_period': 1, 'pretrained': True, 'backbone': 'resnet', 'split_prefix': 'drusen', 'checkpoint_folder': '/checkpoints/final-models/fundus-classifier/best_checkpoint_resnet50'}, 'project_root': '/workspace', 'experiment_dir': '/experiments/fundus-classifier', 'experiment_path': '/workspace/experiments/fundus-classifier'}
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:04<02:05,  4.65s/it] 11%|█         | 3/28 [00:04<00:31,  1.25s/it] 18%|█▊        | 5/28 [00:04<00:14,  1.57it/s] 25%|██▌       | 7/28 [00:05<00:08,  2.54it/s] 32%|███▏      | 9/28 [00:05<00:05,  3.73it/s] 39%|███▉      | 11/28 [00:05<00:03,  5.12it/s] 46%|████▋     | 13/28 [00:05<00:02,  6.64it/s] 54%|█████▎    | 15/28 [00:05<00:01,  8.24it/s] 61%|██████    | 17/28 [00:05<00:01,  9.80it/s] 68%|██████▊   | 19/28 [00:05<00:00, 11.24it/s] 75%|███████▌  | 21/28 [00:05<00:00, 12.49it/s] 82%|████████▏ | 23/28 [00:05<00:00, 13.53it/s] 89%|████████▉ | 25/28 [00:06<00:00, 14.35it/s] 96%|█████████▋| 27/28 [00:06<00:00, 14.98it/s]100%|██████████| 28/28 [00:06<00:00,  4.45it/s]
-Epoch 0/99, Train Loss: 0.4500, Time: 6.29s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  1.22it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  1.09it/s]
-{'classification accuracy': tensor(0.5909, device='cuda:0')}
-{'f1': tensor(0.3077, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.1818, device='cuda:0')}
-{'auc': tensor(0.5909, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Best checkpoint saved to /workspace/experiments/fundus-classifier/best_checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 1.15 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:09,  2.57s/it] 11%|█         | 3/28 [00:02<00:17,  1.41it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.65it/s] 25%|██▌       | 7/28 [00:02<00:05,  4.12it/s] 32%|███▏      | 9/28 [00:03<00:03,  5.75it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.46it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.15it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.71it/s] 61%|██████    | 17/28 [00:03<00:00, 12.06it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.18it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.00it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.67it/s] 89%|████████▉ | 25/28 [00:04<00:00, 15.21it/s] 96%|█████████▋| 27/28 [00:04<00:00, 15.64it/s]100%|██████████| 28/28 [00:04<00:00,  6.69it/s]
-Epoch 1/99, Train Loss: 0.0734, Time: 4.19s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.09it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.98it/s]
-{'classification accuracy': tensor(0.8636, device='cuda:0')}
-{'f1': tensor(0.8421, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.7273, device='cuda:0')}
-{'auc': tensor(0.8636, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Best checkpoint saved to /workspace/experiments/fundus-classifier/best_checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.26 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:10,  2.60s/it] 11%|█         | 3/28 [00:02<00:18,  1.39it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.62it/s] 25%|██▌       | 7/28 [00:02<00:05,  4.07it/s] 32%|███▏      | 9/28 [00:03<00:03,  5.69it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.38it/s] 46%|████▋     | 13/28 [00:03<00:01,  8.88it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.45it/s] 61%|██████    | 17/28 [00:03<00:00, 11.83it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.00it/s] 75%|███████▌  | 21/28 [00:03<00:00, 13.92it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.57it/s] 89%|████████▉ | 25/28 [00:04<00:00, 15.15it/s] 96%|█████████▋| 27/28 [00:04<00:00, 15.58it/s]100%|██████████| 28/28 [00:04<00:00,  6.61it/s]
-Epoch 2/99, Train Loss: 0.0177, Time: 4.24s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.16it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.87it/s]
-{'classification accuracy': tensor(0.9091, device='cuda:0')}
-{'f1': tensor(0.9000, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.8182, device='cuda:0')}
-{'auc': tensor(0.9091, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Best checkpoint saved to /workspace/experiments/fundus-classifier/best_checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.27 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:08,  2.54s/it] 11%|█         | 3/28 [00:02<00:17,  1.42it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.68it/s] 25%|██▌       | 7/28 [00:02<00:05,  4.15it/s] 32%|███▏      | 9/28 [00:03<00:03,  5.73it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.35it/s] 46%|████▋     | 13/28 [00:03<00:01,  8.90it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.30it/s] 61%|██████    | 17/28 [00:03<00:00, 11.55it/s] 68%|██████▊   | 19/28 [00:03<00:00, 12.76it/s] 75%|███████▌  | 21/28 [00:03<00:00, 13.74it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.52it/s] 89%|████████▉ | 25/28 [00:04<00:00, 15.01it/s] 96%|█████████▋| 27/28 [00:04<00:00, 15.24it/s]100%|██████████| 28/28 [00:04<00:00,  6.65it/s]
-Epoch 3/99, Train Loss: 0.0045, Time: 4.21s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.17it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.05it/s]
-{'classification accuracy': tensor(0.9545, device='cuda:0')}
-{'f1': tensor(0.9524, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.9091, device='cuda:0')}
-{'auc': tensor(0.9545, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Best checkpoint saved to /workspace/experiments/fundus-classifier/best_checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:02,  2.31s/it] 11%|█         | 3/28 [00:02<00:16,  1.54it/s] 18%|█▊        | 5/28 [00:02<00:07,  2.88it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.43it/s] 32%|███▏      | 9/28 [00:02<00:03,  6.13it/s] 39%|███▉      | 11/28 [00:02<00:02,  7.87it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.55it/s] 54%|█████▎    | 15/28 [00:03<00:01, 11.06it/s] 61%|██████    | 17/28 [00:03<00:00, 12.35it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.40it/s] 75%|███████▌  | 21/28 [00:03<00:00, 13.96it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.39it/s] 89%|████████▉ | 25/28 [00:03<00:00, 14.71it/s] 96%|█████████▋| 27/28 [00:03<00:00, 14.92it/s]100%|██████████| 28/28 [00:03<00:00,  7.04it/s]
-Epoch 4/99, Train Loss: 0.0014, Time: 3.98s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.28it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.12it/s]
-{'classification accuracy': tensor(0.8182, device='cuda:0')}
-{'f1': tensor(0.7778, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.6364, device='cuda:0')}
-{'auc': tensor(0.8182, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:02,  2.33s/it] 11%|█         | 3/28 [00:02<00:16,  1.51it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.83it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.37it/s] 32%|███▏      | 9/28 [00:02<00:03,  6.05it/s] 39%|███▉      | 11/28 [00:02<00:02,  7.78it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.45it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.94it/s] 61%|██████    | 17/28 [00:03<00:00, 12.26it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.34it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.21it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.87it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.37it/s] 96%|█████████▋| 27/28 [00:03<00:00, 15.74it/s]100%|██████████| 28/28 [00:03<00:00,  7.03it/s]
-Epoch 5/99, Train Loss: 0.0009, Time: 3.98s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.21it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.07it/s]
-{'classification accuracy': tensor(0.9545, device='cuda:0')}
-{'f1': tensor(0.9524, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.9091, device='cuda:0')}
-{'auc': tensor(0.9545, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:01,  2.27s/it]  7%|▋         | 2/28 [00:02<00:26,  1.02s/it] 14%|█▍        | 4/28 [00:02<00:10,  2.39it/s] 21%|██▏       | 6/28 [00:02<00:05,  4.01it/s] 29%|██▊       | 8/28 [00:02<00:03,  5.77it/s] 36%|███▌      | 10/28 [00:02<00:02,  7.55it/s] 43%|████▎     | 12/28 [00:03<00:01,  9.28it/s] 50%|█████     | 14/28 [00:03<00:01, 10.83it/s] 57%|█████▋    | 16/28 [00:03<00:00, 12.16it/s] 64%|██████▍   | 18/28 [00:03<00:00, 13.26it/s] 71%|███████▏  | 20/28 [00:03<00:00, 14.13it/s] 79%|███████▊  | 22/28 [00:03<00:00, 14.79it/s] 86%|████████▌ | 24/28 [00:03<00:00, 15.28it/s] 93%|█████████▎| 26/28 [00:03<00:00, 15.58it/s]100%|██████████| 28/28 [00:03<00:00, 16.27it/s]100%|██████████| 28/28 [00:03<00:00,  7.03it/s]
-Epoch 6/99, Train Loss: 0.0005, Time: 3.98s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.00it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.89it/s]
-{'classification accuracy': tensor(0.8636, device='cuda:0')}
-{'f1': tensor(0.8421, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.7273, device='cuda:0')}
-{'auc': tensor(0.8636, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.26 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:03,  2.36s/it]  7%|▋         | 2/28 [00:02<00:27,  1.06s/it] 14%|█▍        | 4/28 [00:02<00:10,  2.31it/s] 21%|██▏       | 6/28 [00:02<00:05,  3.89it/s] 29%|██▊       | 8/28 [00:02<00:03,  5.62it/s] 36%|███▌      | 10/28 [00:02<00:02,  7.41it/s] 43%|████▎     | 12/28 [00:03<00:01,  9.14it/s] 50%|█████     | 14/28 [00:03<00:01, 10.72it/s] 57%|█████▋    | 16/28 [00:03<00:00, 12.07it/s] 64%|██████▍   | 18/28 [00:03<00:00, 13.19it/s] 71%|███████▏  | 20/28 [00:03<00:00, 14.03it/s] 79%|███████▊  | 22/28 [00:03<00:00, 14.75it/s] 86%|████████▌ | 24/28 [00:03<00:00, 15.26it/s] 93%|█████████▎| 26/28 [00:03<00:00, 15.66it/s]100%|██████████| 28/28 [00:04<00:00, 16.36it/s]100%|██████████| 28/28 [00:04<00:00,  6.88it/s]
-Epoch 7/99, Train Loss: 0.0004, Time: 4.07s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.12it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.94it/s]
-{'classification accuracy': tensor(0.8636, device='cuda:0')}
-{'f1': tensor(0.8421, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.7273, device='cuda:0')}
-{'auc': tensor(0.8636, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.26 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:06,  2.46s/it] 11%|█         | 3/28 [00:02<00:17,  1.46it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.75it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.25it/s] 32%|███▏      | 9/28 [00:02<00:03,  5.91it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.64it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.29it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.83it/s] 61%|██████    | 17/28 [00:03<00:00, 12.16it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.28it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.16it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.83it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.33it/s] 96%|█████████▋| 27/28 [00:04<00:00, 15.51it/s]100%|██████████| 28/28 [00:04<00:00,  6.85it/s]
-Epoch 8/99, Train Loss: 0.0003, Time: 4.09s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.21it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.07it/s]
-{'classification accuracy': tensor(0.9091, device='cuda:0')}
-{'f1': tensor(0.9000, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.8182, device='cuda:0')}
-{'auc': tensor(0.9091, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:04,  2.41s/it] 11%|█         | 3/28 [00:02<00:16,  1.49it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.79it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.31it/s] 32%|███▏      | 9/28 [00:02<00:03,  5.98it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.71it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.38it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.92it/s] 61%|██████    | 17/28 [00:03<00:00, 12.26it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.35it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.22it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.81it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.33it/s] 96%|█████████▋| 27/28 [00:03<00:00, 15.70it/s]100%|██████████| 28/28 [00:04<00:00,  6.94it/s]
-Epoch 9/99, Train Loss: 0.0003, Time: 4.03s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.33it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.19it/s]
-{'classification accuracy': tensor(0.9091, device='cuda:0')}
-{'f1': tensor(0.9000, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.8182, device='cuda:0')}
-{'auc': tensor(0.9091, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.24 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:06,  2.45s/it] 11%|█         | 3/28 [00:02<00:17,  1.47it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.76it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.26it/s] 32%|███▏      | 9/28 [00:02<00:03,  5.92it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.65it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.33it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.86it/s] 61%|██████    | 17/28 [00:03<00:00, 12.17it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.27it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.15it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.83it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.32it/s] 96%|█████████▋| 27/28 [00:04<00:00, 15.71it/s]100%|██████████| 28/28 [00:04<00:00,  6.87it/s]
-Epoch 10/99, Train Loss: 0.0004, Time: 4.07s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.33it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.03it/s]
-{'classification accuracy': tensor(0.9091, device='cuda:0')}
-{'f1': tensor(0.9000, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.8182, device='cuda:0')}
-{'auc': tensor(0.9091, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.26 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:05,  2.42s/it] 11%|█         | 3/28 [00:02<00:16,  1.48it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.79it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.30it/s] 32%|███▏      | 9/28 [00:02<00:03,  5.98it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.69it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.37it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.91it/s] 61%|██████    | 17/28 [00:03<00:00, 12.26it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.35it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.21it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.89it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.37it/s] 96%|█████████▋| 27/28 [00:03<00:00, 15.66it/s]100%|██████████| 28/28 [00:04<00:00,  6.93it/s]
-Epoch 11/99, Train Loss: 0.0003, Time: 4.04s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.22it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.91it/s]
-{'classification accuracy': tensor(0.9091, device='cuda:0')}
-{'f1': tensor(0.9000, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.8182, device='cuda:0')}
-{'auc': tensor(0.9091, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.27 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<00:58,  2.18s/it] 11%|█         | 3/28 [00:02<00:15,  1.64it/s] 18%|█▊        | 5/28 [00:02<00:07,  3.05it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.65it/s] 32%|███▏      | 9/28 [00:02<00:02,  6.36it/s] 39%|███▉      | 11/28 [00:02<00:02,  8.12it/s] 46%|████▋     | 13/28 [00:02<00:01,  9.79it/s] 54%|█████▎    | 15/28 [00:03<00:01, 11.30it/s] 61%|██████    | 17/28 [00:03<00:00, 12.58it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.63it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.43it/s] 82%|████████▏ | 23/28 [00:03<00:00, 15.05it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.45it/s] 96%|█████████▋| 27/28 [00:03<00:00, 15.84it/s]100%|██████████| 28/28 [00:03<00:00,  7.37it/s]
-Epoch 12/99, Train Loss: 0.0002, Time: 3.80s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.36it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.22it/s]
-{'classification accuracy': tensor(0.9091, device='cuda:0')}
-{'f1': tensor(0.9000, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.8182, device='cuda:0')}
-{'auc': tensor(0.9091, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.24 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:07,  2.50s/it] 11%|█         | 3/28 [00:02<00:17,  1.44it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.72it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.21it/s] 32%|███▏      | 9/28 [00:02<00:03,  5.87it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.58it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.27it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.82it/s] 61%|██████    | 17/28 [00:03<00:00, 12.17it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.24it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.12it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.81it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.34it/s] 96%|█████████▋| 27/28 [00:04<00:00, 15.71it/s]100%|██████████| 28/28 [00:04<00:00,  6.81it/s]
-Epoch 13/99, Train Loss: 0.0002, Time: 4.11s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.40it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.26it/s]
-{'classification accuracy': tensor(0.9091, device='cuda:0')}
-{'f1': tensor(0.9000, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.8182, device='cuda:0')}
-{'auc': tensor(0.9091, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.24 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:05,  2.44s/it] 11%|█         | 3/28 [00:02<00:16,  1.48it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.78it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.29it/s] 32%|███▏      | 9/28 [00:02<00:03,  5.96it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.69it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.34it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.88it/s] 61%|██████    | 17/28 [00:03<00:00, 12.22it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.34it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.23it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.90it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.40it/s] 96%|█████████▋| 27/28 [00:04<00:00, 15.77it/s]100%|██████████| 28/28 [00:04<00:00,  6.91it/s]
-Epoch 14/99, Train Loss: 0.0001, Time: 4.05s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.22it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.08it/s]
-{'classification accuracy': tensor(0.9091, device='cuda:0')}
-{'f1': tensor(0.9000, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.8182, device='cuda:0')}
-{'auc': tensor(0.9091, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:05,  2.43s/it] 11%|█         | 3/28 [00:02<00:16,  1.48it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.79it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.30it/s] 32%|███▏      | 9/28 [00:02<00:03,  5.96it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.69it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.37it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.92it/s] 61%|██████    | 17/28 [00:03<00:00, 12.26it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.37it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.23it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.87it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.37it/s] 96%|█████████▋| 27/28 [00:03<00:00, 15.76it/s]100%|██████████| 28/28 [00:04<00:00,  6.93it/s]
-Epoch 15/99, Train Loss: 0.0003, Time: 4.04s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.29it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.13it/s]
-{'classification accuracy': tensor(0.8636, device='cuda:0')}
-{'f1': tensor(0.8421, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.7273, device='cuda:0')}
-{'auc': tensor(0.8636, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:05,  2.43s/it] 11%|█         | 3/28 [00:02<00:16,  1.48it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.79it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.30it/s] 32%|███▏      | 9/28 [00:02<00:03,  5.97it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.70it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.39it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.93it/s] 61%|██████    | 17/28 [00:03<00:00, 12.22it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.32it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.20it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.86it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.34it/s] 96%|█████████▋| 27/28 [00:04<00:00, 15.37it/s]100%|██████████| 28/28 [00:04<00:00,  6.91it/s]
-Epoch 16/99, Train Loss: 0.0001, Time: 4.05s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.86it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.72it/s]
-{'classification accuracy': tensor(0.9091, device='cuda:0')}
-{'f1': tensor(0.9000, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.8182, device='cuda:0')}
-{'auc': tensor(0.9091, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.28 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:07,  2.51s/it] 11%|█         | 3/28 [00:02<00:17,  1.44it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.71it/s] 25%|██▌       | 7/28 [00:02<00:05,  4.20it/s] 32%|███▏      | 9/28 [00:02<00:03,  5.84it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.55it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.24it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.78it/s] 61%|██████    | 17/28 [00:03<00:00, 12.12it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.24it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.13it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.82it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.26it/s] 96%|█████████▋| 27/28 [00:04<00:00, 15.63it/s]100%|██████████| 28/28 [00:04<00:00,  6.78it/s]
-Epoch 17/99, Train Loss: 0.0001, Time: 4.13s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.30it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.13it/s]
-{'classification accuracy': tensor(0.9091, device='cuda:0')}
-{'f1': tensor(0.9000, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.8182, device='cuda:0')}
-{'auc': tensor(0.9091, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:01,  2.29s/it]  7%|▋         | 2/28 [00:02<00:26,  1.01s/it] 14%|█▍        | 4/28 [00:02<00:09,  2.41it/s] 21%|██▏       | 6/28 [00:02<00:05,  4.04it/s] 29%|██▊       | 8/28 [00:02<00:03,  5.81it/s] 36%|███▌      | 10/28 [00:02<00:02,  7.62it/s] 43%|████▎     | 12/28 [00:03<00:01,  9.36it/s] 50%|█████     | 14/28 [00:03<00:01, 10.92it/s] 57%|█████▋    | 16/28 [00:03<00:00, 12.27it/s] 64%|██████▍   | 18/28 [00:03<00:00, 13.39it/s] 71%|███████▏  | 20/28 [00:03<00:00, 14.24it/s] 79%|███████▊  | 22/28 [00:03<00:00, 14.86it/s] 86%|████████▌ | 24/28 [00:03<00:00, 15.36it/s] 93%|█████████▎| 26/28 [00:03<00:00, 15.71it/s]100%|██████████| 28/28 [00:03<00:00, 16.38it/s]100%|██████████| 28/28 [00:03<00:00,  7.07it/s]
-Epoch 18/99, Train Loss: 0.0001, Time: 3.96s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.13it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.86it/s]
-{'classification accuracy': tensor(0.9091, device='cuda:0')}
-{'f1': tensor(0.9000, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.8182, device='cuda:0')}
-{'auc': tensor(0.9091, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.27 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:02,  2.33s/it] 11%|█         | 3/28 [00:02<00:16,  1.51it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.83it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.36it/s] 32%|███▏      | 9/28 [00:02<00:03,  6.04it/s] 39%|███▉      | 11/28 [00:02<00:02,  7.78it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.45it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.96it/s] 61%|██████    | 17/28 [00:03<00:00, 12.28it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.38it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.23it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.83it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.33it/s] 96%|█████████▋| 27/28 [00:03<00:00, 15.68it/s]100%|██████████| 28/28 [00:03<00:00,  7.02it/s]
-Epoch 19/99, Train Loss: 0.0056, Time: 3.99s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.84it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.70it/s]
-{'classification accuracy': tensor(0.9091, device='cuda:0')}
-{'f1': tensor(0.9000, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.8182, device='cuda:0')}
-{'auc': tensor(0.9091, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.28 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:05,  2.43s/it] 11%|█         | 3/28 [00:02<00:16,  1.48it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.78it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.30it/s] 32%|███▏      | 9/28 [00:02<00:03,  5.95it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.68it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.36it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.90it/s] 61%|██████    | 17/28 [00:03<00:00, 12.24it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.33it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.20it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.85it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.30it/s] 96%|█████████▋| 27/28 [00:03<00:00, 15.68it/s]100%|██████████| 28/28 [00:04<00:00,  6.92it/s]
-Epoch 20/99, Train Loss: 0.0547, Time: 4.05s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.17it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.88it/s]
-{'classification accuracy': tensor(0.8636, device='cuda:0')}
-{'f1': tensor(0.8421, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.7273, device='cuda:0')}
-{'auc': tensor(0.8636, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.27 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<00:58,  2.18s/it] 11%|█         | 3/28 [00:02<00:15,  1.63it/s] 18%|█▊        | 5/28 [00:02<00:07,  3.04it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.64it/s] 32%|███▏      | 9/28 [00:02<00:02,  6.37it/s] 39%|███▉      | 11/28 [00:02<00:02,  8.12it/s] 46%|████▋     | 13/28 [00:02<00:01,  9.84it/s] 54%|█████▎    | 15/28 [00:03<00:01, 11.33it/s] 61%|██████    | 17/28 [00:03<00:00, 12.66it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.67it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.55it/s] 82%|████████▏ | 23/28 [00:03<00:00, 15.09it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.54it/s] 96%|█████████▋| 27/28 [00:03<00:00, 15.86it/s]100%|██████████| 28/28 [00:03<00:00,  7.37it/s]
-Epoch 21/99, Train Loss: 0.0391, Time: 3.80s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.40it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.22it/s]
-{'classification accuracy': tensor(0.8636, device='cuda:0')}
-{'f1': tensor(0.8421, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.7273, device='cuda:0')}
-{'auc': tensor(0.8636, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:07,  2.50s/it] 11%|█         | 3/28 [00:02<00:17,  1.44it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.72it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.21it/s] 32%|███▏      | 9/28 [00:02<00:03,  5.86it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.57it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.25it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.78it/s] 61%|██████    | 17/28 [00:03<00:00, 12.10it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.23it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.12it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.81it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.31it/s] 96%|█████████▋| 27/28 [00:04<00:00, 15.71it/s]100%|██████████| 28/28 [00:04<00:00,  6.80it/s]
-Epoch 22/99, Train Loss: 0.0213, Time: 4.12s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.16it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.02it/s]
-{'classification accuracy': tensor(0.6364, device='cuda:0')}
-{'f1': tensor(0.4286, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.2727, device='cuda:0')}
-{'auc': tensor(0.6364, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.26 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:05,  2.43s/it] 11%|█         | 3/28 [00:02<00:17,  1.47it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.76it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.23it/s] 32%|███▏      | 9/28 [00:02<00:03,  5.85it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.56it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.24it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.79it/s] 61%|██████    | 17/28 [00:03<00:00, 12.14it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.26it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.15it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.84it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.32it/s] 96%|█████████▋| 27/28 [00:04<00:00, 15.65it/s]100%|██████████| 28/28 [00:04<00:00,  6.87it/s]
-Epoch 23/99, Train Loss: 0.0089, Time: 4.08s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.26it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.12it/s]
-{'classification accuracy': tensor(0.8182, device='cuda:0')}
-{'f1': tensor(0.7778, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.6364, device='cuda:0')}
-{'auc': tensor(0.8182, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:00,  2.22s/it]  7%|▋         | 2/28 [00:02<00:25,  1.00it/s] 14%|█▍        | 4/28 [00:02<00:09,  2.44it/s] 21%|██▏       | 6/28 [00:02<00:05,  4.08it/s] 29%|██▊       | 8/28 [00:02<00:03,  5.86it/s] 36%|███▌      | 10/28 [00:02<00:02,  7.68it/s] 43%|████▎     | 12/28 [00:02<00:01,  9.42it/s] 50%|█████     | 14/28 [00:03<00:01, 10.99it/s] 57%|█████▋    | 16/28 [00:03<00:00, 12.33it/s] 64%|██████▍   | 18/28 [00:03<00:00, 13.44it/s] 71%|███████▏  | 20/28 [00:03<00:00, 14.30it/s] 79%|███████▊  | 22/28 [00:03<00:00, 14.87it/s] 86%|████████▌ | 24/28 [00:03<00:00, 15.36it/s] 93%|█████████▎| 26/28 [00:03<00:00, 15.72it/s]100%|██████████| 28/28 [00:03<00:00, 16.33it/s]100%|██████████| 28/28 [00:03<00:00,  7.14it/s]
-Epoch 24/99, Train Loss: 0.0073, Time: 3.92s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.22it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.09it/s]
-{'classification accuracy': tensor(0.9091, device='cuda:0')}
-{'f1': tensor(0.9000, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.8182, device='cuda:0')}
-{'auc': tensor(0.9091, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:08,  2.55s/it] 11%|█         | 3/28 [00:02<00:17,  1.42it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.67it/s] 25%|██▌       | 7/28 [00:02<00:05,  4.14it/s] 32%|███▏      | 9/28 [00:03<00:03,  5.78it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.49it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.16it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.72it/s] 61%|██████    | 17/28 [00:03<00:00, 12.07it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.21it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.11it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.82it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.34it/s] 96%|█████████▋| 27/28 [00:04<00:00, 15.72it/s]100%|██████████| 28/28 [00:04<00:00,  6.73it/s]
-Epoch 25/99, Train Loss: 0.0045, Time: 4.16s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.31it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.14it/s]
-{'classification accuracy': tensor(0.8182, device='cuda:0')}
-{'f1': tensor(0.7778, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.6364, device='cuda:0')}
-{'auc': tensor(0.8182, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:01,  2.29s/it] 11%|█         | 3/28 [00:02<00:16,  1.54it/s] 18%|█▊        | 5/28 [00:02<00:07,  2.88it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.43it/s] 32%|███▏      | 9/28 [00:02<00:03,  6.11it/s] 39%|███▉      | 11/28 [00:02<00:02,  7.86it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.54it/s] 54%|█████▎    | 15/28 [00:03<00:01, 11.07it/s] 61%|██████    | 17/28 [00:03<00:00, 12.37it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.44it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.30it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.95it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.44it/s] 96%|█████████▋| 27/28 [00:03<00:00, 15.74it/s]100%|██████████| 28/28 [00:03<00:00,  7.12it/s]
-Epoch 26/99, Train Loss: 0.0086, Time: 3.94s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.23it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.07it/s]
-{'classification accuracy': tensor(0.9091, device='cuda:0')}
-{'f1': tensor(0.9000, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.8182, device='cuda:0')}
-{'auc': tensor(0.9091, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:07,  2.48s/it] 11%|█         | 3/28 [00:02<00:17,  1.45it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.73it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.22it/s] 32%|███▏      | 9/28 [00:02<00:03,  5.88it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.59it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.27it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.83it/s] 61%|██████    | 17/28 [00:03<00:00, 12.18it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.24it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.14it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.84it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.36it/s] 96%|█████████▋| 27/28 [00:04<00:00, 15.71it/s]100%|██████████| 28/28 [00:04<00:00,  6.83it/s]
-Epoch 27/99, Train Loss: 0.0023, Time: 4.10s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.38it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.24it/s]
-{'classification accuracy': tensor(0.9091, device='cuda:0')}
-{'f1': tensor(0.9000, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.8182, device='cuda:0')}
-{'auc': tensor(0.9091, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.24 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:06,  2.45s/it] 11%|█         | 3/28 [00:02<00:16,  1.47it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.77it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.28it/s] 32%|███▏      | 9/28 [00:02<00:03,  5.94it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.68it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.35it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.88it/s] 61%|██████    | 17/28 [00:03<00:00, 12.21it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.32it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.19it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.84it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.35it/s] 96%|█████████▋| 27/28 [00:04<00:00, 15.73it/s]100%|██████████| 28/28 [00:04<00:00,  6.89it/s]
-Epoch 28/99, Train Loss: 0.0004, Time: 4.06s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.15it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.00it/s]
-{'classification accuracy': tensor(0.9091, device='cuda:0')}
-{'f1': tensor(0.9000, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.8182, device='cuda:0')}
-{'auc': tensor(0.9091, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.26 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:05,  2.43s/it] 11%|█         | 3/28 [00:02<00:16,  1.48it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.78it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.29it/s] 32%|███▏      | 9/28 [00:02<00:03,  5.94it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.66it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.32it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.84it/s] 61%|██████    | 17/28 [00:03<00:00, 12.12it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.21it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.07it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.72it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.15it/s] 96%|█████████▋| 27/28 [00:04<00:00, 15.55it/s]100%|██████████| 28/28 [00:04<00:00,  6.89it/s]
-Epoch 29/99, Train Loss: 0.0004, Time: 4.07s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.21it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.98it/s]
-{'classification accuracy': tensor(0.8636, device='cuda:0')}
-{'f1': tensor(0.8421, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.7273, device='cuda:0')}
-{'auc': tensor(0.8636, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.26 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:11,  2.66s/it] 11%|█         | 3/28 [00:02<00:18,  1.35it/s] 18%|█▊        | 5/28 [00:02<00:09,  2.54it/s] 25%|██▌       | 7/28 [00:03<00:05,  3.96it/s] 32%|███▏      | 9/28 [00:03<00:03,  5.53it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.21it/s] 46%|████▋     | 13/28 [00:03<00:01,  8.87it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.41it/s] 61%|██████    | 17/28 [00:03<00:00, 11.80it/s] 68%|██████▊   | 19/28 [00:03<00:00, 12.96it/s] 75%|███████▌  | 21/28 [00:03<00:00, 13.89it/s] 82%|████████▏ | 23/28 [00:04<00:00, 14.63it/s] 89%|████████▉ | 25/28 [00:04<00:00, 15.18it/s] 96%|█████████▋| 27/28 [00:04<00:00, 15.59it/s]100%|██████████| 28/28 [00:04<00:00,  6.49it/s]
-Epoch 30/99, Train Loss: 0.0009, Time: 4.32s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.03it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.93it/s]
-{'classification accuracy': tensor(0.9545, device='cuda:0')}
-{'f1': tensor(0.9524, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.9091, device='cuda:0')}
-{'auc': tensor(0.9545, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.26 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:04,  2.39s/it] 11%|█         | 3/28 [00:02<00:16,  1.50it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.82it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.35it/s] 32%|███▏      | 9/28 [00:02<00:03,  6.03it/s] 39%|███▉      | 11/28 [00:02<00:02,  7.76it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.44it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.97it/s] 61%|██████    | 17/28 [00:03<00:00, 12.28it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.38it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.24it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.84it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.36it/s] 96%|█████████▋| 27/28 [00:03<00:00, 15.71it/s]100%|██████████| 28/28 [00:04<00:00,  6.99it/s]
-Epoch 31/99, Train Loss: 0.0018, Time: 4.01s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.33it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.19it/s]
-{'classification accuracy': tensor(0.9091, device='cuda:0')}
-{'f1': tensor(0.9000, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.8182, device='cuda:0')}
-{'auc': tensor(0.9091, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:06,  2.45s/it] 11%|█         | 3/28 [00:02<00:16,  1.47it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.77it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.28it/s] 32%|███▏      | 9/28 [00:02<00:03,  5.94it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.66it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.34it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.88it/s] 61%|██████    | 17/28 [00:03<00:00, 12.17it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.27it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.12it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.81it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.29it/s] 96%|█████████▋| 27/28 [00:04<00:00, 15.66it/s]100%|██████████| 28/28 [00:04<00:00,  6.88it/s]
-Epoch 32/99, Train Loss: 0.0000, Time: 4.07s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.11it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.00it/s]
-{'classification accuracy': tensor(0.9545, device='cuda:0')}
-{'f1': tensor(0.9524, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.9091, device='cuda:0')}
-{'auc': tensor(0.9545, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.26 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:10,  2.60s/it] 11%|█         | 3/28 [00:02<00:17,  1.39it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.63it/s] 25%|██▌       | 7/28 [00:02<00:05,  4.08it/s] 32%|███▏      | 9/28 [00:03<00:03,  5.70it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.40it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.08it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.64it/s] 61%|██████    | 17/28 [00:03<00:00, 11.99it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.13it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.03it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.71it/s] 89%|████████▉ | 25/28 [00:04<00:00, 15.19it/s] 96%|█████████▋| 27/28 [00:04<00:00, 15.58it/s]100%|██████████| 28/28 [00:04<00:00,  6.63it/s]
-Epoch 33/99, Train Loss: 0.0000, Time: 4.22s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.31it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.18it/s]
-{'classification accuracy': tensor(0.9091, device='cuda:0')}
-{'f1': tensor(0.9000, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.8182, device='cuda:0')}
-{'auc': tensor(0.9091, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:04,  2.37s/it] 11%|█         | 3/28 [00:02<00:16,  1.51it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.84it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.37it/s] 32%|███▏      | 9/28 [00:02<00:03,  6.05it/s] 39%|███▉      | 11/28 [00:02<00:02,  7.78it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.46it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.98it/s] 61%|██████    | 17/28 [00:03<00:00, 12.28it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.34it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.19it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.86it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.37it/s] 96%|█████████▋| 27/28 [00:03<00:00, 15.72it/s]100%|██████████| 28/28 [00:03<00:00,  7.01it/s]
-Epoch 34/99, Train Loss: 0.0000, Time: 4.00s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.16it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.04it/s]
-{'classification accuracy': tensor(0.9091, device='cuda:0')}
-{'f1': tensor(0.9000, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.8182, device='cuda:0')}
-{'auc': tensor(0.9091, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:06,  2.45s/it] 11%|█         | 3/28 [00:02<00:16,  1.47it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.77it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.28it/s] 32%|███▏      | 9/28 [00:02<00:03,  5.94it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.66it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.33it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.87it/s] 61%|██████    | 17/28 [00:03<00:00, 12.21it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.32it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.20it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.87it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.37it/s] 96%|█████████▋| 27/28 [00:04<00:00, 15.72it/s]100%|██████████| 28/28 [00:04<00:00,  6.89it/s]
-Epoch 35/99, Train Loss: 0.0000, Time: 4.06s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.16it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.99it/s]
-{'classification accuracy': tensor(0.9091, device='cuda:0')}
-{'f1': tensor(0.9000, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.8182, device='cuda:0')}
-{'auc': tensor(0.9091, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.26 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:08,  2.52s/it] 11%|█         | 3/28 [00:02<00:17,  1.43it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.69it/s] 25%|██▌       | 7/28 [00:02<00:05,  4.18it/s] 32%|███▏      | 9/28 [00:03<00:03,  5.82it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.54it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.23it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.78it/s] 61%|██████    | 17/28 [00:03<00:00, 12.14it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.22it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.12it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.81it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.34it/s] 96%|█████████▋| 27/28 [00:04<00:00, 15.72it/s]100%|██████████| 28/28 [00:04<00:00,  6.77it/s]
-Epoch 36/99, Train Loss: 0.0000, Time: 4.14s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.29it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.11it/s]
-{'classification accuracy': tensor(0.9091, device='cuda:0')}
-{'f1': tensor(0.9000, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.8182, device='cuda:0')}
-{'auc': tensor(0.9091, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:06,  2.46s/it]  7%|▋         | 2/28 [00:02<00:28,  1.10s/it] 14%|█▍        | 4/28 [00:02<00:10,  2.23it/s] 21%|██▏       | 6/28 [00:02<00:05,  3.75it/s] 29%|██▊       | 8/28 [00:02<00:03,  5.46it/s] 36%|███▌      | 10/28 [00:03<00:02,  7.23it/s] 43%|████▎     | 12/28 [00:03<00:01,  8.95it/s] 50%|█████     | 14/28 [00:03<00:01, 10.56it/s] 57%|█████▋    | 16/28 [00:03<00:01, 11.97it/s] 64%|██████▍   | 18/28 [00:03<00:00, 13.13it/s] 71%|███████▏  | 20/28 [00:03<00:00, 14.06it/s] 79%|███████▊  | 22/28 [00:03<00:00, 14.75it/s] 86%|████████▌ | 24/28 [00:03<00:00, 15.30it/s] 93%|█████████▎| 26/28 [00:04<00:00, 15.70it/s]100%|██████████| 28/28 [00:04<00:00, 16.27it/s]100%|██████████| 28/28 [00:04<00:00,  6.71it/s]
-Epoch 37/99, Train Loss: 0.0000, Time: 4.17s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.26it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.14it/s]
-{'classification accuracy': tensor(0.9091, device='cuda:0')}
-{'f1': tensor(0.9000, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.8182, device='cuda:0')}
-{'auc': tensor(0.9091, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:03,  2.36s/it]  7%|▋         | 2/28 [00:02<00:27,  1.06s/it] 14%|█▍        | 4/28 [00:02<00:10,  2.31it/s] 21%|██▏       | 6/28 [00:02<00:05,  3.89it/s] 29%|██▊       | 8/28 [00:02<00:03,  5.62it/s] 36%|███▌      | 10/28 [00:02<00:02,  7.42it/s] 43%|████▎     | 12/28 [00:03<00:01,  9.17it/s] 50%|█████     | 14/28 [00:03<00:01, 10.76it/s] 57%|█████▋    | 16/28 [00:03<00:00, 12.13it/s] 64%|██████▍   | 18/28 [00:03<00:00, 13.27it/s] 71%|███████▏  | 20/28 [00:03<00:00, 14.15it/s] 79%|███████▊  | 22/28 [00:03<00:00, 14.77it/s] 86%|████████▌ | 24/28 [00:03<00:00, 15.28it/s] 93%|█████████▎| 26/28 [00:03<00:00, 15.67it/s]100%|██████████| 28/28 [00:04<00:00, 16.38it/s]100%|██████████| 28/28 [00:04<00:00,  6.89it/s]
-Epoch 38/99, Train Loss: 0.0000, Time: 4.06s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.19it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.06it/s]
-{'classification accuracy': tensor(0.9091, device='cuda:0')}
-{'f1': tensor(0.9000, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.8182, device='cuda:0')}
-{'auc': tensor(0.9091, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:00,  2.25s/it]  7%|▋         | 2/28 [00:02<00:25,  1.01it/s] 14%|█▍        | 4/28 [00:02<00:09,  2.45it/s] 21%|██▏       | 6/28 [00:02<00:05,  4.06it/s] 29%|██▊       | 8/28 [00:02<00:03,  5.78it/s] 36%|███▌      | 10/28 [00:02<00:02,  7.53it/s] 43%|████▎     | 12/28 [00:02<00:01,  9.22it/s] 50%|█████     | 14/28 [00:03<00:01, 10.80it/s] 57%|█████▋    | 16/28 [00:03<00:00, 12.17it/s] 64%|██████▍   | 18/28 [00:03<00:00, 13.23it/s] 71%|███████▏  | 20/28 [00:03<00:00, 14.13it/s] 79%|███████▊  | 22/28 [00:03<00:00, 14.82it/s] 86%|████████▌ | 24/28 [00:03<00:00, 15.33it/s] 93%|█████████▎| 26/28 [00:03<00:00, 15.68it/s]100%|██████████| 28/28 [00:03<00:00, 16.33it/s]100%|██████████| 28/28 [00:03<00:00,  7.09it/s]
-Epoch 39/99, Train Loss: 0.0000, Time: 3.95s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.17it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.88it/s]
-{'classification accuracy': tensor(0.8636, device='cuda:0')}
-{'f1': tensor(0.8421, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.7273, device='cuda:0')}
-{'auc': tensor(0.8636, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.27 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:00,  2.22s/it]  7%|▋         | 2/28 [00:02<00:25,  1.02it/s] 14%|█▍        | 4/28 [00:02<00:09,  2.48it/s] 21%|██▏       | 6/28 [00:02<00:05,  4.15it/s] 29%|██▊       | 8/28 [00:02<00:03,  5.94it/s] 36%|███▌      | 10/28 [00:02<00:02,  7.76it/s] 43%|████▎     | 12/28 [00:02<00:01,  9.51it/s] 50%|█████     | 14/28 [00:03<00:01, 11.02it/s] 57%|█████▋    | 16/28 [00:03<00:00, 12.36it/s] 64%|██████▍   | 18/28 [00:03<00:00, 13.45it/s] 71%|███████▏  | 20/28 [00:03<00:00, 14.30it/s] 79%|███████▊  | 22/28 [00:03<00:00, 14.92it/s] 86%|████████▌ | 24/28 [00:03<00:00, 15.36it/s] 93%|█████████▎| 26/28 [00:03<00:00, 15.68it/s]100%|██████████| 28/28 [00:03<00:00, 16.17it/s]100%|██████████| 28/28 [00:03<00:00,  7.19it/s]
-Epoch 40/99, Train Loss: 0.0000, Time: 3.89s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.15it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.05it/s]
-{'classification accuracy': tensor(0.8636, device='cuda:0')}
-{'f1': tensor(0.8421, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.7273, device='cuda:0')}
-{'auc': tensor(0.8636, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:07,  2.50s/it] 11%|█         | 3/28 [00:02<00:17,  1.44it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.70it/s] 25%|██▌       | 7/28 [00:02<00:05,  4.18it/s] 32%|███▏      | 9/28 [00:02<00:03,  5.82it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.50it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.18it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.73it/s] 61%|██████    | 17/28 [00:03<00:00, 12.08it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.21it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.04it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.74it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.26it/s] 96%|█████████▋| 27/28 [00:04<00:00, 15.64it/s]100%|██████████| 28/28 [00:04<00:00,  6.77it/s]
-Epoch 41/99, Train Loss: 0.0000, Time: 4.14s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.25it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.12it/s]
-{'classification accuracy': tensor(0.8636, device='cuda:0')}
-{'f1': tensor(0.8421, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.7273, device='cuda:0')}
-{'auc': tensor(0.8636, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:04,  2.38s/it] 11%|█         | 3/28 [00:02<00:16,  1.50it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.81it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.33it/s] 32%|███▏      | 9/28 [00:02<00:03,  6.00it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.72it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.39it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.89it/s] 61%|██████    | 17/28 [00:03<00:00, 12.21it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.31it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.18it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.86it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.36it/s] 96%|█████████▋| 27/28 [00:03<00:00, 15.71it/s]100%|██████████| 28/28 [00:04<00:00,  6.97it/s]
-Epoch 42/99, Train Loss: 0.0000, Time: 4.02s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.19it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.02it/s]
-{'classification accuracy': tensor(0.8636, device='cuda:0')}
-{'f1': tensor(0.8421, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.7273, device='cuda:0')}
-{'auc': tensor(0.8636, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.26 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:06,  2.47s/it]  7%|▋         | 2/28 [00:02<00:28,  1.10s/it] 14%|█▍        | 4/28 [00:02<00:10,  2.22it/s] 21%|██▏       | 6/28 [00:02<00:05,  3.75it/s] 29%|██▊       | 8/28 [00:02<00:03,  5.42it/s] 36%|███▌      | 10/28 [00:03<00:02,  7.19it/s] 43%|████▎     | 12/28 [00:03<00:01,  8.93it/s] 50%|█████     | 14/28 [00:03<00:01, 10.54it/s] 57%|█████▋    | 16/28 [00:03<00:01, 11.94it/s] 64%|██████▍   | 18/28 [00:03<00:00, 13.10it/s] 71%|███████▏  | 20/28 [00:03<00:00, 14.01it/s] 79%|███████▊  | 22/28 [00:03<00:00, 14.68it/s] 86%|████████▌ | 24/28 [00:03<00:00, 15.17it/s] 93%|█████████▎| 26/28 [00:04<00:00, 15.56it/s]100%|██████████| 28/28 [00:04<00:00, 16.19it/s]100%|██████████| 28/28 [00:04<00:00,  6.69it/s]
-Epoch 43/99, Train Loss: 0.0000, Time: 4.19s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.27it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.15it/s]
-{'classification accuracy': tensor(0.8636, device='cuda:0')}
-{'f1': tensor(0.8421, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.7273, device='cuda:0')}
-{'auc': tensor(0.8636, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:07,  2.50s/it] 11%|█         | 3/28 [00:02<00:17,  1.44it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.72it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.21it/s] 32%|███▏      | 9/28 [00:02<00:03,  5.86it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.59it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.27it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.78it/s] 61%|██████    | 17/28 [00:03<00:00, 12.13it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.24it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.13it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.81it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.31it/s] 96%|█████████▋| 27/28 [00:04<00:00, 15.70it/s]100%|██████████| 28/28 [00:04<00:00,  6.80it/s]
-Epoch 44/99, Train Loss: 0.0000, Time: 4.12s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.31it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.18it/s]
-{'classification accuracy': tensor(0.8636, device='cuda:0')}
-{'f1': tensor(0.8421, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.7273, device='cuda:0')}
-{'auc': tensor(0.8636, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:05,  2.44s/it] 11%|█         | 3/28 [00:02<00:16,  1.47it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.77it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.28it/s] 32%|███▏      | 9/28 [00:02<00:03,  5.93it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.65it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.33it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.87it/s] 61%|██████    | 17/28 [00:03<00:00, 12.22it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.32it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.17it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.83it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.31it/s] 96%|█████████▋| 27/28 [00:04<00:00, 15.63it/s]100%|██████████| 28/28 [00:04<00:00,  6.88it/s]
-Epoch 45/99, Train Loss: 0.0001, Time: 4.07s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.16it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.04it/s]
-{'classification accuracy': tensor(0.8636, device='cuda:0')}
-{'f1': tensor(0.8421, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.7273, device='cuda:0')}
-{'auc': tensor(0.8636, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:04,  2.41s/it] 11%|█         | 3/28 [00:02<00:16,  1.49it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.80it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.32it/s] 32%|███▏      | 9/28 [00:02<00:03,  5.99it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.71it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.39it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.92it/s] 61%|██████    | 17/28 [00:03<00:00, 12.24it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.33it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.13it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.82it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.32it/s] 96%|█████████▋| 27/28 [00:03<00:00, 15.68it/s]100%|██████████| 28/28 [00:04<00:00,  6.95it/s]
-Epoch 46/99, Train Loss: 0.0000, Time: 4.03s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.25it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.94it/s]
-{'classification accuracy': tensor(0.8636, device='cuda:0')}
-{'f1': tensor(0.8421, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.7273, device='cuda:0')}
-{'auc': tensor(0.8636, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.27 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:05,  2.41s/it] 11%|█         | 3/28 [00:02<00:16,  1.49it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.80it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.33it/s] 32%|███▏      | 9/28 [00:02<00:03,  6.00it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.74it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.42it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.92it/s] 61%|██████    | 17/28 [00:03<00:00, 12.25it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.34it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.20it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.87it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.36it/s] 96%|█████████▋| 27/28 [00:03<00:00, 15.71it/s]100%|██████████| 28/28 [00:04<00:00,  6.96it/s]
-Epoch 47/99, Train Loss: 0.0000, Time: 4.03s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.29it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.15it/s]
-{'classification accuracy': tensor(0.8636, device='cuda:0')}
-{'f1': tensor(0.8421, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.7273, device='cuda:0')}
-{'auc': tensor(0.8636, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:03,  2.36s/it] 11%|█         | 3/28 [00:02<00:16,  1.52it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.85it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.39it/s] 32%|███▏      | 9/28 [00:02<00:03,  6.06it/s] 39%|███▉      | 11/28 [00:02<00:02,  7.80it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.48it/s] 54%|█████▎    | 15/28 [00:03<00:01, 11.01it/s] 61%|██████    | 17/28 [00:03<00:00, 12.33it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.41it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.26it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.90it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.33it/s] 96%|█████████▋| 27/28 [00:03<00:00, 15.70it/s]100%|██████████| 28/28 [00:03<00:00,  7.03it/s]
-Epoch 48/99, Train Loss: 0.0000, Time: 3.98s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.30it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.16it/s]
-{'classification accuracy': tensor(0.8636, device='cuda:0')}
-{'f1': tensor(0.8421, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.7273, device='cuda:0')}
-{'auc': tensor(0.8636, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:10,  2.59s/it] 11%|█         | 3/28 [00:02<00:17,  1.39it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.63it/s] 25%|██▌       | 7/28 [00:02<00:05,  4.09it/s] 32%|███▏      | 9/28 [00:03<00:03,  5.72it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.42it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.10it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.65it/s] 61%|██████    | 17/28 [00:03<00:00, 11.99it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.13it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.04it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.75it/s] 89%|████████▉ | 25/28 [00:04<00:00, 15.29it/s] 96%|█████████▋| 27/28 [00:04<00:00, 15.69it/s]100%|██████████| 28/28 [00:04<00:00,  6.65it/s]
-Epoch 49/99, Train Loss: 0.0000, Time: 4.21s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.24it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.93it/s]
-{'classification accuracy': tensor(0.8636, device='cuda:0')}
-{'f1': tensor(0.8421, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.7273, device='cuda:0')}
-{'auc': tensor(0.8636, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.27 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:02,  2.30s/it]  7%|▋         | 2/28 [00:02<00:26,  1.01s/it] 14%|█▍        | 4/28 [00:02<00:09,  2.41it/s] 21%|██▏       | 6/28 [00:02<00:05,  4.04it/s] 29%|██▊       | 8/28 [00:02<00:03,  5.82it/s] 36%|███▌      | 10/28 [00:02<00:02,  7.62it/s] 43%|████▎     | 12/28 [00:03<00:01,  9.35it/s] 50%|█████     | 14/28 [00:03<00:01, 10.92it/s] 57%|█████▋    | 16/28 [00:03<00:00, 12.28it/s] 64%|██████▍   | 18/28 [00:03<00:00, 13.38it/s] 71%|███████▏  | 20/28 [00:03<00:00, 14.23it/s] 79%|███████▊  | 22/28 [00:03<00:00, 14.88it/s] 86%|████████▌ | 24/28 [00:03<00:00, 15.38it/s] 93%|█████████▎| 26/28 [00:03<00:00, 15.75it/s]100%|██████████| 28/28 [00:03<00:00, 16.29it/s]100%|██████████| 28/28 [00:03<00:00,  7.06it/s]
-Epoch 50/99, Train Loss: 0.0000, Time: 3.96s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.22it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.09it/s]
-{'classification accuracy': tensor(0.8636, device='cuda:0')}
-{'f1': tensor(0.8421, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.7273, device='cuda:0')}
-{'auc': tensor(0.8636, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:04,  2.38s/it] 11%|█         | 3/28 [00:02<00:16,  1.49it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.79it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.31it/s] 32%|███▏      | 9/28 [00:02<00:03,  5.98it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.71it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.39it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.93it/s] 61%|██████    | 17/28 [00:03<00:00, 12.26it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.35it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.17it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.79it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.25it/s] 96%|█████████▋| 27/28 [00:03<00:00, 15.64it/s]100%|██████████| 28/28 [00:04<00:00,  6.95it/s]
-Epoch 51/99, Train Loss: 0.0000, Time: 4.03s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.27it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.12it/s]
-{'classification accuracy': tensor(0.8636, device='cuda:0')}
-{'f1': tensor(0.8421, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.7273, device='cuda:0')}
-{'auc': tensor(0.8636, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:06,  2.48s/it]  7%|▋         | 2/28 [00:02<00:28,  1.11s/it] 14%|█▍        | 4/28 [00:02<00:10,  2.21it/s] 21%|██▏       | 6/28 [00:02<00:05,  3.75it/s] 29%|██▊       | 8/28 [00:02<00:03,  5.44it/s] 36%|███▌      | 10/28 [00:03<00:02,  7.21it/s] 43%|████▎     | 12/28 [00:03<00:01,  8.95it/s] 50%|█████     | 14/28 [00:03<00:01, 10.51it/s] 57%|█████▋    | 16/28 [00:03<00:01, 11.90it/s] 64%|██████▍   | 18/28 [00:03<00:00, 13.07it/s] 71%|███████▏  | 20/28 [00:03<00:00, 14.00it/s] 79%|███████▊  | 22/28 [00:03<00:00, 14.73it/s] 86%|████████▌ | 24/28 [00:03<00:00, 15.26it/s] 93%|█████████▎| 26/28 [00:04<00:00, 15.64it/s]100%|██████████| 28/28 [00:04<00:00, 16.35it/s]100%|██████████| 28/28 [00:04<00:00,  6.69it/s]
-Epoch 52/99, Train Loss: 0.0003, Time: 4.19s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.21it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.09it/s]
-{'classification accuracy': tensor(0.8636, device='cuda:0')}
-{'f1': tensor(0.8421, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.7273, device='cuda:0')}
-{'auc': tensor(0.8636, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<00:58,  2.18s/it]  7%|▋         | 2/28 [00:02<00:25,  1.03it/s] 14%|█▍        | 4/28 [00:02<00:09,  2.49it/s] 21%|██▏       | 6/28 [00:02<00:05,  4.16it/s] 29%|██▊       | 8/28 [00:02<00:03,  5.95it/s] 36%|███▌      | 10/28 [00:02<00:02,  7.75it/s] 43%|████▎     | 12/28 [00:02<00:01,  9.48it/s] 50%|█████     | 14/28 [00:03<00:01, 11.03it/s] 57%|█████▋    | 16/28 [00:03<00:00, 12.37it/s] 64%|██████▍   | 18/28 [00:03<00:00, 13.46it/s] 71%|███████▏  | 20/28 [00:03<00:00, 14.29it/s] 79%|███████▊  | 22/28 [00:03<00:00, 14.94it/s] 86%|████████▌ | 24/28 [00:03<00:00, 15.41it/s] 93%|█████████▎| 26/28 [00:03<00:00, 15.70it/s]100%|██████████| 28/28 [00:03<00:00, 16.31it/s]100%|██████████| 28/28 [00:03<00:00,  7.23it/s]
-Epoch 53/99, Train Loss: 0.0039, Time: 3.87s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.21it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.08it/s]
-{'classification accuracy': tensor(0.8182, device='cuda:0')}
-{'f1': tensor(0.7778, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.6364, device='cuda:0')}
-{'auc': tensor(0.8182, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:03,  2.35s/it]  7%|▋         | 2/28 [00:02<00:27,  1.04s/it] 14%|█▍        | 4/28 [00:02<00:10,  2.34it/s] 21%|██▏       | 6/28 [00:02<00:05,  3.94it/s] 29%|██▊       | 8/28 [00:02<00:03,  5.69it/s] 36%|███▌      | 10/28 [00:02<00:02,  7.49it/s] 43%|████▎     | 12/28 [00:03<00:01,  9.24it/s] 50%|█████     | 14/28 [00:03<00:01, 10.82it/s] 57%|█████▋    | 16/28 [00:03<00:00, 12.19it/s] 64%|██████▍   | 18/28 [00:03<00:00, 13.31it/s] 71%|███████▏  | 20/28 [00:03<00:00, 14.16it/s] 79%|███████▊  | 22/28 [00:03<00:00, 14.80it/s] 86%|████████▌ | 24/28 [00:03<00:00, 15.31it/s] 93%|█████████▎| 26/28 [00:03<00:00, 15.67it/s]100%|██████████| 28/28 [00:04<00:00, 16.35it/s]100%|██████████| 28/28 [00:04<00:00,  6.94it/s]
-Epoch 54/99, Train Loss: 0.0027, Time: 4.03s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.28it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.11it/s]
-{'classification accuracy': tensor(0.9091, device='cuda:0')}
-{'f1': tensor(0.9000, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.8182, device='cuda:0')}
-{'auc': tensor(0.9091, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:01,  2.27s/it] 11%|█         | 3/28 [00:02<00:15,  1.58it/s] 18%|█▊        | 5/28 [00:02<00:07,  2.95it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.52it/s] 32%|███▏      | 9/28 [00:02<00:03,  6.22it/s] 39%|███▉      | 11/28 [00:02<00:02,  7.97it/s] 46%|████▋     | 13/28 [00:02<00:01,  9.63it/s] 54%|█████▎    | 15/28 [00:03<00:01, 11.16it/s] 61%|██████    | 17/28 [00:03<00:00, 12.41it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.48it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.32it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.96it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.43it/s] 96%|█████████▋| 27/28 [00:03<00:00, 15.74it/s]100%|██████████| 28/28 [00:03<00:00,  7.19it/s]
-Epoch 55/99, Train Loss: 0.0036, Time: 3.89s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.14it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.85it/s]
-{'classification accuracy': tensor(0.9545, device='cuda:0')}
-{'f1': tensor(0.9524, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.9091, device='cuda:0')}
-{'auc': tensor(0.9545, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.27 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:05,  2.43s/it] 11%|█         | 3/28 [00:02<00:16,  1.48it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.79it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.30it/s] 32%|███▏      | 9/28 [00:02<00:03,  5.97it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.68it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.37it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.89it/s] 61%|██████    | 17/28 [00:03<00:00, 12.22it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.31it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.18it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.83it/s] 89%|████████▉ | 25/28 [00:03<00:00, 14.98it/s] 96%|█████████▋| 27/28 [00:04<00:00, 15.35it/s]100%|██████████| 28/28 [00:04<00:00,  6.90it/s]
-Epoch 56/99, Train Loss: 0.0031, Time: 4.06s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.82it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.68it/s]
-{'classification accuracy': tensor(0.9091, device='cuda:0')}
-{'f1': tensor(0.9000, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.8182, device='cuda:0')}
-{'auc': tensor(0.9091, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.28 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:02,  2.31s/it] 11%|█         | 3/28 [00:02<00:16,  1.55it/s] 18%|█▊        | 5/28 [00:02<00:07,  2.91it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.47it/s] 32%|███▏      | 9/28 [00:02<00:03,  6.16it/s] 39%|███▉      | 11/28 [00:02<00:02,  7.90it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.58it/s] 54%|█████▎    | 15/28 [00:03<00:01, 11.09it/s] 61%|██████    | 17/28 [00:03<00:00, 12.40it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.46it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.25it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.91it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.40it/s] 96%|█████████▋| 27/28 [00:03<00:00, 15.74it/s]100%|██████████| 28/28 [00:03<00:00,  7.13it/s]
-Epoch 57/99, Train Loss: 0.0031, Time: 3.93s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.13it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.83it/s]
-{'classification accuracy': tensor(0.8636, device='cuda:0')}
-{'f1': tensor(0.8421, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.7273, device='cuda:0')}
-{'auc': tensor(0.8636, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.27 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:00,  2.24s/it]  7%|▋         | 2/28 [00:02<00:25,  1.00it/s] 14%|█▍        | 4/28 [00:02<00:09,  2.44it/s] 21%|██▏       | 6/28 [00:02<00:05,  4.08it/s] 29%|██▊       | 8/28 [00:02<00:03,  5.86it/s] 36%|███▌      | 10/28 [00:02<00:02,  7.67it/s] 43%|████▎     | 12/28 [00:02<00:01,  9.41it/s] 50%|█████     | 14/28 [00:03<00:01, 10.99it/s] 57%|█████▋    | 16/28 [00:03<00:00, 12.30it/s] 64%|██████▍   | 18/28 [00:03<00:00, 13.38it/s] 71%|███████▏  | 20/28 [00:03<00:00, 14.25it/s] 79%|███████▊  | 22/28 [00:03<00:00, 14.89it/s] 86%|████████▌ | 24/28 [00:03<00:00, 15.38it/s] 93%|█████████▎| 26/28 [00:03<00:00, 15.75it/s]100%|██████████| 28/28 [00:03<00:00, 16.42it/s]100%|██████████| 28/28 [00:03<00:00,  7.13it/s]
-Epoch 58/99, Train Loss: 0.0001, Time: 3.93s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.30it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.13it/s]
-{'classification accuracy': tensor(0.9091, device='cuda:0')}
-{'f1': tensor(0.9000, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.8182, device='cuda:0')}
-{'auc': tensor(0.9091, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:07,  2.50s/it] 11%|█         | 3/28 [00:02<00:17,  1.44it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.71it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.20it/s] 32%|███▏      | 9/28 [00:02<00:03,  5.84it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.55it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.23it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.70it/s] 61%|██████    | 17/28 [00:03<00:00, 12.07it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.21it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.05it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.71it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.16it/s] 96%|█████████▋| 27/28 [00:04<00:00, 15.54it/s]100%|██████████| 28/28 [00:04<00:00,  6.78it/s]
-Epoch 59/99, Train Loss: 0.0001, Time: 4.13s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.64it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.51it/s]
-{'classification accuracy': tensor(0.9091, device='cuda:0')}
-{'f1': tensor(0.9000, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.8182, device='cuda:0')}
-{'auc': tensor(0.9091, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.29 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:03,  2.34s/it] 11%|█         | 3/28 [00:02<00:16,  1.54it/s] 18%|█▊        | 5/28 [00:02<00:07,  2.88it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.43it/s] 32%|███▏      | 9/28 [00:02<00:03,  6.11it/s] 39%|███▉      | 11/28 [00:02<00:02,  7.86it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.54it/s] 54%|█████▎    | 15/28 [00:03<00:01, 11.06it/s] 61%|██████    | 17/28 [00:03<00:00, 12.38it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.31it/s] 75%|███████▌  | 21/28 [00:03<00:00, 13.87it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.29it/s] 89%|████████▉ | 25/28 [00:03<00:00, 14.67it/s] 96%|█████████▋| 27/28 [00:03<00:00, 15.23it/s]100%|██████████| 28/28 [00:03<00:00,  7.03it/s]
-Epoch 60/99, Train Loss: 0.0023, Time: 3.99s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.26it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.14it/s]
-{'classification accuracy': tensor(0.9091, device='cuda:0')}
-{'f1': tensor(0.9000, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.8182, device='cuda:0')}
-{'auc': tensor(0.9091, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:10,  2.62s/it]  7%|▋         | 2/28 [00:02<00:29,  1.14s/it] 14%|█▍        | 4/28 [00:02<00:11,  2.15it/s] 21%|██▏       | 6/28 [00:02<00:06,  3.65it/s] 29%|██▊       | 8/28 [00:03<00:03,  5.31it/s] 36%|███▌      | 10/28 [00:03<00:02,  7.04it/s] 43%|████▎     | 12/28 [00:03<00:01,  8.78it/s] 50%|█████     | 14/28 [00:03<00:01, 10.39it/s] 57%|█████▋    | 16/28 [00:03<00:01, 11.81it/s] 64%|██████▍   | 18/28 [00:03<00:00, 13.01it/s] 71%|███████▏  | 20/28 [00:03<00:00, 13.97it/s] 79%|███████▊  | 22/28 [00:03<00:00, 14.70it/s] 86%|████████▌ | 24/28 [00:04<00:00, 15.19it/s] 93%|█████████▎| 26/28 [00:04<00:00, 15.60it/s]100%|██████████| 28/28 [00:04<00:00, 16.33it/s]100%|██████████| 28/28 [00:04<00:00,  6.53it/s]
-Epoch 61/99, Train Loss: 0.0001, Time: 4.29s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.98it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.83it/s]
-{'classification accuracy': tensor(0.9091, device='cuda:0')}
-{'f1': tensor(0.9000, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.8182, device='cuda:0')}
-{'auc': tensor(0.9091, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.27 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:05,  2.42s/it] 11%|█         | 3/28 [00:02<00:16,  1.49it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.79it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.31it/s] 32%|███▏      | 9/28 [00:02<00:03,  5.98it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.71it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.39it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.94it/s] 61%|██████    | 17/28 [00:03<00:00, 12.27it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.31it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.19it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.86it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.37it/s] 96%|█████████▋| 27/28 [00:03<00:00, 15.74it/s]100%|██████████| 28/28 [00:04<00:00,  6.94it/s]
-Epoch 62/99, Train Loss: 0.0004, Time: 4.04s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.35it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.15it/s]
-{'classification accuracy': tensor(0.8636, device='cuda:0')}
-{'f1': tensor(0.8421, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.7273, device='cuda:0')}
-{'auc': tensor(0.8636, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:08,  2.54s/it] 11%|█         | 3/28 [00:02<00:17,  1.42it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.68it/s] 25%|██▌       | 7/28 [00:02<00:05,  4.15it/s] 32%|███▏      | 9/28 [00:03<00:03,  5.78it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.49it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.18it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.74it/s] 61%|██████    | 17/28 [00:03<00:00, 12.06it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.16it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.03it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.70it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.18it/s] 96%|█████████▋| 27/28 [00:04<00:00, 15.52it/s]100%|██████████| 28/28 [00:04<00:00,  6.72it/s]
-Epoch 63/99, Train Loss: 0.0003, Time: 4.17s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.07it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.95it/s]
-{'classification accuracy': tensor(0.9091, device='cuda:0')}
-{'f1': tensor(0.9000, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.8182, device='cuda:0')}
-{'auc': tensor(0.9091, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.26 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:05,  2.42s/it] 11%|█         | 3/28 [00:02<00:16,  1.48it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.79it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.30it/s] 32%|███▏      | 9/28 [00:02<00:03,  5.97it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.70it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.37it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.90it/s] 61%|██████    | 17/28 [00:03<00:00, 12.24it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.29it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.16it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.82it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.32it/s] 96%|█████████▋| 27/28 [00:03<00:00, 15.68it/s]100%|██████████| 28/28 [00:04<00:00,  6.91it/s]
-Epoch 64/99, Train Loss: 0.0030, Time: 4.05s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.30it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.16it/s]
-{'classification accuracy': tensor(0.9091, device='cuda:0')}
-{'f1': tensor(0.9000, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.8182, device='cuda:0')}
-{'auc': tensor(0.9091, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:08,  2.54s/it] 11%|█         | 3/28 [00:02<00:17,  1.42it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.68it/s] 25%|██▌       | 7/28 [00:02<00:05,  4.15it/s] 32%|███▏      | 9/28 [00:03<00:03,  5.79it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.49it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.16it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.72it/s] 61%|██████    | 17/28 [00:03<00:00, 12.07it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.20it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.09it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.79it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.30it/s] 96%|█████████▋| 27/28 [00:04<00:00, 15.60it/s]100%|██████████| 28/28 [00:04<00:00,  6.73it/s]
-Epoch 65/99, Train Loss: 0.0001, Time: 4.16s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.20it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.03it/s]
-{'classification accuracy': tensor(0.9091, device='cuda:0')}
-{'f1': tensor(0.9000, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.8182, device='cuda:0')}
-{'auc': tensor(0.9091, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.26 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:04,  2.39s/it] 11%|█         | 3/28 [00:02<00:16,  1.51it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.82it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.34it/s] 32%|███▏      | 9/28 [00:02<00:03,  6.02it/s] 39%|███▉      | 11/28 [00:02<00:02,  7.74it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.39it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.71it/s] 61%|██████    | 17/28 [00:03<00:00, 12.05it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.07it/s] 75%|███████▌  | 21/28 [00:03<00:00, 13.52it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.05it/s] 89%|████████▉ | 25/28 [00:03<00:00, 14.46it/s] 96%|█████████▋| 27/28 [00:04<00:00, 15.06it/s]100%|██████████| 28/28 [00:04<00:00,  6.89it/s]
-Epoch 66/99, Train Loss: 0.0003, Time: 4.06s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.07it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.78it/s]
-{'classification accuracy': tensor(0.9545, device='cuda:0')}
-{'f1': tensor(0.9524, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.9091, device='cuda:0')}
-{'auc': tensor(0.9545, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.28 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:03,  2.34s/it] 11%|█         | 3/28 [00:02<00:16,  1.54it/s] 18%|█▊        | 5/28 [00:02<00:07,  2.88it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.42it/s] 32%|███▏      | 9/28 [00:02<00:03,  6.12it/s] 39%|███▉      | 11/28 [00:02<00:02,  7.86it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.52it/s] 54%|█████▎    | 15/28 [00:03<00:01, 11.02it/s] 61%|██████    | 17/28 [00:03<00:00, 12.32it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.42it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.25it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.80it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.32it/s] 96%|█████████▋| 27/28 [00:03<00:00, 15.69it/s]100%|██████████| 28/28 [00:03<00:00,  7.07it/s]
-Epoch 67/99, Train Loss: 0.0013, Time: 3.96s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.25it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.12it/s]
-{'classification accuracy': tensor(0.9545, device='cuda:0')}
-{'f1': tensor(0.9524, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.9091, device='cuda:0')}
-{'auc': tensor(0.9545, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:05,  2.42s/it] 11%|█         | 3/28 [00:02<00:16,  1.49it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.79it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.31it/s] 32%|███▏      | 9/28 [00:02<00:03,  5.97it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.69it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.38it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.91it/s] 61%|██████    | 17/28 [00:03<00:00, 12.24it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.34it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.21it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.85it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.32it/s] 96%|█████████▋| 27/28 [00:03<00:00, 15.65it/s]100%|██████████| 28/28 [00:04<00:00,  6.93it/s]
-Epoch 68/99, Train Loss: 0.0000, Time: 4.04s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.27it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.14it/s]
-{'classification accuracy': tensor(0.9091, device='cuda:0')}
-{'f1': tensor(0.9000, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.8182, device='cuda:0')}
-{'auc': tensor(0.9091, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:01,  2.28s/it]  7%|▋         | 2/28 [00:02<00:26,  1.02s/it] 14%|█▍        | 4/28 [00:02<00:10,  2.38it/s] 21%|██▏       | 6/28 [00:02<00:05,  3.98it/s] 29%|██▊       | 8/28 [00:02<00:03,  5.74it/s] 36%|███▌      | 10/28 [00:02<00:02,  7.55it/s] 43%|████▎     | 12/28 [00:03<00:01,  9.28it/s] 50%|█████     | 14/28 [00:03<00:01, 10.86it/s] 57%|█████▋    | 16/28 [00:03<00:00, 12.21it/s] 64%|██████▍   | 18/28 [00:03<00:00, 13.33it/s] 71%|███████▏  | 20/28 [00:03<00:00, 14.16it/s] 79%|███████▊  | 22/28 [00:03<00:00, 14.80it/s] 86%|████████▌ | 24/28 [00:03<00:00, 15.33it/s] 93%|█████████▎| 26/28 [00:03<00:00, 15.70it/s]100%|██████████| 28/28 [00:03<00:00, 16.28it/s]100%|██████████| 28/28 [00:03<00:00,  7.02it/s]
-Epoch 69/99, Train Loss: 0.0001, Time: 3.99s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.37it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.05it/s]
-{'classification accuracy': tensor(0.9091, device='cuda:0')}
-{'f1': tensor(0.9000, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.8182, device='cuda:0')}
-{'auc': tensor(0.9091, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.26 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<00:57,  2.15s/it]  7%|▋         | 2/28 [00:02<00:24,  1.04it/s] 14%|█▍        | 4/28 [00:02<00:09,  2.52it/s] 21%|██▏       | 6/28 [00:02<00:05,  4.18it/s] 29%|██▊       | 8/28 [00:02<00:03,  5.96it/s] 36%|███▌      | 10/28 [00:02<00:02,  7.72it/s] 43%|████▎     | 12/28 [00:02<00:01,  9.44it/s] 50%|█████     | 14/28 [00:03<00:01, 10.93it/s] 57%|█████▋    | 16/28 [00:03<00:00, 12.26it/s] 64%|██████▍   | 18/28 [00:03<00:00, 13.30it/s] 71%|███████▏  | 20/28 [00:03<00:00, 14.10it/s] 79%|███████▊  | 22/28 [00:03<00:00, 14.74it/s] 86%|████████▌ | 24/28 [00:03<00:00, 15.15it/s] 93%|█████████▎| 26/28 [00:03<00:00, 15.59it/s]100%|██████████| 28/28 [00:03<00:00, 16.31it/s]100%|██████████| 28/28 [00:03<00:00,  7.25it/s]
-Epoch 70/99, Train Loss: 0.0000, Time: 3.86s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.02it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.76it/s]
-{'classification accuracy': tensor(0.9545, device='cuda:0')}
-{'f1': tensor(0.9524, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.9091, device='cuda:0')}
-{'auc': tensor(0.9545, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.28 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:10,  2.59s/it] 11%|█         | 3/28 [00:02<00:17,  1.39it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.63it/s] 25%|██▌       | 7/28 [00:02<00:05,  4.09it/s] 32%|███▏      | 9/28 [00:03<00:03,  5.71it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.41it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.10it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.66it/s] 61%|██████    | 17/28 [00:03<00:00, 12.03it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.16it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.06it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.76it/s] 89%|████████▉ | 25/28 [00:04<00:00, 15.24it/s] 96%|█████████▋| 27/28 [00:04<00:00, 15.65it/s]100%|██████████| 28/28 [00:04<00:00,  6.65it/s]
-Epoch 71/99, Train Loss: 0.0000, Time: 4.21s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.25it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.10it/s]
-{'classification accuracy': tensor(0.9545, device='cuda:0')}
-{'f1': tensor(0.9524, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.9091, device='cuda:0')}
-{'auc': tensor(0.9545, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:07,  2.51s/it]  7%|▋         | 2/28 [00:02<00:28,  1.10s/it] 14%|█▍        | 4/28 [00:02<00:10,  2.23it/s] 21%|██▏       | 6/28 [00:02<00:05,  3.77it/s] 29%|██▊       | 8/28 [00:02<00:03,  5.47it/s] 36%|███▌      | 10/28 [00:03<00:02,  7.25it/s] 43%|████▎     | 12/28 [00:03<00:01,  8.99it/s] 50%|█████     | 14/28 [00:03<00:01, 10.59it/s] 57%|█████▋    | 16/28 [00:03<00:01, 11.95it/s] 64%|██████▍   | 18/28 [00:03<00:00, 13.12it/s] 71%|███████▏  | 20/28 [00:03<00:00, 14.05it/s] 79%|███████▊  | 22/28 [00:03<00:00, 14.76it/s] 86%|████████▌ | 24/28 [00:03<00:00, 15.27it/s] 93%|█████████▎| 26/28 [00:04<00:00, 15.68it/s]100%|██████████| 28/28 [00:04<00:00, 16.38it/s]100%|██████████| 28/28 [00:04<00:00,  6.70it/s]
-Epoch 72/99, Train Loss: 0.0000, Time: 4.18s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.19it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.99it/s]
-{'classification accuracy': tensor(0.9545, device='cuda:0')}
-{'f1': tensor(0.9524, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.9091, device='cuda:0')}
-{'auc': tensor(0.9545, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.26 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:00,  2.25s/it] 11%|█         | 3/28 [00:02<00:15,  1.59it/s] 18%|█▊        | 5/28 [00:02<00:07,  2.97it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.55it/s] 32%|███▏      | 9/28 [00:02<00:03,  6.26it/s] 39%|███▉      | 11/28 [00:02<00:02,  8.01it/s] 46%|████▋     | 13/28 [00:02<00:01,  9.67it/s] 54%|█████▎    | 15/28 [00:03<00:01, 11.19it/s] 61%|██████    | 17/28 [00:03<00:00, 12.49it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.55it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.38it/s] 82%|████████▏ | 23/28 [00:03<00:00, 15.02it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.50it/s] 96%|█████████▋| 27/28 [00:03<00:00, 15.83it/s]100%|██████████| 28/28 [00:03<00:00,  7.24it/s]
-Epoch 73/99, Train Loss: 0.0000, Time: 3.87s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.30it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.17it/s]
-{'classification accuracy': tensor(0.9545, device='cuda:0')}
-{'f1': tensor(0.9524, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.9091, device='cuda:0')}
-{'auc': tensor(0.9545, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:05,  2.43s/it] 11%|█         | 3/28 [00:02<00:16,  1.48it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.78it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.29it/s] 32%|███▏      | 9/28 [00:02<00:03,  5.96it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.69it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.37it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.92it/s] 61%|██████    | 17/28 [00:03<00:00, 12.26it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.35it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.21it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.84it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.31it/s] 96%|█████████▋| 27/28 [00:03<00:00, 15.66it/s]100%|██████████| 28/28 [00:04<00:00,  6.92it/s]
-Epoch 74/99, Train Loss: 0.0000, Time: 4.05s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.16it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.87it/s]
-{'classification accuracy': tensor(0.9545, device='cuda:0')}
-{'f1': tensor(0.9524, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.9091, device='cuda:0')}
-{'auc': tensor(0.9545, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.27 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:02,  2.33s/it] 11%|█         | 3/28 [00:02<00:16,  1.53it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.87it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.42it/s] 32%|███▏      | 9/28 [00:02<00:03,  6.11it/s] 39%|███▉      | 11/28 [00:02<00:02,  7.85it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.53it/s] 54%|█████▎    | 15/28 [00:03<00:01, 11.05it/s] 61%|██████    | 17/28 [00:03<00:00, 12.34it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.38it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.24it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.90it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.39it/s] 96%|█████████▋| 27/28 [00:03<00:00, 15.75it/s]100%|██████████| 28/28 [00:03<00:00,  7.08it/s]
-Epoch 75/99, Train Loss: 0.0000, Time: 3.96s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.27it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.09it/s]
-{'classification accuracy': tensor(0.9545, device='cuda:0')}
-{'f1': tensor(0.9524, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.9091, device='cuda:0')}
-{'auc': tensor(0.9545, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:04,  2.40s/it] 11%|█         | 3/28 [00:02<00:16,  1.48it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.78it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.30it/s] 32%|███▏      | 9/28 [00:02<00:03,  5.97it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.69it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.36it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.89it/s] 61%|██████    | 17/28 [00:03<00:00, 12.21it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.32it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.20it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.88it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.35it/s] 96%|█████████▋| 27/28 [00:03<00:00, 15.71it/s]100%|██████████| 28/28 [00:04<00:00,  6.94it/s]
-Epoch 76/99, Train Loss: 0.0000, Time: 4.04s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.14it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.98it/s]
-{'classification accuracy': tensor(0.9545, device='cuda:0')}
-{'f1': tensor(0.9524, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.9091, device='cuda:0')}
-{'auc': tensor(0.9545, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.26 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:05,  2.44s/it] 11%|█         | 3/28 [00:02<00:16,  1.48it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.77it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.28it/s] 32%|███▏      | 9/28 [00:02<00:03,  5.94it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.67it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.35it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.88it/s] 61%|██████    | 17/28 [00:03<00:00, 12.22it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.32it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.15it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.81it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.31it/s] 96%|█████████▋| 27/28 [00:04<00:00, 15.70it/s]100%|██████████| 28/28 [00:04<00:00,  6.90it/s]
-Epoch 77/99, Train Loss: 0.0000, Time: 4.06s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.24it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.94it/s]
-{'classification accuracy': tensor(0.9545, device='cuda:0')}
-{'f1': tensor(0.9524, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.9091, device='cuda:0')}
-{'auc': tensor(0.9545, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.27 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<00:59,  2.21s/it] 11%|█         | 3/28 [00:02<00:15,  1.62it/s] 18%|█▊        | 5/28 [00:02<00:07,  3.01it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.61it/s] 32%|███▏      | 9/28 [00:02<00:03,  6.32it/s] 39%|███▉      | 11/28 [00:02<00:02,  8.07it/s] 46%|████▋     | 13/28 [00:02<00:01,  9.75it/s] 54%|█████▎    | 15/28 [00:03<00:01, 11.25it/s] 61%|██████    | 17/28 [00:03<00:00, 12.53it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.51it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.33it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.96it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.43it/s] 96%|█████████▋| 27/28 [00:03<00:00, 15.79it/s]100%|██████████| 28/28 [00:03<00:00,  7.30it/s]
-Epoch 78/99, Train Loss: 0.0000, Time: 3.83s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.23it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.10it/s]
-{'classification accuracy': tensor(0.9545, device='cuda:0')}
-{'f1': tensor(0.9524, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.9091, device='cuda:0')}
-{'auc': tensor(0.9545, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:06,  2.46s/it] 11%|█         | 3/28 [00:02<00:17,  1.46it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.75it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.26it/s] 32%|███▏      | 9/28 [00:02<00:03,  5.92it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.63it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.29it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.83it/s] 61%|██████    | 17/28 [00:03<00:00, 12.16it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.25it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.14it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.78it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.23it/s] 96%|█████████▋| 27/28 [00:04<00:00, 15.62it/s]100%|██████████| 28/28 [00:04<00:00,  6.85it/s]
-Epoch 79/99, Train Loss: 0.0000, Time: 4.09s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.24it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.07it/s]
-{'classification accuracy': tensor(0.9545, device='cuda:0')}
-{'f1': tensor(0.9524, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.9091, device='cuda:0')}
-{'auc': tensor(0.9545, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.26 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:05,  2.41s/it] 11%|█         | 3/28 [00:02<00:16,  1.49it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.80it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.31it/s] 32%|███▏      | 9/28 [00:02<00:03,  5.98it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.72it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.40it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.92it/s] 61%|██████    | 17/28 [00:03<00:00, 12.24it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.34it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.21it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.82it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.33it/s] 96%|█████████▋| 27/28 [00:03<00:00, 15.69it/s]100%|██████████| 28/28 [00:04<00:00,  6.94it/s]
-Epoch 80/99, Train Loss: 0.0000, Time: 4.03s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.14it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.01it/s]
-{'classification accuracy': tensor(0.9545, device='cuda:0')}
-{'f1': tensor(0.9524, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.9091, device='cuda:0')}
-{'auc': tensor(0.9545, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.26 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:05,  2.42s/it] 11%|█         | 3/28 [00:02<00:16,  1.49it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.79it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.31it/s] 32%|███▏      | 9/28 [00:02<00:03,  5.99it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.71it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.39it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.91it/s] 61%|██████    | 17/28 [00:03<00:00, 12.21it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.31it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.18it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.86it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.35it/s] 96%|█████████▋| 27/28 [00:03<00:00, 15.74it/s]100%|██████████| 28/28 [00:04<00:00,  6.93it/s]
-Epoch 81/99, Train Loss: 0.0000, Time: 4.04s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.33it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.19it/s]
-{'classification accuracy': tensor(0.9545, device='cuda:0')}
-{'f1': tensor(0.9524, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.9091, device='cuda:0')}
-{'auc': tensor(0.9545, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.24 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:02,  2.31s/it]  7%|▋         | 2/28 [00:02<00:26,  1.02s/it] 14%|█▍        | 4/28 [00:02<00:10,  2.39it/s] 21%|██▏       | 6/28 [00:02<00:05,  4.02it/s] 29%|██▊       | 8/28 [00:02<00:03,  5.78it/s] 36%|███▌      | 10/28 [00:02<00:02,  7.59it/s] 43%|████▎     | 12/28 [00:03<00:01,  9.31it/s] 50%|█████     | 14/28 [00:03<00:01, 10.88it/s] 57%|█████▋    | 16/28 [00:03<00:00, 12.23it/s] 64%|██████▍   | 18/28 [00:03<00:00, 13.33it/s] 71%|███████▏  | 20/28 [00:03<00:00, 14.19it/s] 79%|███████▊  | 22/28 [00:03<00:00, 14.85it/s] 86%|████████▌ | 24/28 [00:03<00:00, 15.34it/s] 93%|█████████▎| 26/28 [00:03<00:00, 15.69it/s]100%|██████████| 28/28 [00:03<00:00, 16.22it/s]100%|██████████| 28/28 [00:03<00:00,  7.02it/s]
-Epoch 82/99, Train Loss: 0.0000, Time: 3.99s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.18it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.90it/s]
-{'classification accuracy': tensor(0.9545, device='cuda:0')}
-{'f1': tensor(0.9524, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.9091, device='cuda:0')}
-{'auc': tensor(0.9545, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.27 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:07,  2.49s/it] 11%|█         | 3/28 [00:02<00:17,  1.45it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.73it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.22it/s] 32%|███▏      | 9/28 [00:02<00:03,  5.88it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.60it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.28it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.83it/s] 61%|██████    | 17/28 [00:03<00:00, 12.17it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.29it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.13it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.80it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.32it/s] 96%|█████████▋| 27/28 [00:04<00:00, 15.70it/s]100%|██████████| 28/28 [00:04<00:00,  6.82it/s]
-Epoch 83/99, Train Loss: 0.0000, Time: 4.10s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.31it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.18it/s]
-{'classification accuracy': tensor(0.9545, device='cuda:0')}
-{'f1': tensor(0.9524, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.9091, device='cuda:0')}
-{'auc': tensor(0.9545, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<00:59,  2.20s/it] 11%|█         | 3/28 [00:02<00:15,  1.62it/s] 18%|█▊        | 5/28 [00:02<00:07,  3.02it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.62it/s] 32%|███▏      | 9/28 [00:02<00:02,  6.34it/s] 39%|███▉      | 11/28 [00:02<00:02,  8.10it/s] 46%|████▋     | 13/28 [00:02<00:01,  9.77it/s] 54%|█████▎    | 15/28 [00:03<00:01, 11.28it/s] 61%|██████    | 17/28 [00:03<00:00, 12.56it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.55it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.39it/s] 82%|████████▏ | 23/28 [00:03<00:00, 15.04it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.51it/s] 96%|█████████▋| 27/28 [00:03<00:00, 15.83it/s]100%|██████████| 28/28 [00:03<00:00,  7.33it/s]
-Epoch 84/99, Train Loss: 0.0000, Time: 3.82s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.16it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.03it/s]
-{'classification accuracy': tensor(0.9545, device='cuda:0')}
-{'f1': tensor(0.9524, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.9091, device='cuda:0')}
-{'auc': tensor(0.9545, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.26 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:02,  2.32s/it]  7%|▋         | 2/28 [00:02<00:26,  1.03s/it] 14%|█▍        | 4/28 [00:02<00:10,  2.37it/s] 21%|██▏       | 6/28 [00:02<00:05,  3.98it/s] 29%|██▊       | 8/28 [00:02<00:03,  5.73it/s] 36%|███▌      | 10/28 [00:02<00:02,  7.53it/s] 43%|████▎     | 12/28 [00:03<00:01,  9.27it/s] 50%|█████     | 14/28 [00:03<00:01, 10.82it/s] 57%|█████▋    | 16/28 [00:03<00:00, 12.19it/s] 64%|██████▍   | 18/28 [00:03<00:00, 13.30it/s] 71%|███████▏  | 20/28 [00:03<00:00, 14.18it/s] 79%|███████▊  | 22/28 [00:03<00:00, 14.85it/s] 86%|████████▌ | 24/28 [00:03<00:00, 15.37it/s] 93%|█████████▎| 26/28 [00:03<00:00, 15.72it/s]100%|██████████| 28/28 [00:04<00:00, 16.42it/s]100%|██████████| 28/28 [00:04<00:00,  7.00it/s]
-Epoch 85/99, Train Loss: 0.0000, Time: 4.00s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.10it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.82it/s]
-{'classification accuracy': tensor(0.9545, device='cuda:0')}
-{'f1': tensor(0.9524, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.9091, device='cuda:0')}
-{'auc': tensor(0.9545, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.28 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<00:59,  2.21s/it] 11%|█         | 3/28 [00:02<00:15,  1.62it/s] 18%|█▊        | 5/28 [00:02<00:07,  3.01it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.60it/s] 32%|███▏      | 9/28 [00:02<00:03,  6.32it/s] 39%|███▉      | 11/28 [00:02<00:02,  8.05it/s] 46%|████▋     | 13/28 [00:02<00:01,  9.73it/s] 54%|█████▎    | 15/28 [00:03<00:01, 11.23it/s] 61%|██████    | 17/28 [00:03<00:00, 12.51it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.55it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.35it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.63it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.07it/s] 96%|█████████▋| 27/28 [00:03<00:00, 14.98it/s]100%|██████████| 28/28 [00:03<00:00,  7.23it/s]
-Epoch 86/99, Train Loss: 0.0000, Time: 3.87s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.50it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.36it/s]
-{'classification accuracy': tensor(0.9545, device='cuda:0')}
-{'f1': tensor(0.9524, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.9091, device='cuda:0')}
-{'auc': tensor(0.9545, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.32 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:04,  2.41s/it] 11%|█         | 3/28 [00:02<00:16,  1.49it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.79it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.31it/s] 32%|███▏      | 9/28 [00:02<00:03,  5.99it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.72it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.41it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.95it/s] 61%|██████    | 17/28 [00:03<00:00, 12.28it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.32it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.20it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.86it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.35it/s] 96%|█████████▋| 27/28 [00:03<00:00, 15.72it/s]100%|██████████| 28/28 [00:04<00:00,  6.95it/s]
-Epoch 87/99, Train Loss: 0.0000, Time: 4.03s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.24it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.11it/s]
-{'classification accuracy': tensor(0.9545, device='cuda:0')}
-{'f1': tensor(0.9524, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.9091, device='cuda:0')}
-{'auc': tensor(0.9545, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:05,  2.41s/it] 11%|█         | 3/28 [00:02<00:16,  1.48it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.77it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.27it/s] 32%|███▏      | 9/28 [00:02<00:03,  5.92it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.62it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.27it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.82it/s] 61%|██████    | 17/28 [00:03<00:00, 12.17it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.27it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.15it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.84it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.34it/s] 96%|█████████▋| 27/28 [00:04<00:00, 15.69it/s]100%|██████████| 28/28 [00:04<00:00,  6.90it/s]
-Epoch 88/99, Train Loss: 0.0000, Time: 4.06s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.91it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.74it/s]
-{'classification accuracy': tensor(0.9545, device='cuda:0')}
-{'f1': tensor(0.9524, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.9091, device='cuda:0')}
-{'auc': tensor(0.9545, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.28 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:01,  2.27s/it]  7%|▋         | 2/28 [00:02<00:26,  1.01s/it] 14%|█▍        | 4/28 [00:02<00:09,  2.40it/s] 21%|██▏       | 6/28 [00:02<00:05,  4.02it/s] 29%|██▊       | 8/28 [00:02<00:03,  5.72it/s] 36%|███▌      | 10/28 [00:02<00:02,  7.42it/s] 43%|████▎     | 12/28 [00:03<00:01,  9.09it/s] 50%|█████     | 14/28 [00:03<00:01, 10.67it/s] 57%|█████▋    | 16/28 [00:03<00:01, 11.97it/s] 64%|██████▍   | 18/28 [00:03<00:00, 13.06it/s] 71%|███████▏  | 20/28 [00:03<00:00, 14.00it/s] 79%|███████▊  | 22/28 [00:03<00:00, 14.69it/s] 86%|████████▌ | 24/28 [00:03<00:00, 15.19it/s] 93%|█████████▎| 26/28 [00:03<00:00, 15.61it/s]100%|██████████| 28/28 [00:03<00:00, 16.20it/s]100%|██████████| 28/28 [00:03<00:00,  7.01it/s]
-Epoch 89/99, Train Loss: 0.0000, Time: 4.00s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.96it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.70it/s]
-{'classification accuracy': tensor(0.9545, device='cuda:0')}
-{'f1': tensor(0.9524, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.9091, device='cuda:0')}
-{'auc': tensor(0.9545, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.28 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:07,  2.51s/it] 11%|█         | 3/28 [00:02<00:17,  1.43it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.69it/s] 25%|██▌       | 7/28 [00:02<00:05,  4.17it/s] 32%|███▏      | 9/28 [00:03<00:03,  5.81it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.52it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.18it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.72it/s] 61%|██████    | 17/28 [00:03<00:00, 12.08it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.21it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.12it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.78it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.29it/s] 96%|█████████▋| 27/28 [00:04<00:00, 15.67it/s]100%|██████████| 28/28 [00:04<00:00,  6.76it/s]
-Epoch 90/99, Train Loss: 0.0000, Time: 4.14s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.05it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.90it/s]
-{'classification accuracy': tensor(0.9545, device='cuda:0')}
-{'f1': tensor(0.9524, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.9091, device='cuda:0')}
-{'auc': tensor(0.9545, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.27 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:06,  2.47s/it] 11%|█         | 3/28 [00:02<00:17,  1.46it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.75it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.24it/s] 32%|███▏      | 9/28 [00:02<00:03,  5.90it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.62it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.31it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.85it/s] 61%|██████    | 17/28 [00:03<00:00, 12.19it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.27it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.16it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.77it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.27it/s] 96%|█████████▋| 27/28 [00:04<00:00, 15.65it/s]100%|██████████| 28/28 [00:04<00:00,  6.85it/s]
-Epoch 91/99, Train Loss: 0.0000, Time: 4.09s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.20it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.08it/s]
-{'classification accuracy': tensor(0.9545, device='cuda:0')}
-{'f1': tensor(0.9524, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.9091, device='cuda:0')}
-{'auc': tensor(0.9545, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:02,  2.32s/it] 11%|█         | 3/28 [00:02<00:16,  1.51it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.83it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.36it/s] 32%|███▏      | 9/28 [00:02<00:03,  6.05it/s] 39%|███▉      | 11/28 [00:02<00:02,  7.78it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.46it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.94it/s] 61%|██████    | 17/28 [00:03<00:00, 12.21it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.21it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.05it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.67it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.22it/s] 96%|█████████▋| 27/28 [00:03<00:00, 15.64it/s]100%|██████████| 28/28 [00:03<00:00,  7.01it/s]
-Epoch 92/99, Train Loss: 0.0000, Time: 4.00s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.16it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.03it/s]
-{'classification accuracy': tensor(0.9545, device='cuda:0')}
-{'f1': tensor(0.9524, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.9091, device='cuda:0')}
-{'auc': tensor(0.9545, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:10,  2.61s/it] 11%|█         | 3/28 [00:02<00:18,  1.38it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.62it/s] 25%|██▌       | 7/28 [00:02<00:05,  4.07it/s] 32%|███▏      | 9/28 [00:03<00:03,  5.68it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.38it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.06it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.61it/s] 61%|██████    | 17/28 [00:03<00:00, 11.98it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.07it/s] 75%|███████▌  | 21/28 [00:03<00:00, 13.91it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.57it/s] 89%|████████▉ | 25/28 [00:04<00:00, 15.01it/s] 96%|█████████▋| 27/28 [00:04<00:00, 15.45it/s]100%|██████████| 28/28 [00:04<00:00,  6.60it/s]
-Epoch 93/99, Train Loss: 0.0000, Time: 4.24s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.20it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.04it/s]
-{'classification accuracy': tensor(0.9545, device='cuda:0')}
-{'f1': tensor(0.9524, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.9091, device='cuda:0')}
-{'auc': tensor(0.9545, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:03,  2.35s/it] 11%|█         | 3/28 [00:02<00:16,  1.52it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.85it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.39it/s] 32%|███▏      | 9/28 [00:02<00:03,  6.07it/s] 39%|███▉      | 11/28 [00:02<00:02,  7.81it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.49it/s] 54%|█████▎    | 15/28 [00:03<00:01, 11.02it/s] 61%|██████    | 17/28 [00:03<00:00, 12.33it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.40it/s] 75%|███████▌  | 21/28 [00:03<00:00, 14.21it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.88it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.39it/s] 96%|█████████▋| 27/28 [00:03<00:00, 15.76it/s]100%|██████████| 28/28 [00:03<00:00,  7.04it/s]
-Epoch 94/99, Train Loss: 0.0000, Time: 3.98s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.18it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.04it/s]
-{'classification accuracy': tensor(0.9545, device='cuda:0')}
-{'f1': tensor(0.9524, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.9091, device='cuda:0')}
-{'auc': tensor(0.9545, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.26 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:07,  2.51s/it]  7%|▋         | 2/28 [00:02<00:29,  1.12s/it] 14%|█▍        | 4/28 [00:02<00:11,  2.18it/s] 21%|██▏       | 6/28 [00:02<00:05,  3.69it/s] 29%|██▊       | 8/28 [00:03<00:03,  5.34it/s] 36%|███▌      | 10/28 [00:03<00:02,  7.06it/s] 43%|████▎     | 12/28 [00:03<00:01,  8.74it/s] 50%|█████     | 14/28 [00:03<00:01, 10.23it/s] 57%|█████▋    | 16/28 [00:03<00:01, 11.52it/s] 64%|██████▍   | 18/28 [00:03<00:00, 12.51it/s] 71%|███████▏  | 20/28 [00:03<00:00, 13.41it/s] 79%|███████▊  | 22/28 [00:03<00:00, 14.27it/s] 86%|████████▌ | 24/28 [00:04<00:00, 14.92it/s] 93%|█████████▎| 26/28 [00:04<00:00, 15.40it/s]100%|██████████| 28/28 [00:04<00:00, 16.09it/s]100%|██████████| 28/28 [00:04<00:00,  6.56it/s]
-Epoch 95/99, Train Loss: 0.0000, Time: 4.27s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.96it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.68it/s]
-{'classification accuracy': tensor(0.9545, device='cuda:0')}
-{'f1': tensor(0.9524, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.9091, device='cuda:0')}
-{'auc': tensor(0.9545, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.29 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:05,  2.42s/it]  7%|▋         | 2/28 [00:02<00:28,  1.08s/it] 14%|█▍        | 4/28 [00:02<00:10,  2.25it/s] 21%|██▏       | 6/28 [00:02<00:05,  3.80it/s] 29%|██▊       | 8/28 [00:02<00:03,  5.51it/s] 36%|███▌      | 10/28 [00:03<00:02,  7.30it/s] 43%|████▎     | 12/28 [00:03<00:01,  9.03it/s] 50%|█████     | 14/28 [00:03<00:01, 10.63it/s] 57%|█████▋    | 16/28 [00:03<00:00, 12.01it/s] 64%|██████▍   | 18/28 [00:03<00:00, 13.16it/s] 71%|███████▏  | 20/28 [00:03<00:00, 14.01it/s] 79%|███████▊  | 22/28 [00:03<00:00, 14.72it/s] 86%|████████▌ | 24/28 [00:03<00:00, 15.25it/s] 93%|█████████▎| 26/28 [00:04<00:00, 15.66it/s]100%|██████████| 28/28 [00:04<00:00, 16.36it/s]100%|██████████| 28/28 [00:04<00:00,  6.78it/s]
-Epoch 96/99, Train Loss: 0.0000, Time: 4.13s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.23it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.10it/s]
-{'classification accuracy': tensor(0.9545, device='cuda:0')}
-{'f1': tensor(0.9524, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.9091, device='cuda:0')}
-{'auc': tensor(0.9545, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:03,  2.34s/it] 11%|█         | 3/28 [00:02<00:16,  1.53it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.85it/s] 25%|██▌       | 7/28 [00:02<00:04,  4.35it/s] 32%|███▏      | 9/28 [00:02<00:03,  5.99it/s] 39%|███▉      | 11/28 [00:02<00:02,  7.72it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.40it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.89it/s] 61%|██████    | 17/28 [00:03<00:00, 12.09it/s] 68%|██████▊   | 19/28 [00:03<00:00, 12.95it/s] 75%|███████▌  | 21/28 [00:03<00:00, 13.61it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.09it/s] 89%|████████▉ | 25/28 [00:03<00:00, 14.50it/s] 96%|█████████▋| 27/28 [00:03<00:00, 14.78it/s]100%|██████████| 28/28 [00:04<00:00,  6.93it/s]
-Epoch 97/99, Train Loss: 0.0000, Time: 4.04s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.18it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.05it/s]
-{'classification accuracy': tensor(0.9545, device='cuda:0')}
-{'f1': tensor(0.9524, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.9091, device='cuda:0')}
-{'auc': tensor(0.9545, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.25 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:13,  2.73s/it] 11%|█         | 3/28 [00:02<00:18,  1.33it/s] 18%|█▊        | 5/28 [00:02<00:09,  2.52it/s] 25%|██▌       | 7/28 [00:03<00:05,  3.93it/s] 32%|███▏      | 9/28 [00:03<00:03,  5.52it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.21it/s] 46%|████▋     | 13/28 [00:03<00:01,  8.89it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.47it/s] 61%|██████    | 17/28 [00:03<00:00, 11.86it/s] 68%|██████▊   | 19/28 [00:03<00:00, 12.98it/s] 75%|███████▌  | 21/28 [00:03<00:00, 13.90it/s] 82%|████████▏ | 23/28 [00:04<00:00, 14.62it/s] 89%|████████▉ | 25/28 [00:04<00:00, 15.17it/s] 96%|█████████▋| 27/28 [00:04<00:00, 15.58it/s]100%|██████████| 28/28 [00:04<00:00,  6.44it/s]
-Epoch 98/99, Train Loss: 0.0000, Time: 4.35s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.03it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.75it/s]
-{'classification accuracy': tensor(0.9545, device='cuda:0')}
-{'f1': tensor(0.9524, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.9091, device='cuda:0')}
-{'auc': tensor(0.9545, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.28 s.
-  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:06,  2.46s/it] 11%|█         | 3/28 [00:02<00:17,  1.46it/s] 18%|█▊        | 5/28 [00:02<00:08,  2.72it/s] 25%|██▌       | 7/28 [00:02<00:05,  4.18it/s] 32%|███▏      | 9/28 [00:02<00:03,  5.79it/s] 39%|███▉      | 11/28 [00:03<00:02,  7.42it/s] 46%|████▋     | 13/28 [00:03<00:01,  9.03it/s] 54%|█████▎    | 15/28 [00:03<00:01, 10.54it/s] 61%|██████    | 17/28 [00:03<00:00, 11.91it/s] 68%|██████▊   | 19/28 [00:03<00:00, 13.03it/s] 75%|███████▌  | 21/28 [00:03<00:00, 13.77it/s] 82%|████████▏ | 23/28 [00:03<00:00, 14.54it/s] 89%|████████▉ | 25/28 [00:03<00:00, 15.12it/s] 96%|█████████▋| 27/28 [00:04<00:00, 15.50it/s]100%|██████████| 28/28 [00:04<00:00,  6.77it/s]
-Epoch 99/99, Train Loss: 0.0000, Time: 4.14s
-Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.11it/s]Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.98it/s]
-{'classification accuracy': tensor(0.9545, device='cuda:0')}
-{'f1': tensor(0.9524, device='cuda:0')}
-{'precision': tensor(1., device='cuda:0')}
-{'recall': tensor(0.9091, device='cuda:0')}
-{'auc': tensor(0.9545, device='cuda:0')}
-Checkpoint saved to /workspace/experiments/fundus-classifier/checkpoint_resnet50/experiment_state.pth
-Val evaluation time: 0.26 s.
