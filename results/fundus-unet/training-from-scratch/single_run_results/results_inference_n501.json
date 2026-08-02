@@ -1,0 +1,9 @@
+{
+  "results": {
+    "accuracy": 0.95,
+    "f1": 0.9474,
+    "precision": 1.0,
+    "recall": 0.9,
+    "auc": 0.93
+  }
+}
