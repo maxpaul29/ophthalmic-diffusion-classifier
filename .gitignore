@@ -3,7 +3,6 @@ checkpoints/
 dataset/data/
 
 # Generated outputs
-experiments/*/plots/
 #experiments/*/inference_images/
 #experiments/*/training_images/
 
