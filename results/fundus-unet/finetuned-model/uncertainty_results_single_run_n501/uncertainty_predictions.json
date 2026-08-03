@@ -1,0 +1,122 @@
+[
+  {
+    "true": 1,
+    "pred": 1,
+    "correct": true,
+    "uncertainty": 0.19685181975364685
+  },
+  {
+    "true": 0,
+    "pred": 0,
+    "correct": true,
+    "uncertainty": 0.11730629950761795
+  },
+  {
+    "true": 0,
+    "pred": 0,
+    "correct": true,
+    "uncertainty": 0.22788752615451813
+  },
+  {
+    "true": 1,
+    "pred": 1,
+    "correct": true,
+    "uncertainty": 0.22963255643844604
+  },
+  {
+    "true": 1,
+    "pred": 1,
+    "correct": true,
+    "uncertainty": 0.17023040354251862
+  },
+  {
+    "true": 1,
+    "pred": 1,
+    "correct": true,
+    "uncertainty": 0.17357699573040009
+  },
+  {
+    "true": 0,
+    "pred": 0,
+    "correct": true,
+    "uncertainty": 0.2166445553302765
+  },
+  {
+    "true": 1,
+    "pred": 1,
+    "correct": true,
+    "uncertainty": 0.2222222089767456
+  },
+  {
+    "true": 0,
+    "pred": 0,
+    "correct": true,
+    "uncertainty": 0.24439743161201477
+  },
+  {
+    "true": 0,
+    "pred": 0,
+    "correct": true,
+    "uncertainty": 0.22963255643844604
+  },
+  {
+    "true": 0,
+    "pred": 0,
+    "correct": true,
+    "uncertainty": 0.24439743161201477
+  },
+  {
+    "true": 1,
+    "pred": 1,
+    "correct": true,
+    "uncertainty": 0.23342536389827728
+  },
+  {
+    "true": 1,
+    "pred": 1,
+    "correct": true,
+    "uncertainty": 0.2201903611421585
+  },
+  {
+    "true": 0,
+    "pred": 0,
+    "correct": true,
+    "uncertainty": 0.16795949637889862
+  },
+  {
+    "true": 1,
+    "pred": 1,
+    "correct": true,
+    "uncertainty": 0.20309878885746002
+  },
+  {
+    "true": 0,
+    "pred": 1,
+    "correct": false,
+    "uncertainty": 0.23636560142040253
+  },
+  {
+    "true": 1,
+    "pred": 0,
+    "correct": false,
+    "uncertainty": 0.21879594027996063
+  },
+  {
+    "true": 0,
+    "pred": 0,
+    "correct": true,
+    "uncertainty": 0.21055692434310913
+  },
+  {
+    "true": 0,
+    "pred": 0,
+    "correct": true,
+    "uncertainty": 0.24101099371910095
+  },
+  {
+    "true": 1,
+    "pred": 1,
+    "correct": true,
+    "uncertainty": 0.18523430824279785
+  }
+]
