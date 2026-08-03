@@ -1,10 +1,10 @@
 """
 Plot the per-fold accuracy trajectory across training epochs for the Drusen
-cross-validation runs, one line per fold on a single graph (analogous to the
-per-fold accuracy plots in Favero et al.).
+(Phase-2 finetuning) cross-validation runs, one line per fold on a single
+graph (analogous to the per-fold accuracy plots in Favero et al.).
 
 Run:
-    python experiments/fundus-unet/plot_cv_accuracy.py
+    python results/plot-scripts/plot_cv_accuracy.py
 """
 
 import os
@@ -12,16 +12,23 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 
 # ── USER INPUT ────────────────────────────────────────────────────────────────
-# One value per evaluation epoch (every SAVE_IMAGE_EPOCHS=25, NUM_EPOCHS=400
+# List of (epoch, accuracy) pairs per fold, from the finetuning CV logs
+# (log_finetuning_fold_0_cv.txt / log_finetuning_fold1_to_4_cv.log). Fold 0 is
+# missing epochs 375/425/450/475 due to a log-capture gap (does not affect the
+# reported final test metrics); those points are simply omitted here rather
+# than interpolated, and can be added later if recovered.
 ACCURACY_BY_FOLD = {
-    "fold 0": [], # insert values
-    "fold 1": [], # insert values
-    "fold 2": [], # insert values
-    "fold 3": [], # insert values
-    "fold 4": [], # insert values
+    "fold 0": [
+    ],
+    "fold 1": [
+    ],
+    "fold 2": [
+    ],
+    "fold 3": [
+    ],
+    "fold 4": [
+    ],
 }
-
-EVAL_EPOCHS = [0, 25, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 399]
 
 OUTPUT_DIR = "experiments/fundus-unet/plots"
 # ─────────────────────────────────────────────────────────────────────────────
@@ -46,8 +53,9 @@ def main():
 
     fig, ax = plt.subplots(figsize=(9, 5))
 
-    for fold_name, values in active.items():
-        epochs = EVAL_EPOCHS[:len(values)]
+    for fold_name, points in active.items():
+        epochs = [e for e, _ in points]
+        values = [v for _, v in points]
         color = FOLD_COLORS.get(fold_name, DEFAULT_COLOR)
         ax.plot(epochs, values, marker="o", linewidth=2, markersize=4,
                 color=color, label=fold_name.capitalize())
