@@ -1,14 +1,10 @@
 """
 Plot the per-fold accuracy trajectory across training epochs for the Drusen
-cross-validation runs, one line per fold on a single graph (analogous to the
-per-fold accuracy plots in Favero et al.).
-
-Folds 1-4 are read from scripts/logs/training_cv_51.log (complete, 400
-epochs). Fold 0 is read from scripts/logs/training_fold_0.txt, a separate
-rerun log started after the original fold 0 run/archive — also complete.
+(Phase-2 finetuning) cross-validation runs, one line per fold on a single
+graph (analogous to the per-fold accuracy plots in Favero et al.).
 
 Run:
-    python experiments/fundus-unet/plot_cv_accuracy.py
+    python results/plot-scripts/plot_cv_accuracy.py
 """
 
 import os
@@ -16,22 +12,47 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 
 # ── USER INPUT ────────────────────────────────────────────────────────────────
-# One value per evaluation epoch (every SAVE_IMAGE_EPOCHS=25, NUM_EPOCHS=400
-# -> 17 points at epochs 0,25,...,375,399), per fold.
+# List of (epoch, accuracy) pairs per fold, from the finetuning CV logs
+# (log_finetuning_fold_0_cv.txt / log_finetuning_fold1_to_4_cv.log). Fold 0 is
+# missing epochs 375/425/450/475 due to a log-capture gap (does not affect the
+# reported final test metrics); those points are simply omitted here rather
+# than interpolated, and can be added later if recovered.
 ACCURACY_BY_FOLD = {
-    "fold 0": [0.5455, 0.5455, 0.5682, 0.5682, 0.5455, 0.6364, 0.6818, 0.7727, 0.6818,
-               0.7045, 0.8182, 0.7500, 0.8636, 0.7727, 0.7955, 0.8182, 0.8864],
-    "fold 1": [0.5682, 0.5682, 0.6591, 0.6818, 0.6364, 0.7273, 0.7045, 0.7500, 0.7500,
-               0.8636, 0.7955, 0.7955, 0.8409, 0.7955, 0.8409, 0.7955, 0.8864],
-    "fold 2": [0.3864, 0.4773, 0.5000, 0.5000, 0.5682, 0.6591, 0.6818, 0.6591, 0.7045,
-               0.7955, 0.7727, 0.7955, 0.8864, 0.8636, 0.9091, 0.9091, 0.8864],
-    "fold 3": [0.4545, 0.5227, 0.5455, 0.5909, 0.6591, 0.7273, 0.7045, 0.7273, 0.7045,
-               0.7500, 0.7273, 0.7955, 0.7955, 0.8409, 0.8636, 0.8182, 0.8636],
-    "fold 4": [0.5870, 0.5435, 0.6522, 0.6304, 0.7391, 0.6957, 0.6522, 0.7391, 0.7826,
-               0.8043, 0.7826, 0.8913, 0.8696, 0.8478, 0.8478, 0.8696, 0.8261],
+    "fold 0": [
+        (0, 0.4091), (25, 0.4318), (50, 0.5227), (75, 0.5227), (100, 0.6591),
+        (125, 0.6818), (150, 0.6818), (175, 0.6591), (200, 0.8182), (225, 0.6591),
+        (250, 0.7727), (275, 0.7727), (300, 0.8182), (325, 0.7045), (350, 0.7955),
+        (499, 0.8182),
+    ],
+    "fold 1": [
+        (0, 0.5000), (25, 0.5000), (50, 0.5625), (75, 0.6250), (100, 0.5625),
+        (125, 0.7292), (150, 0.7083), (175, 0.7292), (200, 0.7083), (225, 0.8125),
+        (250, 0.8125), (275, 0.6875), (300, 0.7708), (325, 0.7917), (350, 0.7708),
+        (375, 0.8125), (400, 0.7917), (425, 0.7917), (450, 0.8750), (475, 0.8958),
+        (499, 0.8542),
+    ],
+    "fold 2": [
+        (0, 0.5000), (25, 0.4773), (50, 0.5227), (75, 0.6136), (100, 0.6136),
+        (125, 0.6136), (150, 0.6818), (175, 0.6818), (200, 0.7727), (225, 0.8409),
+        (250, 0.8182), (275, 0.9545), (300, 0.8636), (325, 0.9091), (350, 0.8636),
+        (375, 0.9091), (400, 0.8636), (425, 0.8864), (450, 0.8864), (475, 0.8864),
+        (499, 0.8864),
+    ],
+    "fold 3": [
+        (0, 0.5208), (25, 0.5625), (50, 0.5833), (75, 0.7083), (100, 0.6458),
+        (125, 0.6250), (150, 0.7292), (175, 0.6875), (200, 0.8542), (225, 0.7292),
+        (250, 0.8542), (275, 0.8333), (300, 0.7708), (325, 0.8333), (350, 0.8125),
+        (375, 0.8750), (400, 0.7708), (425, 0.8125), (450, 0.8542), (475, 0.8750),
+        (499, 0.7917),
+    ],
+    "fold 4": [
+        (0, 0.5000), (25, 0.5526), (50, 0.5789), (75, 0.5526), (100, 0.6579),
+        (125, 0.6579), (150, 0.7368), (175, 0.7895), (200, 0.7368), (225, 0.8158),
+        (250, 0.7895), (275, 0.7895), (300, 0.8158), (325, 0.8421), (350, 0.7895),
+        (375, 0.8158), (400, 0.8421), (425, 0.8158), (450, 0.8158), (475, 0.8684),
+        (499, 0.8684),
+    ],
 }
-
-EVAL_EPOCHS = [0, 25, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 399]
 
 OUTPUT_DIR = "experiments/fundus-unet/plots"
 # ─────────────────────────────────────────────────────────────────────────────
@@ -56,8 +77,9 @@ def main():
 
     fig, ax = plt.subplots(figsize=(9, 5))
 
-    for fold_name, values in active.items():
-        epochs = EVAL_EPOCHS[:len(values)]
+    for fold_name, points in active.items():
+        epochs = [e for e, _ in points]
+        values = [v for _, v in points]
         color = FOLD_COLORS.get(fold_name, DEFAULT_COLOR)
         ax.plot(epochs, values, marker="o", linewidth=2, markersize=4,
                 color=color, label=fold_name.capitalize())
@@ -65,7 +87,7 @@ def main():
     ax.set_xlabel("Epoch", fontsize=12)
     ax.set_ylabel("Accuracy", fontsize=12)
     ax.set_title("Drusen Cross-Validation — Accuracy per Fold", fontsize=13, fontweight="bold")
-    ax.set_ylim(0.0, 1.0)
+    ax.set_ylim(0.0, 1.02)
     ax.xaxis.set_major_locator(mticker.MaxNLocator(integer=True))
     ax.grid(True, linestyle="--", alpha=0.5)
     ax.legend(fontsize=10, loc="lower right")
