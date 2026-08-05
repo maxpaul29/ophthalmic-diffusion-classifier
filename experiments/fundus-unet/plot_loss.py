@@ -38,7 +38,12 @@ OUTPUT_DIR = "experiments/fundus-unet/plots"
 
 
 def eval_epoch_axis(n_values):
-    return [FIRST_EVAL_EPOCH + i * EVAL_INTERVAL for i in range(n_values)]
+    epochs = [FIRST_EVAL_EPOCH + i * EVAL_INTERVAL for i in range(n_values)]
+    if TRAIN_LOSS and epochs:
+        last_epoch = len(TRAIN_LOSS) - 1
+        if epochs[-1] != last_epoch:
+            epochs[-1] = last_epoch
+    return epochs
 
 
 def main():
