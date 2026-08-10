@@ -74,7 +74,7 @@ export PRETRAINED_CHECKPOINT="${PRETRAINED_CHECKPOINT:-"/checkpoints/final-model
 export DRUSEN_MODEL_DIR="${DRUSEN_MODEL_DIR:-drusen-unet/new-run/finetuning}"
 export CHECKPOINT_FOLDER="$INFERENCE_CHECKPOINT_FOLDER/drusen-unet/new-run/finetuning/single_run/best_checkpoint"      # (str) Checkpoint folder for inference
 if [[ -n "$FOLD" ]]; then
-    export CHECKPOINT_FOLDER="$INFERENCE_CHECKPOINT_FOLDER/$DRUSEN_MODEL_DIR/cv/10-folds/fold${FOLD}/best_checkpoint"
+    export CHECKPOINT_FOLDER="$INFERENCE_CHECKPOINT_FOLDER/$DRUSEN_MODEL_DIR/cv/10-folds-holdout/fold${FOLD}/best_checkpoint"
 fi
 export FLASH_ATTENTION=false            # (bool) Whether to use the flash attention or not
 
