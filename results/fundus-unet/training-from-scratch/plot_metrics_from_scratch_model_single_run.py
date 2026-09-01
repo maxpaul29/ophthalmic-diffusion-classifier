@@ -110,7 +110,6 @@ def plot_individual(metrics, output_dir):
 
         ax.set_xlabel("Epoch", fontsize=12)
         ax.set_ylabel(name.capitalize(), fontsize=12)
-        ax.set_title(f"{name.capitalize()} over Training", fontsize=13, fontweight="bold")
         ax.set_ylim(*adjusted_ylim(name, values))
         ax.xaxis.set_major_locator(mticker.MaxNLocator(integer=True))
         ax.grid(True, linestyle="--", alpha=0.5)
@@ -139,7 +138,6 @@ def plot_combined(metrics, output_dir):
 
     ax.set_xlabel("Epoch", fontsize=12)
     ax.set_ylabel("Score", fontsize=12)
-    ax.set_title("Validation Metrics over Training", fontsize=13, fontweight="bold")
     ax.set_ylim(0.0, 1.02)
     ax.xaxis.set_major_locator(mticker.MaxNLocator(integer=True))
     ax.grid(True, linestyle="--", alpha=0.5)

@@ -55,8 +55,6 @@ def main():
     ax.set_xticklabels([str(s) for s in steps])
     ax.set_xlabel("Classification steps (N)", fontsize=12)
     ax.set_ylabel("Accuracy", fontsize=12)
-    ax.set_title("Drusen Finetuning (Single Run) — Accuracy vs. Classification Steps",
-                 fontsize=13, fontweight="bold")
     ax.set_ylim(0.0, 1.0)
     ax.grid(True, linestyle="--", alpha=0.5)
 
