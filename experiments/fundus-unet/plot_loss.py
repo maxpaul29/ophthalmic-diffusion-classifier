@@ -66,7 +66,6 @@ def main():
 
     ax.set_xlabel("Epoch", fontsize=12)
     ax.set_ylabel("Reconstruction loss", fontsize=12)
-    ax.set_title("Phase 1 Pretraining — Train/Val Loss", fontsize=13, fontweight="bold")
     ax.xaxis.set_major_locator(mticker.MaxNLocator(integer=True))
     ax.grid(True, linestyle="--", alpha=0.5)
     ax.legend(fontsize=10)
