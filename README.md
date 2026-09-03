@@ -1,3 +1,15 @@
+# Ophthalmic Diffusion Classifier — `drusen-mogon` branch
+
+**Author:** Maximilian Paul · **Institution:** Johannes Gutenberg University Mainz · **Context:** Bachelor's thesis — *Exploring Generative AI Models for Ophthalmic Disease Classification*
+
+This is **not** the main branch for this thesis. It contains only the Phase-1 stage of the pipeline: large-scale, unconditioned pretraining of the diffusion model on public fundus images, run on the MOGON HPC cluster (SLURM, no Docker, Python 3.12.3). Its output (a pretrained checkpoint) is the starting point for Phase 2 — fine-tuning on the private clinical Drusen dataset, cross-validation, the ResNet50 baseline, and the uncertainty analysis — all of which live on the **`drusen`** branch instead.
+
+**For the full change history of both branches, see `CHANGELOG.md` on the `drusen` branch** — it documents this branch's modifications (Section 2, "MOGON HPC Branch") alongside the Clinical PC ones, plus the rationale for splitting the work across two branches (Section 5). This branch only carries its own `dataset/splits/SPLITS.md` and `results/RESULTS.md`, describing the pretraining-specific splits and results.
+
+The original Favero et al. README is preserved unmodified below.
+
+---
+
 # **Medical Diffusion Classifier: Official PyTorch Implementation**  
 
 **Venue**: MIDL 2025  

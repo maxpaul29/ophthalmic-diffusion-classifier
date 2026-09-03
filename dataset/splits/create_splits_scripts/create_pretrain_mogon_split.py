@@ -3,22 +3,21 @@ Build Phase-1 pretraining CSV splits from a large public fundus image pool
 (e.g. ~400k images combining OIA-ODIR/REFUGE/EyePACS-style sources), intended
 to run on Mogon rather than the clinic PC.
 
-Unlike the clinic-data pretrain split (create_pretrain_split.py), this pool is
-a SEPARATE, public dataset with no overlap risk against the clinic Drusen data
-used in Phase 2 (create_drusen_split.py / create_drusen_aug_split.py) — there is
+This pool is a public dataset, entirely separate from the private clinic
+Drusen data used in Phase 2 (fine-tuning, on the `drusen` branch) — there is
 no exclusion step needed here, every image in --input-dir is eligible.
 
 The images may show various pathologies (glaucoma, diabetic retinopathy, etc.),
 not just healthy eyes. That is fine for Phase 1: the model is trained purely on
 the reconstruction/diffusion loss (how well can it regenerate this general
 distribution of fundus photographs), not on the specific disease label — Phase 2
-re-establishes the correct healthy-vs-Drusen class semantics on the small,
+re-establishes the correct non-drusen-vs-Drusen class semantics on the small,
 properly labelled clinic dataset afterwards. All rows are written with
 target=0 for pipeline consistency with fundus.py/train.py's single-class
 pretraining path (see split_prefix="pretrain-mogon").
 
 Usage:
-    python dataset/splits/create_pretrain_mogon_split.py \
+    python dataset/splits/create_splits_scripts/create_pretrain_mogon_split.py \
         --data-path  /path/to/mogon/dataset/root \
         --input-dir  /path/to/mogon/dataset/root/all_fundus_images \
         --output-dir dataset/splits

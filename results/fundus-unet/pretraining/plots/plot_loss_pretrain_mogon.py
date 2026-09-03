@@ -6,7 +6,7 @@ reconstruction/diffusion loss is the only monitoring signal.
 Fill in TRAIN_LOSS and VAL_LOSS below with the console values printed by
 train_loop each epoch ("train_loss: ...") and each eval epoch ("Val loss: ..."),
 then run:
-    python experiments/fundus-unet/plot_loss.py
+    python results/fundus-unet/pretraining/plots/plot_loss_pretrain_mogon.py
 
 TRAIN_LOSS is logged every epoch; VAL_LOSS only every SAVE_IMAGE_EPOCHS epochs
 (same cadence as the metric plots) — they are plotted on their own epoch axes.
@@ -33,7 +33,7 @@ VAL_LOSS = [
 FIRST_EVAL_EPOCH = 0
 EVAL_INTERVAL = 2
 
-OUTPUT_DIR = "experiments/fundus-unet/plots"
+OUTPUT_DIR = "results/fundus-unet/pretraining/plots"
 # ─────────────────────────────────────────────────────────────────────────────
 
 
