@@ -7,7 +7,7 @@ from torchvision import transforms
 from utils.wavelet import wavelet_dec_2
 
 class FundusDataset(Dataset):
-    def __init__(self, data_path, split="train", wavelet_transform=False, image_size=(256,256), split_prefix="fundus"):
+    def __init__(self, data_path, split="train", wavelet_transform=False, image_size=(256,256), split_prefix="pretrain-mogon"):
         """
         Args:
             data_path (str): Path to the Fundus dataset.
@@ -15,9 +15,9 @@ class FundusDataset(Dataset):
             wavelet_transform (bool): Whether to apply wavelet transform to the images.
             image_size (tuple): Size to resize the images to.
             split_prefix (str): Which CSV split set to load, i.e. reads
-                dataset/splits/{split_prefix}-{split}.csv. Use "fundus" for the
-                Kaggle fundus data, "pretrain" for the Phase-1 non-drusen-only
-                pretraining set, or "drusen" for the Phase-2 Drusen set.
+                dataset/splits/{split_prefix}-{split}.csv. Defaults to
+                "pretrain-mogon", the Phase-1 single-class pretraining set
+                (see dataset/splits/SPLITS.md).
 
         Note:
             Everything is derived from the train split.
@@ -74,7 +74,7 @@ class FundusDataset(Dataset):
         return image, label
     
 class FundusDataLoader:
-    def __init__(self, wavelet_transform, data_path, cf_label=None, batch_size=64, num_workers=4, image_size=(256,256), split_prefix="fundus"):
+    def __init__(self, wavelet_transform, data_path, cf_label=None, batch_size=64, num_workers=4, image_size=(256,256), split_prefix="pretrain-mogon"):
         self.data_path = data_path
         self.batch_size = batch_size
         self.num_workers = num_workers
