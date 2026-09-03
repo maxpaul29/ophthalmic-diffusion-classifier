@@ -3,7 +3,6 @@
 
 - **chexpert-train.csv / chexpert-valid.csv / chexpert-test.csv**: Train/validation/test (80/10/10) splits for experiments using the CheXpert dataset. Original datasplits from Favero et al.
 - **isic-train.csv / isic-valid.csv / isic-test.csv**: Train/validation/test (80/10/10) splits for the ISIC skin-lesion dataset. Original datasplits from Favero et al.
-- **fundus-train.csv / fundus-valid.csv / fundus-test.csv**: Train/validation/test (80/10/10) splits for the public Kaggle fundus dataset (`fundus-metadata.csv`), used for the common fundus-classification adaptation of the pipeline.
 - **pretrain-mogon-train.csv / pretrain-mogon-valid.csv / pretrain-mogon-test.csv**: Train/validation/test splits (~409k/8.5k/8.5k images) for the large-scale, public, single-class Phase-1 pretraining pool run on MOGON (~400,000 fundus images total, combining several public sources; all rows written with `target=0` since Phase-1 pretraining is unconditioned — see `create_pretrain_mogon_split.py` below and CHANGELOG.md Section 1.7).
 
 Script that produce these CSVs:
