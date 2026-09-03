@@ -23,11 +23,13 @@
 #   3. Run inference on drusen-fold{i}-test.csv against the archived
 #      best_checkpoint, writing inference_result.json next to it.
 #
-# Prerequisite: dataset/splits/create_drusen_cv_splits.py has already been run
-# (same splits used for run_drusen_cv.sh).
+# Prerequisite: dataset/splits/create_splits_scripts/create_drusen_cv_splits.py
+# (or create_drusen_cv_from_holdout.py) has already been run (same splits used
+# for run_drusen_cv.sh).
 #
-# Usage:
-#   K_FOLDS=5 bash scripts/run_drusen_scratch_cv.sh
+# Usage (this script is normally invoked for you via `CROSS_VALIDATION=1` in
+# scripts/run.sh, not called directly — see DOCKER.md Section 3/5):
+#   K_FOLDS=5 bash scripts/cross-validation/run_drusen_scratch_cv.sh
 #
 # Set START_FOLD (default 0) to resume from a later fold, same as
 # run_drusen_cv.sh.
@@ -48,7 +50,9 @@ export PRETRAINED_CHECKPOINT=""
 export DRUSEN_MODEL_DIR="drusen-unet-scratch"
 
 EXPERIMENT_PATH="$PROJECT_ROOT/experiments/fundus-unet"
-CV_ARCHIVE_ROOT="$INFERENCE_CHECKPOINT_FOLDER/$DRUSEN_MODEL_DIR/cv"
+# Must match the path scripts/unet/fundus-unet.sh builds for CHECKPOINT_FOLDER
+# when FOLD is set: $INFERENCE_CHECKPOINT_FOLDER/$DRUSEN_MODEL_DIR/cv/10-folds-holdout/fold{FOLD}/best_checkpoint.
+CV_ARCHIVE_ROOT="$INFERENCE_CHECKPOINT_FOLDER/$DRUSEN_MODEL_DIR/cv/10-folds-holdout"
 
 for ((i = START_FOLD; i < K_FOLDS; i++)); do
     echo "=== Fold $i/$((K_FOLDS - 1)): Training from scratch ==="
@@ -79,5 +83,5 @@ for ((i = START_FOLD; i < K_FOLDS; i++)); do
 done
 
 echo "=== All $K_FOLDS folds complete. Aggregating results. ==="
-python3 "$PROJECT_ROOT/experiments/fundus-unet/aggregate_cv_results.py" \
+python3 "$PROJECT_ROOT/results/general-scripts/aggregate_cv_results.py" \
     --cv-root "$CV_ARCHIVE_ROOT" --k-folds "$K_FOLDS"

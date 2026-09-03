@@ -5,21 +5,31 @@
 #   1. Finetune from scratch (RESUME=0) on drusen-fold{i}-{train,valid}.csv,
 #      starting from the shared Phase-1 Mogon pretrain checkpoint.
 #   2. Archive the fold's checkpoints/best_checkpoint out of the shared
-#      experiment folder into a fold-specific location, so the next fold's
-#      finetune run doesn't overwrite them.
+#      experiment folder into $INFERENCE_CHECKPOINT_FOLDER/$DRUSEN_MODEL_DIR/
+#      cv/10-folds-holdout/fold{i}/ — the EXACT path scripts/unet/fundus-unet.sh
+#      builds for CHECKPOINT_FOLDER when FOLD is set (see its "Inference/Explain
+#      parameters" section), so the inference step right after this one reads
+#      from where this step just wrote, and the next fold's finetune run
+#      doesn't overwrite it either.
 #   3. Run inference on drusen-fold{i}-test.csv against the archived
 #      best_checkpoint, writing inference_result.json next to it.
 #
-# Prerequisite: dataset/splits/create_drusen_cv_splits.py has already been run
-# to produce drusen-fold{i}-{train,valid,test}.csv for i=0..K_FOLDS-1.
+# Prerequisite: dataset/splits/create_splits_scripts/create_drusen_cv_splits.py
+# (or create_drusen_cv_from_holdout.py) has already been run to produce
+# drusen-fold{i}-{train,valid,test}.csv for i=0..K_FOLDS-1.
 #
-# Usage:
-#   K_FOLDS=5 PRETRAIN_CHECKPOINT=/checkpoints/final-models/drusen-unet/pretrain-mogon \
-#       bash scripts/run_drusen_cv.sh
+# Usage (this script is normally invoked for you via `CROSS_VALIDATION=1` in
+# scripts/run.sh, not called directly — see DOCKER.md Section 3/5):
+#   K_FOLDS=5 PRETRAIN_CHECKPOINT=/checkpoints/final-models/drusen-unet/pretrain \
+#       bash scripts/cross-validation/run_drusen_cv.sh
 #
 # Set START_FOLD (default 0) to resume from a later fold, e.g. after an
 # earlier fold already finished and was archived, or a failure was fixed
 # manually — folds before START_FOLD are skipped entirely.
+#
+# Set DRUSEN_MODEL_DIR to change where checkpoints are archived/read from
+# (default: drusen-unet/new-run/finetuning); must match what fundus-unet.sh
+# uses, since it is exported below and consumed there.
 
 set -e
 
@@ -38,9 +48,14 @@ export MODEL="unet"
 export DATA="fundus"
 export RESUME=0
 export PRETRAINED_CHECKPOINT="$PRETRAIN_CHECKPOINT"
+# Same variable fundus-unet.sh uses to build its own CHECKPOINT_FOLDER for a
+# CV fold (cv/10-folds-holdout/fold{FOLD}/best_checkpoint under this dir) —
+# exporting it here so the archive step below writes to EXACTLY the path the
+# inference step right after it will read from.
+export DRUSEN_MODEL_DIR="${DRUSEN_MODEL_DIR:-drusen-unet/new-run/finetuning}"
 
 EXPERIMENT_PATH="$PROJECT_ROOT/experiments/fundus-unet"
-CV_ARCHIVE_ROOT="$INFERENCE_CHECKPOINT_FOLDER/drusen-unet/cv"
+CV_ARCHIVE_ROOT="$INFERENCE_CHECKPOINT_FOLDER/$DRUSEN_MODEL_DIR/cv/10-folds-holdout"
 
 for ((i = START_FOLD; i < K_FOLDS; i++)); do
     echo "=== Fold $i/$((K_FOLDS - 1)): Finetuning ==="
@@ -76,5 +91,5 @@ for ((i = START_FOLD; i < K_FOLDS; i++)); do
 done
 
 echo "=== All $K_FOLDS folds complete. Aggregating results. ==="
-python3 "$PROJECT_ROOT/experiments/fundus-unet/aggregate_cv_results.py" \
+python3 "$PROJECT_ROOT/results/general-scripts/aggregate_cv_results.py" \
     --cv-root "$CV_ARCHIVE_ROOT" --k-folds "$K_FOLDS"

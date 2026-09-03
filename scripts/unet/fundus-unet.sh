@@ -8,7 +8,7 @@ export IMAGE_SIZE=256                   # (int) Size of the input images
 export IMAGE_CHANNELS=3                 # (int) Number of channels in the input images
 export WAVELET_TRANSFORM=true           # (bool) Whether to use the wavelet transform or not
 export SPLIT_PREFIX="drusen"            # (str) Which split CSV set to load: "fundus" (Kaggle),
-                                        #       "pretrain" (Phase-1 healthy-only), "drusen" (Phase-2)
+                                        #       "pretrain" (Phase-1 non-drusen-only), "drusen" (Phase-2)
 
 # Cross-validation: set FOLD (e.g. 0..k-1) to run a single CV fold instead of
 # the plain fixed drusen split. Overrides SPLIT_PREFIX/CHECKPOINT_FOLDER below

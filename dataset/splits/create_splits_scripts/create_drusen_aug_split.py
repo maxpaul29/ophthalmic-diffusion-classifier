@@ -3,7 +3,7 @@ Build train/valid/test CSV splits for the Optic Disc Drusen (ODD) classifier.
 
 Combines two sources:
   - positive class (target=1): augmented Drusen crops   (from augment_drusen.py)
-  - negative class (target=0): clinical healthy crops
+  - negative class (target=0): clinical non-drusen crops
 
 Three safeguards make the resulting splits scientifically sound:
 
@@ -28,20 +28,20 @@ Three safeguards make the resulting splits scientifically sound:
    logic) derives a patient identifier from the filename, and the
    train/valid/test split happens at the patient level, so every original
    image of one patient always ends up in the same split. Applied to both
-   Drusen and healthy images.
+   Drusen and non-drusen images.
 
 Class balance (50:50) is enforced per split by sub-sampling the majority
-(healthy) class, matching the paper's balanced-training setup.
+(non-drusen) class, matching the paper's balanced-training setup.
 
 Output CSVs use the same `image_name,target` format as create_fundus_split.py,
 with paths relative to --data-path so dataset/fundus.py can load them directly.
 
 Usage:
     python dataset/splits/create_splits_scripts/create_drusen_aug_split.py \
-        --data-path   /data \
-        --drusen-dir  /data/clinic/drusen_augmented \
-        --healthy-dir /data/clinic/healthy \
-        --output-dir  dataset/splits
+        --data-path      /data \
+        --drusen-dir     /data/clinic/drusen_augmented \
+        --non-drusen-dir /data/clinic/non_drusen \
+        --output-dir     dataset/splits
 """
 
 import argparse
@@ -106,27 +106,27 @@ def main():
     parser = argparse.ArgumentParser(description="Create balanced Drusen train/valid/test splits.")
     parser.add_argument("--data-path", required=True, help="Base path; CSV image_name is relative to this.")
     parser.add_argument("--drusen-dir", required=True, help="Directory with augmented Drusen images (target=1).")
-    parser.add_argument("--healthy-dir", required=True, help="Directory with healthy images (target=0).")
+    parser.add_argument("--non-drusen-dir", required=True, help="Directory with non-drusen images (target=0).")
     parser.add_argument("--output-dir", default="dataset/splits", help="Where to write the CSVs.")
     parser.add_argument("--valid-frac", type=float, default=0.1, help="Fraction of originals for validation.")
     parser.add_argument("--test-frac", type=float, default=0.1, help="Fraction of originals for test.")
     parser.add_argument("--seed", type=int, default=42, help="Random seed for reproducibility.")
-    parser.add_argument("--no-balance", action="store_true", help="Keep all healthy images (skip 50:50 balancing).")
+    parser.add_argument("--no-balance", action="store_true", help="Keep all non-drusen images (skip 50:50 balancing).")
     parser.add_argument("--n-drusen", type=int, default=None,
                         help="Use only this many original Drusen eyes (groups); all their augmented "
                              "variants are kept. Default: all.")
-    parser.add_argument("--n-healthy", type=int, default=None,
-                        help="Draw only this many healthy images into the pool before splitting. Default: all.")
+    parser.add_argument("--n-non-drusen", type=int, default=None,
+                        help="Draw only this many non-drusen images into the pool before splitting. Default: all.")
     args = parser.parse_args()
 
     rng = random.Random(args.seed)
 
     drusen_files = list_images(args.drusen_dir)
-    healthy_files = list_images(args.healthy_dir)
+    non_drusen_files = list_images(args.non_drusen_dir)
     if not drusen_files:
         raise FileNotFoundError(f"No Drusen images under {args.drusen_dir}")
-    if not healthy_files:
-        raise FileNotFoundError(f"No healthy images under {args.healthy_dir}")
+    if not non_drusen_files:
+        raise FileNotFoundError(f"No non-drusen images under {args.non_drusen_dir}")
 
     # ── Split Drusen at the group level to prevent augmentation leakage ─────────
     groups = {}
@@ -138,9 +138,9 @@ def main():
     if args.n_drusen is not None and args.n_drusen < len(group_ids):
         group_ids = sorted(rng.sample(group_ids, args.n_drusen))
 
-    # Optionally cap the healthy pool before splitting.
-    if args.n_healthy is not None and args.n_healthy < len(healthy_files):
-        healthy_files = rng.sample(healthy_files, args.n_healthy)
+    # Optionally cap the non-drusen pool before splitting.
+    if args.n_non_drusen is not None and args.n_non_drusen < len(non_drusen_files):
+        non_drusen_files = rng.sample(non_drusen_files, args.n_non_drusen)
 
     # ── Group original ids further by patient to prevent patient leakage ───────
     # (safeguard 3): the train/valid/test split happens over patients, then
@@ -171,32 +171,32 @@ def main():
     drusen_valid = drusen_split(valid_ids, originals_only=True)   # originals only
     drusen_test = drusen_split(test_ids, originals_only=True)     # originals only
 
-    # ── Split healthy images by patient, same as Drusen above ───────────────────
-    healthy_patient_to_files = {}
-    for f in healthy_files:
-        healthy_patient_to_files.setdefault(patient_key(original_id(f)), []).append(f)
-    healthy_patient_ids = sorted(healthy_patient_to_files.keys())
+    # ── Split non-drusen images by patient, same as Drusen above ────────────────
+    non_drusen_patient_to_files = {}
+    for f in non_drusen_files:
+        non_drusen_patient_to_files.setdefault(patient_key(original_id(f)), []).append(f)
+    non_drusen_patient_ids = sorted(non_drusen_patient_to_files.keys())
     h_train_pids, h_valid_pids, h_test_pids = split_train_valid_test(
-        healthy_patient_ids, args.valid_frac, args.test_frac, args.seed
+        non_drusen_patient_ids, args.valid_frac, args.test_frac, args.seed
     )
-    h_train = [f for pid in h_train_pids for f in healthy_patient_to_files[pid]]
-    h_valid = [f for pid in h_valid_pids for f in healthy_patient_to_files[pid]]
-    h_test = [f for pid in h_test_pids for f in healthy_patient_to_files[pid]]
+    h_train = [f for pid in h_train_pids for f in non_drusen_patient_to_files[pid]]
+    h_valid = [f for pid in h_valid_pids for f in non_drusen_patient_to_files[pid]]
+    h_test = [f for pid in h_test_pids for f in non_drusen_patient_to_files[pid]]
 
-    # ── Balance each split 50:50 by sub-sampling healthy to the Drusen count ────
-    def balance(healthy, n_drusen):
-        if args.no_balance or len(healthy) <= n_drusen:
-            return healthy
-        return rng.sample(healthy, n_drusen)
+    # ── Balance each split 50:50 by sub-sampling non-drusen to the Drusen count ─
+    def balance(non_drusen, n_drusen):
+        if args.no_balance or len(non_drusen) <= n_drusen:
+            return non_drusen
+        return rng.sample(non_drusen, n_drusen)
 
     h_train = balance(h_train, len(drusen_train))
     h_valid = balance(h_valid, len(drusen_valid))
     h_test = balance(h_test, len(drusen_test))
 
     # ── Assemble and write CSVs ─────────────────────────────────────────────────
-    def to_df(drusen, healthy):
+    def to_df(drusen, non_drusen):
         rows = [(rel(f, args.data_path), 1) for f in drusen]
-        rows += [(rel(f, args.data_path), 0) for f in healthy]
+        rows += [(rel(f, args.data_path), 0) for f in non_drusen]
         df = pd.DataFrame(rows, columns=["image_name", "target"])
         return df.sample(frac=1.0, random_state=args.seed).reset_index(drop=True)
 
@@ -212,7 +212,7 @@ def main():
         df.to_csv(path, index=False)
         n_pos = int((df["target"] == 1).sum())
         n_neg = int((df["target"] == 0).sum())
-        print(f"{name}: {len(df)} rows  (drusen={n_pos}, healthy={n_neg})  -> {path}")
+        print(f"{name}: {len(df)} rows  (drusen={n_pos}, non_drusen={n_neg})  -> {path}")
 
     print(f"\nDrusen originals: {len(group_ids)} "
           f"(train={len(train_ids)}, valid={len(valid_ids)}, test={len(test_ids)})")

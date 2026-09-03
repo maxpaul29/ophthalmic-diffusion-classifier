@@ -48,7 +48,7 @@ Inside the container, these are always mounted at the fixed paths `/data` and `/
 
 By default the container runs through `scripts/entrypoint_with_notify.sh`: it captures the full training log to `training.log`, sends an hourly e-mail with the complete log while the run is still in progress, and sends a final summary e-mail once it finishes (success or failure), via `scripts/notification/notify_email.py`.
 
-To send via GMX with an app password:
+Example for GMX Mail - Create an app password:
 1. In your GMX account: **Settings → Security → App passwords** → create a new app password (do not use your normal login password).
 2. Add to the `.env` file in the project root:
 ```
@@ -85,9 +85,9 @@ Section 5 lists every supported combination as a concrete edit + command.
 
 The cross-validation orchestration scripts (`scripts/cross-validation/*.sh`) work by calling `bash scripts/run.sh` again once per fold, first exporting that fold's `MODEL`/`FUNCTION`/`FOLD`. The `${VAR:-default}` form means a value already present in the environment (i.e. set by the orchestration script for the current fold) is respected instead of being overwritten by the default — so editing the default is safe and does not break cross-validation. You will not normally need to set these via the environment yourself; editing the file directly is the intended workflow.
 
-### One things to know before you edit
+### One thing to know before you edit
 
-**`PRETRAINED_CHECKPOINT` (in `fundus-unet.sh`) is not defaulted for a single `finetune` run.** Unlike the cross-validation dispatch in `run.sh` (which fills in the Mogon pretrain checkpoint into `PRETRAIN_CHECKPOINT` automatically), a plain single `MODEL=unet FUNCTION=finetune CROSS_VALIDATION=0` run needs `PRETRAINED_CHECKPOINT` set to `/checkpoints/final-models/drusen-unet/pretrain-mogon` (or your own checkpoint path) in `fundus-unet.sh` yourself — `finetune.py` refuses to start otherwise (it requires either `RESUME=1` or a non-empty `PRETRAINED_CHECKPOINT`, by design, since training from scratch is meant to use `FUNCTION=train` instead).
+**`PRETRAINED_CHECKPOINT` (in `fundus-unet.sh`) already has a default**, so a plain single `MODEL=unet FUNCTION=finetune CROSS_VALIDATION=0` run works out of the box — it falls back to the Mogon Phase-1 pretrain checkpoint at `/checkpoints/final-models/drusen-unet/new-run/pretrain/pretrain-mogon` (relative to your mounted `CHECKPOINT_PATH`) unless you set it to your own checkpoint path. Set `PRETRAINED_CHECKPOINT=""` instead if you want to train from scratch without any pretrained weights — though `FUNCTION=train` (Section 5.3) is the intended way to do that, since `finetune.py` refuses to start with neither `RESUME=1` nor a non-empty `PRETRAINED_CHECKPOINT`.
 
 ---
 
@@ -139,29 +139,29 @@ Every row below is an edit to `scripts/run.sh`'s `USER CONFIGURATION` block, fol
 |---|---|
 | Train a single run | `MODEL=baseline`, `FUNCTION=train`, `CROSS_VALIDATION=0` |
 | Inference on an existing checkpoint | `MODEL=baseline`, `FUNCTION=inference`, `CROSS_VALIDATION=0` |
-| 5-fold cross-validation (train + evaluate every fold, then aggregate mean ± std) | `MODEL=baseline`, `CROSS_VALIDATION=1` |
+| 10-fold cross-validation (train + evaluate every fold, then aggregate mean ± std) | `MODEL=baseline`, `CROSS_VALIDATION=1` |
 
 ### 5.2 Diffusion classifier (UNet) — pretrained finetuning
 
 | Goal | Set in `scripts/run.sh` |
 |---|---|
-| Finetune a single run from the Mogon Phase-1 checkpoint | `MODEL=unet`, `FUNCTION=finetune`, `CROSS_VALIDATION=0`, `PRETRAINED_CHECKPOINT=/checkpoints/final-models/drusen-unet/pretrain-mogon` |
+| Finetune a single run from the Mogon Phase-1 checkpoint | `MODEL=unet`, `FUNCTION=finetune`, `CROSS_VALIDATION=0` (uses the default `PRETRAINED_CHECKPOINT` in `fundus-unet.sh`; override it there to use your own checkpoint) |
 | Inference on an existing (finetuned) checkpoint | `MODEL=unet`, `FUNCTION=inference`, `CROSS_VALIDATION=0` |
 | Explanation / counterfactual visualization | `MODEL=unet`, `FUNCTION=explain`, `CROSS_VALIDATION=0` |
-| 5-fold cross-validation (finetune + evaluate every fold from the Mogon checkpoint, then aggregate) | `MODEL=unet`, `FUNCTION=finetune`, `CROSS_VALIDATION=1` (optionally change `PRETRAIN_CHECKPOINT`) |
+| 10-fold cross-validation (finetune + evaluate every fold from the Mogon checkpoint, then aggregate) | `MODEL=unet`, `FUNCTION=finetune`, `CROSS_VALIDATION=1` (optionally change `PRETRAIN_CHECKPOINT`) |
 
 ### 5.3 Diffusion classifier (UNet) — training from scratch
 
 | Goal | Set in `scripts/run.sh` |
 |---|---|
 | Train a single run from scratch (no pretrained weights) | `MODEL=unet`, `FUNCTION=train`, `CROSS_VALIDATION=0` |
-| 5-fold cross-validation, training from scratch on every fold, then aggregating | `MODEL=unet`, `FUNCTION=train`, `CROSS_VALIDATION=1` — this is also the **file's shipped default**, i.e. what runs if you don't change anything (see the warning in Section 3) |
+| 10-fold cross-validation, training from scratch on every fold, then aggregating | `MODEL=unet`, `FUNCTION=train`, `CROSS_VALIDATION=1` |
 
 ### 5.4 Resuming or reconfiguring a cross-validation run
 
 For any of the three CV variants above, additionally set in `scripts/run.sh`:
 - `START_FOLD=<i>` — resume from a specific fold (e.g. after fixing an interrupted fold 2: `START_FOLD=2`), skipping already-completed and archived folds.
-- `K_FOLDS=<n>` — run fewer/more folds than the default 5.
+- `K_FOLDS=<n>` — run fewer/more folds than the default 10.
 
 ### 5.5 Advanced UNet options (single runs)
 

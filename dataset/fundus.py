@@ -16,7 +16,7 @@ class FundusDataset(Dataset):
             image_size (tuple): Size to resize the images to.
             split_prefix (str): Which CSV split set to load, i.e. reads
                 dataset/splits/{split_prefix}-{split}.csv. Use "fundus" for the
-                Kaggle fundus data, "pretrain" for the Phase-1 healthy-only
+                Kaggle fundus data, "pretrain" for the Phase-1 non-drusen-only
                 pretraining set, or "drusen" for the Phase-2 Drusen set.
 
         Note:

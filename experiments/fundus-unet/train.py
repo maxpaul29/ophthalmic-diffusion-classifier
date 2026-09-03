@@ -172,7 +172,7 @@ def main():
         num_training_steps=len(train_loader) * config.num_epochs,
     )    
 
-    # Single-class pretraining (only healthy images, label=0) makes F1/AUC/etc.
+    # Single-class pretraining (only non-drusen images, label=0) makes F1/AUC/etc.
     # undefined (no positive class present). In that case, skip the classification
     # metrics entirely so train_loop uses validation loss for checkpoint selection
     # instead of running the expensive classify()/majority-voting evaluation.

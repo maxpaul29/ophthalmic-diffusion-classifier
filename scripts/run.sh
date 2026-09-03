@@ -28,7 +28,7 @@ export SCRIPTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # orchestration script matching the selected MODEL/FUNCTION instead of the
 # normal single-run workflow below. CROSS_VALIDATION=0 leaves everything
 # unchanged.
-export CROSS_VALIDATION="${CROSS_VALIDATION:-1}"
+export CROSS_VALIDATION="${CROSS_VALIDATION:-0}"
 if [[ "$CROSS_VALIDATION" == "1" ]]; then
     # The orchestration scripts below call "bash scripts/run.sh" once per fold
     # for the actual train/inference run. Reset CROSS_VALIDATION=0 first, so
@@ -36,7 +36,7 @@ if [[ "$CROSS_VALIDATION" == "1" ]]; then
     # single-run path instead of re-triggering this dispatch (which would
     # otherwise restart the whole CV script from fold 0 on every fold, forever).
     export CROSS_VALIDATION=0
-    export K_FOLDS="${K_FOLDS:-5}"
+    export K_FOLDS="${K_FOLDS:-10}"
     export START_FOLD="${START_FOLD:-0}"
     if [[ "$MODEL" == "baseline" && "$DATA" == "fundus" ]]; then
         bash "$SCRIPTS_DIR/cross-validation/run_baseline_cv.sh"

@@ -1,37 +1,37 @@
 """
-Build the Phase-1 pretraining CSV splits (healthy-only, class 0) for the
+Build the Phase-1 pretraining CSV splits (non-drusen-only, class 0) for the
 scratch → pretrain → finetune Drusen workflow.
 
-Phase 1 trains the generative diffusion model from scratch on healthy optic-disc
+Phase 1 trains the generative diffusion model from scratch on non-drusen optic-disc
 crops only (all label=0), so it learns to reconstruct normal fundus anatomy.
-Phase 2 then finetunes on a balanced Drusen-vs-healthy set.
+Phase 2 then finetunes on a balanced Drusen-vs-non-drusen set.
 
-To keep the two phases COMPLETELY disjoint — no healthy image is shared between
+To keep the two phases COMPLETELY disjoint — no non-drusen image is shared between
 pretraining and finetuning, not even in the training portion — this script
-excludes every healthy image that already appears in the Phase-2 Drusen split
+excludes every non-drusen image that already appears in the Phase-2 Drusen split
 CSVs (train, valid AND test). That full separation is trivial to argue in the
 thesis: the pretraining set and the finetuning/evaluation set share no images at
 all, so there is no possibility of leakage between phases.
 
-The remaining healthy pool is then split by patient (same patient_key() as the
+The remaining non-drusen pool is then split by patient (same patient_key() as the
 Drusen splits, from create_drusen_cv_splits.py), so a patient contributing
-several healthy images never ends up split across train/valid/test here either.
+several non-drusen images never ends up split across train/valid/test here either.
 
 Run this AFTER create_drusen_split.py (or create_drusen_aug_split.py), using the
 same --data-path so relative image paths match for the exclusion.
 
 Output: pretrain-train.csv, pretrain-valid.csv, pretrain-test.csv
-(all healthy, target=0), in the same `image_name,target` format as the other
+(all non-drusen, target=0), in the same `image_name,target` format as the other
 splits. Load them via dataset/fundus.py with split_prefix="pretrain".
 
 Usage:
     python dataset/splits/create_splits_scripts/create_pretrain_split.py \
-        --data-path   /data \
-        --healthy-dir /data/clinic/healthy \
+        --data-path      /data \
+        --non-drusen-dir /data/clinic/non_drusen \
         --exclude-splits dataset/splits/drusen-train.csv \
                          dataset/splits/drusen-valid.csv \
                          dataset/splits/drusen-test.csv \
-        --output-dir  dataset/splits
+        --output-dir     dataset/splits
 """
 
 import argparse
@@ -79,25 +79,25 @@ def split_train_valid_test(items, valid_frac, test_frac, seed):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Create healthy-only pretraining splits (Phase 1).")
+    parser = argparse.ArgumentParser(description="Create non-drusen-only pretraining splits (Phase 1).")
     parser.add_argument("--data-path", required=True,
                         help="Base path; must match the value used in create_drusen_split.py.")
-    parser.add_argument("--healthy-dir", required=True, help="Directory with healthy images (target=0).")
+    parser.add_argument("--non-drusen-dir", required=True, help="Directory with non-drusen images (target=0).")
     parser.add_argument("--exclude-splits", nargs="+", required=True,
-                        help="Drusen split CSVs whose healthy images must be excluded from pretraining.")
+                        help="Drusen split CSVs whose non-drusen images must be excluded from pretraining.")
     parser.add_argument("--output-dir", default="dataset/splits", help="Where to write the CSVs.")
     parser.add_argument("--valid-frac", type=float, default=0.05, help="Fraction for validation.")
     parser.add_argument("--test-frac", type=float, default=0.05, help="Fraction for test.")
     parser.add_argument("--seed", type=int, default=42, help="Random seed for reproducibility.")
-    parser.add_argument("--n-healthy", type=int, default=None,
-                        help="Use only this many healthy images (after exclusion). Default: all.")
+    parser.add_argument("--n-non-drusen", type=int, default=None,
+                        help="Use only this many non-drusen images (after exclusion). Default: all.")
     args = parser.parse_args()
 
     rng = random.Random(args.seed)
 
-    healthy_files = list_images(args.healthy_dir)
-    if not healthy_files:
-        raise FileNotFoundError(f"No healthy images under {args.healthy_dir}")
+    non_drusen_files = list_images(args.non_drusen_dir)
+    if not non_drusen_files:
+        raise FileNotFoundError(f"No non-drusen images under {args.non_drusen_dir}")
 
     # Collect the image paths already used by the Phase-2 Drusen splits
     excluded = set()
@@ -107,17 +107,17 @@ def main():
         df = pd.read_csv(csv_path)
         excluded.update(df["image_name"].astype(str).tolist())
 
-    # Keep only healthy images NOT used anywhere in Phase 2
-    kept = [f for f in healthy_files if rel(f, args.data_path) not in excluded]
-    n_removed = len(healthy_files) - len(kept)
+    # Keep only non-drusen images NOT used anywhere in Phase 2
+    kept = [f for f in non_drusen_files if rel(f, args.data_path) not in excluded]
+    n_removed = len(non_drusen_files) - len(kept)
     if not kept:
-        raise RuntimeError("All healthy images were excluded — check --data-path matches the Drusen split.")
+        raise RuntimeError("All non-drusen images were excluded — check --data-path matches the Drusen split.")
 
-    if args.n_healthy is not None and args.n_healthy < len(kept):
-        kept = rng.sample(kept, args.n_healthy)
+    if args.n_non_drusen is not None and args.n_non_drusen < len(kept):
+        kept = rng.sample(kept, args.n_non_drusen)
 
     # Split by patient (same patient_key() as the Drusen splits), so a
-    # patient with several healthy images never ends up split across
+    # patient with several non-drusen images never ends up split across
     # train/valid/test here either.
     patient_to_files = {}
     for f in kept:
@@ -144,9 +144,9 @@ def main():
     for name, df in splits.items():
         path = out / f"{name}.csv"
         df.to_csv(path, index=False)
-        print(f"{name}: {len(df)} healthy images  -> {path}")
+        print(f"{name}: {len(df)} non-drusen images  -> {path}")
 
-    print(f"\nHealthy total: {len(healthy_files)}, "
+    print(f"\nNon-drusen total: {len(non_drusen_files)}, "
           f"excluded (used in Phase 2): {n_removed}, "
           f"used for pretraining: {len(kept)}")
 

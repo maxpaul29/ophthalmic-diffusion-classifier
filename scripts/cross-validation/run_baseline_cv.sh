@@ -81,6 +81,6 @@ for ((i = START_FOLD; i < K_FOLDS; i++)); do
 done
 
 echo "=== All $K_FOLDS folds complete. Aggregating results. ==="
-python3 "$PROJECT_ROOT/experiments/fundus-unet/aggregate_cv_results.py" \
+python3 "$PROJECT_ROOT/results/general-scripts/aggregate_cv_results.py" \
     --cv-root "$CV_ARCHIVE_ROOT" --k-folds "$K_FOLDS" \
     --checkpoint-subdir "$BEST_CHECKPOINT_NAME"

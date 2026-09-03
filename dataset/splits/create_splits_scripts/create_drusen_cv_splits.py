@@ -32,7 +32,7 @@ Three safeguards, applied per fold:
    identifier from the filename (leading numeric ID, or the study/sequence
    number for `IM-...` scans) and the k-way partition happens at the patient
    level, so every original image of one patient always ends up in the same
-   split. This is applied to both Drusen and healthy images. Filenames that
+   split. This is applied to both Drusen and non-drusen images. Filenames that
    don't match a known naming pattern are conservatively treated as their own
    single-image "patient" (never merged with anything else).
 
@@ -41,7 +41,7 @@ For fold i (i = 0..k-1):
   - valid = original groups in fold (i+1) % k (originals only)
   - train = all remaining folds' groups (all augmented variants)
 
-Healthy images are balanced 1:1 per split the same way, independently
+Non-drusen images are balanced 1:1 per split the same way, independently
 per fold (a fresh random subsample each time, seeded for reproducibility).
 
 Output CSVs use the same `image_name,target` format as create_fundus_split.py,
@@ -51,11 +51,11 @@ them directly via split_prefix=f"drusen-fold{i}" (no code changes needed there
 
 Usage:
     python dataset/splits/create_splits_scripts/create_splits_scripts/create_drusen_cv_splits.py \
-        --data-path   /data \
-        --drusen-dir  /data/clinic/drusen_augmented \
-        --healthy-dir /data/clinic/healthy \
+        --data-path      /data \
+        --drusen-dir     /data/clinic/drusen_augmented \
+        --non-drusen-dir /data/clinic/non_drusen \
         --k-folds 5 \
-        --output-dir  dataset/splits
+        --output-dir     dataset/splits
 """
 
 import argparse
@@ -69,7 +69,7 @@ import pandas as pd
 IMG_EXTENSIONS = {".png", ".jpg", ".jpeg", ".tif", ".tiff", ".bmp"}
 AUG_SUFFIX = re.compile(r"_aug\d+$")
 
-# Naming patterns observed in the clinical Drusen/healthy export, used to
+# Naming patterns observed in the clinical Drusen/non-drusen export, used to
 # derive a patient identifier from an original (aug-suffix-stripped) filename.
 # Order matters: more specific patterns are tried first.
 _PATIENT_PATTERNS = [
@@ -154,13 +154,13 @@ def main():
     parser = argparse.ArgumentParser(description="Create k-fold Drusen CV splits (grouped by original eye).")
     parser.add_argument("--data-path", required=True, help="Base path; CSV image_name is relative to this.")
     parser.add_argument("--drusen-dir", required=True, help="Directory with augmented Drusen images (target=1).")
-    parser.add_argument("--healthy-dir", required=True, help="Directory with healthy images (target=0).")
+    parser.add_argument("--non-drusen-dir", required=True, help="Directory with non-drusen images (target=0).")
     parser.add_argument("--output-dir", default="dataset/splits", help="Where to write the CSVs.")
     parser.add_argument("--k-folds", type=int, default=5, help="Number of CV folds.")
     parser.add_argument("--seed", type=int, default=42, help="Random seed for reproducibility.")
-    parser.add_argument("--no-balance", action="store_true", help="Keep all healthy images (skip 50:50 balancing).")
-    parser.add_argument("--n-healthy", type=int, default=None,
-                        help="Draw only this many healthy images into the pool before splitting. Default: all.")
+    parser.add_argument("--no-balance", action="store_true", help="Keep all non-drusen images (skip 50:50 balancing).")
+    parser.add_argument("--n-non-drusen", type=int, default=None,
+                        help="Draw only this many non-drusen images into the pool before splitting. Default: all.")
     args = parser.parse_args()
 
     if args.k_folds < 2:
@@ -169,14 +169,14 @@ def main():
     rng = random.Random(args.seed)
 
     drusen_files = list_images(args.drusen_dir)
-    healthy_files = list_images(args.healthy_dir)
+    non_drusen_files = list_images(args.non_drusen_dir)
     if not drusen_files:
         raise FileNotFoundError(f"No Drusen images under {args.drusen_dir}")
-    if not healthy_files:
-        raise FileNotFoundError(f"No healthy images under {args.healthy_dir}")
+    if not non_drusen_files:
+        raise FileNotFoundError(f"No non-drusen images under {args.non_drusen_dir}")
 
-    if args.n_healthy is not None and args.n_healthy < len(healthy_files):
-        healthy_files = rng.sample(healthy_files, args.n_healthy)
+    if args.n_non_drusen is not None and args.n_non_drusen < len(non_drusen_files):
+        non_drusen_files = rng.sample(non_drusen_files, args.n_non_drusen)
 
     # ── Group Drusen files by original eye to prevent augmentation leakage ──────
     groups = {}
@@ -201,12 +201,12 @@ def main():
     patient_folds = make_folds(patient_ids, args.k_folds, args.seed)
     drusen_folds = [[gid for pid in fold for gid in patient_to_gids[pid]] for fold in patient_folds]
 
-    healthy_patient_to_files = {}
-    for f in healthy_files:
-        healthy_patient_to_files.setdefault(patient_key(original_id(f)), []).append(f)
-    healthy_patient_ids = sorted(healthy_patient_to_files.keys())
-    healthy_patient_folds = make_folds(healthy_patient_ids, args.k_folds, args.seed)
-    healthy_folds = [[f for pid in fold for f in healthy_patient_to_files[pid]] for fold in healthy_patient_folds]
+    non_drusen_patient_to_files = {}
+    for f in non_drusen_files:
+        non_drusen_patient_to_files.setdefault(patient_key(original_id(f)), []).append(f)
+    non_drusen_patient_ids = sorted(non_drusen_patient_to_files.keys())
+    non_drusen_patient_folds = make_folds(non_drusen_patient_ids, args.k_folds, args.seed)
+    non_drusen_folds = [[f for pid in fold for f in non_drusen_patient_to_files[pid]] for fold in non_drusen_patient_folds]
 
     def collect(group_id_list, originals_only):
         files = []
@@ -217,16 +217,16 @@ def main():
                 files.append(f)
         return files
 
-    def to_df(drusen, healthy):
+    def to_df(drusen, non_drusen):
         rows = [(rel(f, args.data_path), 1) for f in drusen]
-        rows += [(rel(f, args.data_path), 0) for f in healthy]
+        rows += [(rel(f, args.data_path), 0) for f in non_drusen]
         df = pd.DataFrame(rows, columns=["image_name", "target"])
         return df.sample(frac=1.0, random_state=args.seed).reset_index(drop=True)
 
-    def balance(healthy, n_drusen, fold_seed):
-        if args.no_balance or len(healthy) <= n_drusen:
-            return healthy
-        return random.Random(fold_seed).sample(healthy, n_drusen)
+    def balance(non_drusen, n_drusen, fold_seed):
+        if args.no_balance or len(non_drusen) <= n_drusen:
+            return non_drusen
+        return random.Random(fold_seed).sample(non_drusen, n_drusen)
 
     out = Path(args.output_dir)
     out.mkdir(parents=True, exist_ok=True)
@@ -240,9 +240,9 @@ def main():
         d_valid = collect(valid_gids, originals_only=True)
         d_train = collect(train_gids, originals_only=False)
 
-        h_test = healthy_folds[i]
-        h_valid = healthy_folds[(i + 1) % args.k_folds]
-        h_train = [f for j, fold in enumerate(healthy_folds) if j not in (i, (i + 1) % args.k_folds) for f in fold]
+        h_test = non_drusen_folds[i]
+        h_valid = non_drusen_folds[(i + 1) % args.k_folds]
+        h_train = [f for j, fold in enumerate(non_drusen_folds) if j not in (i, (i + 1) % args.k_folds) for f in fold]
 
         h_train = balance(h_train, len(d_train), args.seed + i * 3 + 0)
         h_valid = balance(h_valid, len(d_valid), args.seed + i * 3 + 1)
@@ -258,7 +258,7 @@ def main():
             df.to_csv(path, index=False)
             n_pos = int((df["target"] == 1).sum())
             n_neg = int((df["target"] == 0).sum())
-            print(f"{name}: {len(df)} rows  (drusen={n_pos}, healthy={n_neg})  -> {path}")
+            print(f"{name}: {len(df)} rows  (drusen={n_pos}, non_drusen={n_neg})  -> {path}")
 
         print(f"  fold {i}: test eyes={len(test_gids)}, valid eyes={len(valid_gids)}, train eyes={len(train_gids)}\n")
 
