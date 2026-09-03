@@ -21,9 +21,10 @@ The original Favero et al. README is preserved unmodified at the bottom of this 
 Starting from the original two-dataset (CheXpert/ISIC) framework, this thesis:
 
 - **Adapts the pipeline to fundus images** and introduces a two-stage training strategy: large-scale unconditioned pretraining on public fundus images, followed by fine-tuning on a private, clinically-sourced Optic Disc Drusen dataset.
+- **Designs a label-preserving offline augmentation strategy** for the scarce Drusen class, together with patient-level split safeguards across all dataset-splitting scripts to prevent leakage between train/valid/test.
 - **Compares fine-tuning against training from scratch** directly on the Drusen data, to assess whether the pretraining stage is actually beneficial for this task.
-- **Adds a ResNet50 discriminative baseline** for a like-for-like comparison with the diffusion classifier.
-- **Introduces k-fold cross-validation** for all three of the above (finetuned, from-scratch, baseline), since the private Drusen dataset is small — a single train/valid/test split would not give a robust performance estimate.
+- **Applies and extends the existing ResNet50 discriminative baseline** to the fundus/drusen task for a like-for-like comparison with the diffusion classifier
+- **Introduces k-fold cross-validation** for all three of the above (finetuned, from-scratch, baseline) to address the small size of the private Drusen dataset, as a single train/valid/test split might not provide a fully robust performance estimate.
 - **Adds an uncertainty quantification analysis**: the diffusion classifier's Monte Carlo majority vote is used to derive a per-sample uncertainty estimate, and accuracy is reported as a function of how much of the most uncertain data is filtered out — reproducing an analysis from Favero et al. on this new task.
 - **Adds an AUC metric** and continuous-score support throughout the classification pipeline.
 - **Provides a fully Dockerized, reproducible execution environment** for the clinical workstation, including unattended (detached) execution with e-mail progress notifications.
@@ -68,7 +69,7 @@ These are **not** two independent copies of the framework — they are two conse
 
 ## Documentation map
 
-Rather than duplicating information, each concern has exactly one authoritative document:
+Each concern has exactly one authoritative document:
 
 | Document | Covers |
 |---|---|
