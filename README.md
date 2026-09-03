@@ -35,7 +35,7 @@ Every one of these changes is documented in detail — see [Documentation map](#
 
 ## Repository & branch structure
 
-The thesis workflow spans two environments, tracked as two branches:
+The `main` branch is an unmodified fork of the original Favero et al. framework, preserved as a reference point for what was changed. The thesis workflow itself spans two environments, tracked as two additional branches:
 
 ```text
               Original Favero et al. Framework
@@ -52,6 +52,12 @@ The thesis workflow spans two environments, tracked as two branches:
                │                   cross-validation, baseline,
                │                   uncertainty analysis
                └────────── checkpoint ─────┘
+                              │
+                              ▼
+                    Drusen Fine-Tuning
+                              │
+                              ▼
+                    ODD Classification
 ```
 
 These are **not** two independent copies of the framework — they are two consecutive stages of one pipeline, kept on separate branches because they use different Python versions, dependencies, and execution environments (no Docker on the HPC side; SLURM job scripts instead of `docker compose`). See [CHANGELOG.md, Section 5](CHANGELOG.md#5-branch-relationship) for the full rationale.
