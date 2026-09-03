@@ -2,7 +2,7 @@
 
 **Author:** Maximilian Paul
 **Institution:** Johannes Gutenberg University Mainz
-**Context:** Bachelor's thesis — *Exploring Generative AI Models for Ophthalmic Disease Classification*
+**Context:** Bachelor's thesis — *Exploring Generative AI Models for Ophthalmic Disease Classification: A Conditional Diffusion Classifier for Optic Disc Drusen*
 
 This repository extends the official implementation of
 
