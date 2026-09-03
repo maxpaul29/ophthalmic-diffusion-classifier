@@ -135,7 +135,7 @@ These include:
 
 * metric plotting,
 * loss plotting,
-* evaluation with different numbers of diffusion sampling steps (*TODO*).
+* evaluation of accuracy as a function of the number of diffusion classification steps (`results/general-plot-scripts/plot_accuracy_vs_steps.py`).
 
 The inference and explanation procedures were also adapted to support the corresponding experiment configurations and checkpoints.
 
