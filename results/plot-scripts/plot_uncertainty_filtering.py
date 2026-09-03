@@ -29,8 +29,8 @@ import os
 
 import matplotlib.pyplot as plt
 
-PREDICTIONS_PATH = "experiments/fundus-unet/uncertainty_predictions.json"
-OUTPUT_DIR = "experiments/fundus-unet/plots"
+PREDICTIONS_PATH = "results/fundus-unet/finetuned-model/uncertainty_results_single_run_n501/uncertainty_predictions.json"
+OUTPUT_DIR = "results/fundus-unet/finetuned-model/uncertainty_results_single_run_n501"
 
 
 def compute_filtering_curve(predictions):
@@ -70,8 +70,6 @@ def main():
 
     ax.set_xlabel("Removed data (%, most uncertain first)", fontsize=12)
     ax.set_ylabel("Accuracy on remaining data", fontsize=12)
-    ax.set_title("Drusen Classification — Accuracy vs. Uncertainty-Based Filtering",
-                 fontsize=13, fontweight="bold")
     ax.set_xlim(0, 102)
     ax.set_ylim(0.0, 1.02)
     ax.grid(True, linestyle="--", alpha=0.5)

@@ -1,5 +1,5 @@
 """
-Metric plotting script for fundus-unet training runs.
+Metric plotting script for classification training/finetuning runs.
 
 Fill in the METRICS dict below with your logged values and run:
     python experiments/fundus-unet/plot_metrics.py
@@ -17,35 +17,43 @@ import matplotlib.ticker as mticker
 #         (e.g. if SAVE_IMAGE_EPOCHS=50 and NUM_EPOCHS=200 → 4 values)
 
 METRICS = {
-    # training06.log (epochs 0-200, 9 points) + training07.log (resumed to
-    # NUM_EPOCHS=400; its first eval at raw epoch 200 is ~1 epoch after
-    # training06's last point and is dropped as a near-duplicate, leaving 8
-    # points at epochs 225-400) — 17 points total, epochs 0,25,...,200,225,...,400.
+    # From log_finetuning_single_run.log: 21 eval points at epochs
+    # 0,25,...,450,475,499 (NUM_EPOCHS=500; last point is 499, not 500, due
+    # to 0-indexed epochs).
     "accuracy": [
-        0.4545, 0.3636, 0.5000, 0.5909, 0.5455, 0.6364, 0.6364, 0.8182, 0.8182,
-        0.8182, 0.9091, 0.9091, 0.9545 #, 0.9091, 0.9091, 0.8636, 0.9545,
+        0.3889, 0.6111, 0.4444, 0.6111, 0.7222, 0.7778, 0.7222, 0.6667, 0.7222,
+        0.8889, 0.8889, 0.8889, 0.8333, 0.8333, 0.8889, 0.9444, 0.8889, 0.9444,
+        0.9444, 0.8889, 0.8889,
     ],
     "f1": [
-        0.4545, 0.4167, 0.4762, 0.5714, 0.5000, 0.6000, 0.6364, 0.8000, 0.8182,
-        0.8333, 0.9091, 0.9091, 0.9565 # , 0.9167, 0.9091, 0.8696, 0.9565,
+        0.4211, 0.6316, 0.5000, 0.5882, 0.7059, 0.7778, 0.7059, 0.7000, 0.7368,
+        0.8889, 0.8889, 0.8889, 0.8571, 0.8571, 0.9000, 0.9474, 0.9000, 0.9474,
+        0.9474, 0.9000, 0.9000,
     ],
     "precision": [
-        0.4545, 0.3846, 0.5000, 0.6000, 0.5556, 0.6667, 0.6364, 0.8889, 0.8182,
-        0.7692, 0.9091, 0.9091, 0.9167 # , 0.8462, 0.9091, 0.8333, 0.9167,
+        0.4000, 0.6000, 0.4545, 0.6250, 0.7500, 0.7778, 0.7500, 0.6364, 0.7000,
+        0.8889, 0.8889, 0.8889, 0.7500, 0.7500, 0.8182, 0.9000, 0.8182, 0.9000,
+        0.9000, 0.8182, 0.8182,
     ],
     "recall": [
-        0.4545, 0.4545, 0.4545, 0.5455, 0.4545, 0.5455, 0.6364, 0.7273, 0.8182,
-        0.9091, 0.9091, 0.9091, 1.0000 # , 1.0000, 0.9091, 0.9091, 1.0000,
+        0.4444, 0.6667, 0.5556, 0.5556, 0.6667, 0.7778, 0.6667, 0.7778, 0.7778,
+        0.8889, 0.8889, 0.8889, 1.0000, 1.0000, 1.0000, 1.0000, 1.0000, 1.0000,
+        1.0000, 1.0000, 1.0000,
     ],
     "auc": [
-        0.2893, 0.5124, 0.6033, 0.6612, 0.5620, 0.5537, 0.8099, 0.7934, 0.8595,
-        0.7686, 0.8595, 0.9008, 0.9339 # , 1.0000, 0.9504, 0.9091, 0.9421,
+        0.4568, 0.5432, 0.5432, 0.7778, 0.6667, 0.7901, 0.8395, 0.9753, 0.8765,
+        0.9506, 1.0000, 0.8889, 0.9012, 0.8642, 1.0000, 0.9136, 0.9259, 1.0000,
+        0.9753, 0.8889, 0.9630,
     ],
 }
 
 # Epoch at which the first evaluation was logged and the interval between evals
 FIRST_EVAL_EPOCH = 0        # = SAVE_IMAGE_EPOCHS in your shell config
 EVAL_INTERVAL    = 25        # = SAVE_IMAGE_EPOCHS
+# Note: the last eval point above is at raw epoch 499 (not 500), one epoch
+# short of the regular 25-step grid due to 0-indexing; epoch_axis() below
+# still assumes a perfectly even grid, so the plotted x-position for that
+# last point is off by 1 (500 instead of 499) — negligible at this scale.
 
 OUTPUT_DIR = "experiments/fundus-unet/plots"
 # ─────────────────────────────────────────────────────────────────────────────
@@ -69,6 +77,15 @@ YLIMITS = {
 }
 
 
+def adjusted_ylim(name, values):
+    """Return y-axis limits with a small upper margin to avoid clipping top markers."""
+    ymin, ymax = YLIMITS.get(name, (None, None))
+    if ymin is None or ymax is None:
+        return ymin, ymax
+    margin = max(0.02, (ymax - ymin) * 0.02)
+    return ymin, ymax + margin
+
+
 def epoch_axis(n_values):
     return [FIRST_EVAL_EPOCH + i * EVAL_INTERVAL for i in range(n_values)]
 
@@ -88,8 +105,7 @@ def plot_individual(metrics, output_dir):
 
         ax.set_xlabel("Epoch", fontsize=12)
         ax.set_ylabel(name.capitalize(), fontsize=12)
-        ax.set_title(f"{name.capitalize()} over Training", fontsize=13, fontweight="bold")
-        ax.set_ylim(*YLIMITS.get(name, (None, None)))
+        ax.set_ylim(*adjusted_ylim(name, values))
         ax.xaxis.set_major_locator(mticker.MaxNLocator(integer=True))
         ax.grid(True, linestyle="--", alpha=0.5)
         ax.legend(fontsize=10)
@@ -117,8 +133,7 @@ def plot_combined(metrics, output_dir):
 
     ax.set_xlabel("Epoch", fontsize=12)
     ax.set_ylabel("Score", fontsize=12)
-    ax.set_title("Validation Metrics over Training", fontsize=13, fontweight="bold")
-    ax.set_ylim(0.0, 1.0)
+    ax.set_ylim(0.0, 1.02)
     ax.xaxis.set_major_locator(mticker.MaxNLocator(integer=True))
     ax.grid(True, linestyle="--", alpha=0.5)
     ax.legend(fontsize=10, loc="lower right")
@@ -150,7 +165,7 @@ def plot_grid(metrics, output_dir):
         ax_flat.set_title(name.capitalize(), fontsize=11, fontweight="bold")
         ax_flat.set_xlabel("Epoch", fontsize=10)
         ax_flat.set_ylabel("Score", fontsize=10)
-        ax_flat.set_ylim(*YLIMITS.get(name, (None, None)))
+        ax_flat.set_ylim(*adjusted_ylim(name, values))
         ax_flat.xaxis.set_major_locator(mticker.MaxNLocator(integer=True))
         ax_flat.grid(True, linestyle="--", alpha=0.5)
 

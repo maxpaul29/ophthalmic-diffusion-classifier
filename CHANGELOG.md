@@ -329,6 +329,8 @@ Dedicated scripts were created into `dataset/` and `dataset/splits` for:
 
 The resulting dataset configuration is used for the subsequent fine-tuning and from-scratch experiments. In `dataset/splits/SPLITS.md` an a bit more detailed documentation of the availbale datasplits is been created. The final complete usage and metadata for the datasets and their splits, can be found in the thesis.
 
+While reviewing the splits, it turned out that grouping by original image alone was not sufficient, since the same patient can contribute several original images (e.g. both eyes, repeat visits). All three splitting scripts were therefore updated to group by patient instead, so every image of one patient always ends up in the same split. Therefore patterns in image naming were recognized, which lead to the patiens groups and were respected for splitting.
+
 ---
 
 ## 3.4 Two-Stage Training Strategy

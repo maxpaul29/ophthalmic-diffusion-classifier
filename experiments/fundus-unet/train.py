@@ -181,7 +181,7 @@ def main():
         checkpoint_metric = None
     else:
         metrics = [Accuracy("accuracy"), F1("f1"), Precision("precision"), Recall("recall"), AUC("auc")]
-        checkpoint_metric = "recall"
+        checkpoint_metric = "f1"
 
     # Train the model
     diffusion_classifier.train_loop(
