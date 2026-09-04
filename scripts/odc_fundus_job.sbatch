@@ -10,8 +10,6 @@
 #SBATCH --mem=64G                  # RAM
 #SBATCH --time=48:00:00            # max. runningtime  (HH:MM:SS)
 #SBATCH --gres=gpu:1               # gpus
-#SBATCH --mail-type=ALL       # automated mail notification
-#SBATCH --mail-user=mpaul01@students.uni-mainz.de
 
 # --- Load Module  ---
 module purge
