@@ -41,7 +41,7 @@ A dedicated experiment directory was created:
 experiments/fundus-unet/
 ```
 
-The following components were adapted or introduced:
+The following components were introduced:
 
 ```text
 train.py
@@ -206,9 +206,9 @@ This version was selected because it was the available Python version on the MOG
 
 ## 2.2 MOGON Job Execution
 
-MOGON-specific SLURM job scripts were introduced to execute training and inference jobs on the cluster.
+A MOGON-specific SLURM job scripts was created to execute training and inference jobs on the cluster.
 
-The job scripts were adapted with respect to:
+The `run.sh` scripts was adapted with respect to:
 
 * paths,
 * dataset locations,
@@ -216,22 +216,9 @@ The job scripts were adapted with respect to:
 * execution commands,
 * cluster-specific environment configuration.
 
-A dedicated job script was introduced to execute the repository scripts on MOGON.
-
 ---
 
-## 2.3 Dataset and Checkpoint Transfer
-
-Because datasets and pretrained weights were transferred to MOGON from an external environment, additional procedures were introduced for:
-
-* downloading datasets,
-* downloading pretrained model weights,
-* transferring files to MOGON,
-* synchronizing datasets with the cluster filesystem.
-
----
-
-## 2.4 Runtime Dataset Staging
+## 2.3 Runtime Dataset Staging
 
 To reduce access to the shared Lustre filesystem during training, the dataset handling was adapted to copy the required data to the local scratch directory of the current SLURM job:
 
@@ -245,9 +232,11 @@ The relevant scripts and job configurations were adapted to support this workflo
 
 ---
 
-## 2.5 Large-Scale Fundus Pretraining
+## 2.4 Large-Scale Fundus Pretraining
 
 A large-scale pretraining dataset was created from publicly available fundus datasets.
+
+Therefore `splits/create_splits_scripts/create_pretrain_mogon_split.py` was created, to build the pretaining csv split files from the large pool of images.
 
 The resulting MOGON splits contains 426,371 images, referenced in new created csv files:
 
@@ -259,13 +248,17 @@ splits/pretrain-mogon-test.csv
 
 The splits contain approximately:
 
-* 341,096 training images,
-* 85,274 validation images,
-* 85,274 test images.
+* 409,317 training images,
+* 8,527 validation images,
+* 8,527 test images,
+
+following a random split of 80/10/10.
 
 The pretraining configuration was adapted to the larger dataset.
 
 The number of training epochs, evaluation frequency and evaluation batches were adjusted to match the experiment details and to reduce computational costs.
+
+In `dataset/splits/SPLITS.md` an a bit more detailed documentation of the availbale datasplits is been created. 
 
 ---
 
@@ -327,7 +320,7 @@ Dedicated scripts were created into `dataset/` and `dataset/splits` for:
 * dataset splitting,
 * generating dataset splits without augmentation.
 
-The resulting dataset configuration is used for the subsequent fine-tuning and from-scratch experiments. In `dataset/splits/SPLITS.md` an a bit more detailed documentation of the availbale datasplits is been created. The final complete usage and metadata for the datasets and their splits, can be found in the thesis.
+The resulting dataset configuration is used for the subsequent fine-tuning and from-scratch experiments. In `dataset/splits/SPLITS.md` an a bit more detailed documentation of the availbale datasplits is been created and in the thesis the final used splits and dataset preparation are detailed. The metadata for the split used for fine-tuning and from-scratch is shown in Section 3.10 of this Changelog.
 
 While reviewing the splits, it turned out that grouping by original image alone was not sufficient, since the same patient can contribute several original images (e.g. both eyes, repeat visits). All three splitting scripts were therefore updated to group by patient instead, so every image of one patient always ends up in the same split. Therefore patterns in image naming were recognized, which lead to the patiens groups and were respected for splitting.
 
@@ -354,7 +347,7 @@ The Clinical PC branch is therefore dependent on the pretrained checkpoint gener
 
 ## 3.5 From-Scratch Training Strategy
 
-To compare the Two-Stage Training Strategy with a training from scratch directly on the drusen data, without any pretraining strategy, also this experiment is done. Therefore all modifications and changes (listed here) as for the two-stage training strategy are the same. Just the training is started without any pretrained weights and a few training hyperparameter adaptions, shown concretely in the thesis. This is controlled via `FUNCTION=train`, which runs the existing `train.py` entrypoint (previously used for MOGON Phase-1 pretraining) directly on the Drusen dataset instead of `finetune.py`.
+To compare the Two-Stage Training Strategy with a training from scratch directly on the drusen data, without any pretraining strategy, also this experiment is done. Therefore all modifications and changes (listed here) as for the two-stage training strategy are the same. Just the training is started without any pretrained weights and a few training hyperparameter adaptions, shown concretely in Section 3.7 of this Changelog. This is controlled via `FUNCTION=train`, which runs the existing `train.py` entrypoint (previously used for MOGON Phase-1 pretraining) directly on the Drusen dataset instead of `finetune.py`.
 
 ---
 
@@ -377,8 +370,6 @@ splits/drusen-test.csv
 
 The dataset split is selected using the configurable `split_prefix` mechanism introduced in the common fundus pipeline.
 
-The number of training epochs, evaluation frequency, batch size and gradient accumulation were adjusted to match the experiments and to reduce computational costs.
-
 ---
 
 ## 3.7 Fine-Tuning and Training from Scratch Configuration
@@ -394,7 +385,7 @@ GRADIENT_ACCUMULATION_STEPS = 8
 
 This results in an effective batch size of approximately 128, with a small adaption in `diffusion_classifier.py` to accumulate also over the EMA.
 
-Fine-tuning's epoch budget was raised from an initial 400 to 500 epochs. Training from scratch otherwise follows the fine-tuning configuration except for learning rate and epoch count: its hold-out run uses `1e-4` (matching Mogon Phase-1 pretraining) over 700 epochs, matching the ISIC default and accounting for the randomly initialized model having to learn the fundus representation from scratch. Since validation F1 plateaued well before that on the hold-out run, the subsequent 10-fold cross-validation instead uses a reduced budget of 500 epochs per fold, to avoid unnecessary computational cost across the repeated fold trainings.
+Fine-tuning's epoch budget was raised from an initial 400 to 500 epochs. Training from scratch otherwise follows the fine-tuning configuration except for learning rate and epoch count: its hold-out run uses `1e-4` (matching Mogon Phase-1 pretraining) over 700 epochs, matching the ISIC default and accounting for the randomly initialized model having to learn the fundus representation from scratch. 
 
 Also, a few lines were added in `diffusion_classifier.py` to empty cuda cache, and reduce memory usage.
 
@@ -651,30 +642,27 @@ The different Python versions, dependency configurations, and execution environm
 
 The following modifications distinguish the adapted implementation from the original Favero et al. framework:
 
-1. Adaptation from the original datasets to fundus image classification.
-2. Creation of a dedicated fundus dataset loader.
-3. Creation of a dedicated fundus UNet training, fine-tuning, inference, and explanation pipeline.
-4. Addition of AUC as an evaluation metric.
-5. Addition of continuous prediction-score handling for AUC calculation.
-6. Extension of fine-tuning with checkpoint resumption.
-7. Introduction of configurable dataset split prefixes, including automatic selection of the corresponding checkpoint selection strategy based on the selected split.
-8. Introduction of a large-scale unconditioned-fundus pretraining stage.
-9. Modification of the diffusion classifier to support single-class pretraining.
-10. Introduction of epoch-level training-loss and validation-loss calculation for single-class pretraining.
-11. Skipping of unnecessary classification and majority-voting passes during single-class pretraining.
-12. Introduction of validation-loss-based checkpoint selection for single-class pretraining.
-13. Adaptation of the training configuration to hardware constraints, including batch-size and gradient-accumulation adjustments.
-14. Correction of EMA updates in conjunction with gradient accumulation.
-15. Introduction of Drusen-specific dataset preparation, augmentation, and dataset splitting.
-16. Introduction of a clinical Drusen fine-tuning pipeline based on the pretrained model.
-17. Creation of separate MOGON and Clinical PC execution environments and corresponding Git branches.
-18. Introduction of MOGON-specific SLURM job execution and local-scratch dataset staging.
-19. Introduction of a Docker-based execution environment using Python 3.11.11 for clinical fine-tuning.
-20. Introduction of a separate discriminative baseline pipeline for comparison with the diffusion-based classifier.
-21. Addition of a ResNet50-based baseline using ImageNet-pretrained weights.
-22. Introduction of a k-fold cross-validation procedure for the Drusen fine-tuning stage, including fold-aware dataset splitting, run orchestration, unattended execution with notifications, and result aggregation.
-23. Fix of environment-variable propagation in `run.sh` (`MODEL`, `FUNCTION`, `DATA`, `BACKBONE`, `VARIANT` were previously always reset to fixed defaults, breaking orchestrated runs that pre-set these values).
-24. Addition of per-sample uncertainty quantification for the Drusen classifier, based on the Bernoulli variance of the majority-voting vote share, together with an uncertainty-based data-filtering analysis and plot.
-25. Extension of the k-fold cross-validation procedure to the ResNet50 baseline classifier, reusing the diffusion classifier's fold splits and a generalized result-aggregation script.
-26. Addition of a cross-validated training-from-scratch comparison for the Drusen classifier, and a unified `CROSS_VALIDATION` flag in `run.sh` to invoke any of the three cross-validation variants (pretrained finetuning, from scratch, baseline).
-27. Introduction of a training-from-scratch strategy for the Drusen classifier as a direct comparison to the two-stage pretrained-and-finetuned approach, reusing the same dataset splits and pipeline.
+1. Adaptation of the original framework to fundus image classification, including the creation of a dedicated fundus dataset loader.
+2. Creation of a dedicated fundus UNet experiment pipeline for training, fine-tuning, inference, and explanation, together with the corresponding execution scripts and configuration handling.
+3. Addition of AUC as an evaluation metric and extension of the diffusion classifier to provide the continuous prediction scores required for its calculation.
+4. Extension of fine-tuning with checkpoint resumption from either the latest or a user-specified checkpoint.
+5. Addition of evaluation and visualization utilities for metric and loss plotting and for analyzing classification accuracy as a function of the number of diffusion classification steps.
+6. Introduction of configurable dataset split prefixes, including automatic selection of the corresponding checkpoint-selection strategy based on the selected split.
+7. Extension of the diffusion classifier to support large-scale single-class fundus pretraining, including epoch-level training- and validation-loss calculation, skipping of unnecessary classification passes, and validation-loss-based checkpoint selection.
+8. Creation of a separate MOGON HPC execution environment and Git branch using Python 3.12.3.
+9. Introduction of MOGON-specific SLURM job execution and local-scratch dataset staging.
+10. Creation of a large-scale pretraining dataset from publicly available fundus datasets and introduction of the corresponding unconditioned fundus pretraining stage.
+11. Creation of a separate Clinical PC execution environment and Git branch for Drusen-specific experiments.
+12. Introduction of a Docker-based Clinical PC execution environment using Python 3.11.11.
+13. Introduction of Drusen-specific dataset preparation, augmentation, and splitting, including patient-level grouping to prevent images from the same patient from being distributed across different splits.
+14. Introduction of the two-stage training strategy in which the MOGON-pretrained fundus model is fine-tuned on the clinical Drusen dataset.
+15. Introduction of a training-from-scratch strategy on the same Drusen dataset as a direct comparison with the two-stage pretrained-and-finetuned approach.
+16. Adaptation of the fine-tuning and from-scratch training configurations to the smaller clinical dataset and available GPU memory, including batch-size and gradient-accumulation adjustments and corresponding EMA handling.
+17. Introduction of Drusen-specific F1-based checkpoint selection and checkpoint organization for classification experiments.
+18. Addition of monitoring and notification functionality for unattended training on the Clinical PC.
+19. Introduction of k-fold cross-validation for Drusen fine-tuning, including patient-aware fold generation, fold-aware configuration, run orchestration, checkpoint archiving, unattended execution, and automated result aggregation.
+20. Generalization of environment-variable handling across the execution scripts to support externally configured and orchestrated runs without values being overwritten by fixed defaults.
+21. Introduction of cross-validated training-from-scratch experiments on the same folds as pretrained fine-tuning, together with a unified `CROSS_VALIDATION` mechanism for invoking the different cross-validation workflows.
+22. Addition of per-sample uncertainty quantification based on the Bernoulli variance of the majority-voting vote share, together with uncertainty-based filtering analysis and visualization.
+23. Introduction of a separate discriminative baseline pipeline for comparison with the diffusion-based classifier, including a ResNet50 baseline initialized with ImageNet-pretrained weights.
+24. Extension of the k-fold cross-validation procedure to the discriminative baseline, reusing the diffusion classifier's fold splits and generalized result-aggregation infrastructure.
