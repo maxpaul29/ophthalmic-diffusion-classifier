@@ -67,6 +67,17 @@ These are **not** two independent copies of the framework — they are two conse
 
 ---
 
+## Model Checkpoints
+
+The model checkpoints underlying the hold-out results reported in the thesis
+(pretrained, fine-tuned, from-scratch, and ResNet50 baseline) are hosted
+separately due to their file size.
+
+Access to the checkpoints is provided via Google Drive:
+**[Model Checkpoints](https://drive.google.com/drive/folders/1PqefvYJNePQY6H5P_XEfv-k1EdAoyMdY?usp=sharing)**
+
+---
+
 ## Documentation map
 
 Each concern has exactly one authoritative document:
